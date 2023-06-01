@@ -1,0 +1,83 @@
+.button-style {
+    -fx-background-color: #4285f4;
+    -fx-text-fill: white;
+    -fx-pref-height: 35px;
+    -fx-background-radius: 3px;
+}
+
+#button {
+    -fx-pref-width: 400px;
+}
+
+#normal-button {
+    -fx-pref-width: 120px;
+}
+
+.button-style:hover,
+#normal-button:hover {
+    -fx-background-color: #3367d6;
+    -fx-cursor: hand;
+}
+
+.button-style:pressed {
+    -fx-background-color: #3367d6;
+}
+
+.button-style:focused {
+    -fx-focus-color: transparent;
+}
+
+#hyperlink {
+  -fx-text-fill: black; /* Changes the text color to blue */
+  -fx-underline: false; /* Underlines the text */
+  -fx-cursor: hand; /* Changes the cursor to a hand pointer */
+}
+
+#hyperlink:hover {
+  -fx-text-fill: #4285f4; /* Changes the text color to red when hovering */
+}
+
+#hyperlink:focused {
+  -fx-focus-color: transparent; /* Disables the focus indicator */
+  -fx-text-fill: #4285f4;
+}
+
+.overall-inventory {
+-fx-border-radius: 10;
+-fx-background-radius: 10;
+}
+
+#text-field {
+    -fx-background-color: transparent;
+    -fx-border-color:  rgba(0, 0, 0, 0.2);
+    -fx-border-radius: 5;
+}
+
+/* Styles for supplier pane */
+.supplier-pane {
+    -fx-background-color: transparent; /* Set background color to transparent */
+    -fx-padding: 10px;
+    -fx-spacing: 5px;
+    -fx-alignment: center-left;
+    -fx-fill-height: false;
+}
+
+/* Styles for child labels */
+.child-item {
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+    -fx-alignment: center-left;
+    -fx-font-weight: bold;
+    -fx-spacing: 10px;
+}
+
+/* Styles for scroll bar */
+#custom-scroll-pane {
+    -fx-background-color: transparent; /* Set the background color to transparent */
+    -fx-border-width: 0; /* Remove the border */
+}
+
+#custom-scroll-pane .scroll-bar {
+    -fx-background-color: lightgrey; /* Customize the scroll bar background color */
+}
+
