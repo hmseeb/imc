@@ -112,7 +112,7 @@ private void onConfirmClicked() throws SQLException {
     String dod = dodController.getText();
 
     // Create the Order object
-    Order order = new Order(name, Integer.parseInt(id), category, Integer.parseInt(value), Integer.parseInt(quantity), date, price, dod, unit);
+    Order order = new Order(name, id, category, value, quantity, date, price, dod, unit);
 
     // Insert the order data into the database
     String insertQuery = "INSERT INTO orders (productName, productID, productCategory, value, quantity, date, price, dod, unit) " +

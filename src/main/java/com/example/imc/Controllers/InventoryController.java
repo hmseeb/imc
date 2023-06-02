@@ -94,23 +94,23 @@ public class InventoryController {
         // TODO Add additional logic here
         Product product = new Product(
                 nameController.getText(),
-                Integer.parseInt(idController.getText()),
+                idController.getText(),
                 categoryController.getText(),
-                Integer.parseInt(valueController.getText()),
-                Integer.parseInt(quantityController.getText()),
+                valueController.getText(),
+                quantityController.getText(),
                 dateController.getText(),
-                Integer.parseInt(unitController.getText()),
-                50
+                unitController.getText(),
+                "50"
         );
 
         stmt.executeUpdate("INSERT INTO products (productName, productID, productCategory, price, quantity, date, unit, thresholdValue) VALUES ('" + product.getProductName() + "', '" + product.getProductID() + "', '" + product.getProductCategory() + "', '" + product.getPrice() + "', '" + product.getQuantity() + "', '" + product.getDate() + "', '" + product.getUnit() + "', '" + product.getThresholdValue() + "')");
-
+        
         addProduct(
                 product.getProductName(),
                 String.valueOf(product.getPrice()),
                 String.valueOf(product.getQuantity()),
                 product.getDate(),
-                product.getQuantity() > 0);
+                Integer.parseInt(product.getQuantity()) > 0);
 
         // Animate the popup pane's fade-out and then hide it
         FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);

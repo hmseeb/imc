@@ -91,8 +91,8 @@ public class SupplierController {
                 productController.getText(),
                 categoryController.getText(),
                 priceController.getText(),
-               Integer.parseInt(contactController.getText()),
-                Boolean.parseBoolean(typeController.getText())
+               contactController.getText(),
+                typeController.getText()
         );
         String query = "INSERT INTO suppliers (supplierName, productName, category, price, contact, doesReturn) VALUES (" +
                 "'" + supplier.getSupplierName()+ "'," +
@@ -100,10 +100,10 @@ public class SupplierController {
                 "'" + supplier.getCategory() + "'," +
                 "'" + supplier.getPrice() + "'," +
                 "'" + supplier.getContact() + "'," +
-                "'" + supplier.doesReturn() + "'" +
+                "'" + supplier.getDoesReturn() + "'" +
                 ")";
         stmt.executeUpdate(query);
-        addSupplier(supplier.getSupplierName(), supplier.getProductName(),String.valueOf(supplier.getContact()), supplier.getPrice(), String.valueOf(supplier.doesReturn()));
+        addSupplier(supplier.getSupplierName(), supplier.getProductName(),String.valueOf(supplier.getContact()), supplier.getPrice(), String.valueOf(supplier.getDoesReturn()));
         // Animate the popup pane's fade-out and then hide it
         FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
         fadeOutTransition.setToValue(0);
