@@ -1,5 +1,4 @@
-package com.example.imc;
-
+package com.example.imc.Controllers;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -10,33 +9,27 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
-public class InventoryController {
-    Helper helper = new Helper();
+public class SupplierController {
     @FXML
     TextField nameController;
     @FXML
-    TextField idController;
+    TextField productController;
     @FXML
-    TextField quantityController;
+    TextField contactController;
     @FXML
     TextField priceController;
     @FXML
-    TextField categoryController;
-    @FXML
-    TextField dateController;
-    @FXML
-    TextField valueController;
-    @FXML
-    TextField unitController;
+    TextField typeController;
     @FXML
     private Pane mainPane;
-
     @FXML
     private Pane popupPane;
+    @FXML
+    private VBox suppliersContainer;
 
     // For the add product button in the inventory view
     @FXML
-    void kAddProduct() {
+    void kAddSupplier() {
         // Apply a BoxBlur effect to the mainPane to make it blur
         BoxBlur blur = new BoxBlur(5, 5, 3);
         mainPane.setEffect(blur);
@@ -52,10 +45,8 @@ public class InventoryController {
     @FXML
     private void onConfirmClicked() {
         // TODO Add additional logic here
-        helper.print("Pressed");
-        String name = nameController.getText(), id = idController.getText(), quantity = quantityController.getText(), price = priceController.getText(), category = categoryController.getText(), date = dateController.getText(), value = valueController.getText(), unit = unitController.getText();
-        addProduct(name, price, quantity, date, true);
-
+        String name = nameController.getText(), product = productController.getText(), contact = contactController.getText(), price = priceController.getText(), type = typeController.getText();
+        addSupplier(name, product, contact, price, type);
         // Animate the popup pane's fade-out and then hide it
         FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
         fadeOutTransition.setToValue(0);
@@ -78,34 +69,31 @@ public class InventoryController {
         // Remove the BoxBlur effect from the mainPane
         mainPane.setEffect(null);
     }
-    
-    
-    @FXML
-    private VBox productsContainer;
 
-    public void addProduct(String name, String price, String quantity, String date, boolean isAvailable) {
-        HBox productPane = new HBox();
-        productPane.getStyleClass().add("supplier-pane");
-        productPane.setAlignment(Pos.BASELINE_LEFT);
+    public void addSupplier(String name, String product, String contact, String price, String type) {
+        HBox supplierPane = new HBox();
+        supplierPane.getStyleClass().add("supplier-pane");
+        supplierPane.setAlignment(Pos.BASELINE_LEFT);
         Label nameLabel = createLabel(name);
+        Label productLabel = createLabel(product);
+        Label contactNumberLabel = createLabel(contact);
         Label priceLabel = createLabel(price);
-        Label quantityLabel = createLabel(quantity);
-        Label dateLabel = createLabel(date);
-        Label availablityLabel = createLabel((isAvailable ? "In stock" : "Out of stock"));
-        productPane.getChildren().addAll(
+        Label typeLabel = createLabel(type);
+
+        supplierPane.getChildren().addAll(
                 nameLabel,
+                createSpacer(),
+                productLabel,
+                createSpacer(),
+                contactNumberLabel,
                 createSpacer(),
                 priceLabel,
                 createSpacer(),
-                quantityLabel,
-                createSpacer(),
-                dateLabel,
-                createSpacer(),
-                availablityLabel
+                typeLabel
         );
 
-        productsContainer.getChildren().addAll(
-                productPane,
+        suppliersContainer.getChildren().addAll(
+                supplierPane,
                 createSeparator()
         );
     }

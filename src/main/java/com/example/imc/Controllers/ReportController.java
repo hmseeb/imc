@@ -1,21 +1,41 @@
-package com.example.imc;
+package com.example.imc.Controllers;
+
+import com.example.imc.Handlers.DatabaseHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 
-public class ReportsController {
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class ReportController {
     @FXML
     VBox productsContainer;
+
     @FXML
-    public void initialize() {
+    public void initialize() throws SQLException {
+        Statement stmt = DatabaseHandler.getStatement();
+        // Use stmt to execute SQL queries
+        ResultSet rs = stmt.executeQuery("show databases;");
+        while (rs.next()) {
+            System.out.println(rs.getString(1));
+        }
+        // Process the result set
         viewAll();
+
     }
-@FXML
-void viewAll () {
-    addSupplier();
-}
+
+    @FXML
+    void viewAll() {
+        addSupplier();
+    }
+
     public void addSupplier() {
         HBox supplierPane = new HBox();
         supplierPane.getStyleClass().add("supplier-pane");

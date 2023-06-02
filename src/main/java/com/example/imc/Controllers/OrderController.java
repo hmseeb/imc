@@ -1,4 +1,5 @@
-package com.example.imc;
+package com.example.imc.Controllers;
+
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -9,7 +10,7 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
-public class OrdersController {
+public class OrderController {
 
     @FXML
     TextField nameController;
@@ -31,11 +32,13 @@ public class OrdersController {
     TextField dodController;
 
 
-         @FXML
+    @FXML
     private Pane mainPane;
 
     @FXML
     private Pane popupPane;
+    @FXML
+    private VBox ordersContainer;
 
     // For the add product button in the inventory view
     @FXML
@@ -79,9 +82,6 @@ public class OrdersController {
         // Remove the BoxBlur effect from the mainPane
         mainPane.setEffect(null);
     }
-     
-    @FXML
-    private VBox ordersContainer;
 
     public void addOrder(String name, String price, String quantity, String id, String dod, String status) {
         HBox supplierPane = new HBox();
