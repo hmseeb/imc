@@ -82,7 +82,7 @@
             </Pane>
          </children>
       </Pane>
-      <Pane fx:id="popupPane" focusTraversable="true" layoutX="180.0" layoutY="150.0" prefHeight="504.0" prefWidth="442.0" style="-fx-background-radius: 5px; -fx-background-color: f5f5f5; -fx-border-color: rgba(0, 0, 0, 0.3);" visible="false">
+      <Pane fx:id="popupPane" focusTraversable="true" layoutX="180.0" layoutY="150.0" opacity="0.0" prefHeight="504.0" prefWidth="442.0" style="-fx-background-radius: 5px; -fx-background-color: f5f5f5; -fx-border-color: rgba(0, 0, 0, 0.3);" visible="false">
          <children>
             <Text layoutX="25.0" layoutY="76.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="New Supplier">
                <font>

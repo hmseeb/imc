@@ -1,7 +1,9 @@
 package com.example.imc.Controllers;
 
 import com.example.imc.Handlers.DatabaseHandler;
+import com.example.imc.Models.Product;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -11,10 +13,12 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class InventoryController {
+    Statement stmt;
     @FXML
     TextField nameController;
     @FXML
@@ -42,7 +46,32 @@ public class InventoryController {
     // For the add product button in the inventory view
     @FXML
     public void initialize() throws SQLException {
-        Statement stmt = DatabaseHandler.getStatement();
+        stmt = DatabaseHandler.getStatement();
+        String query = "CREATE TABLE if not exists products (" +
+                "id INT PRIMARY KEY AUTO_INCREMENT," +
+                "productName VARCHAR(255) NOT NULL," +
+                "productID INT NOT NULL," +
+                "productCategory VARCHAR(255) NOT NULL," +
+                "price INT NOT NULL," +
+                "quantity INT NOT NULL," +
+                "date DATE NOT NULL," +
+                "unit INT NOT NULL," +
+                "thresholdValue INT NOT NULL" +
+                ")";
+
+        ResultSet resultSet = stmt.executeQuery("SELECT * FROM products");
+
+        // Process the result set and add products to the productsContainer
+        while (resultSet.next()) {
+            String productName = resultSet.getString("productName");
+            int price = resultSet.getInt("price");
+            int quantity = resultSet.getInt("quantity");
+            String date = resultSet.getString("date");
+            boolean isAvailable = quantity > 0;
+
+            Platform.runLater(() -> addProduct(productName, String.valueOf(price), String.valueOf(quantity), date, isAvailable));
+        }
+        stmt.executeUpdate(query);
         // Use stmt to execute SQL queries
     }
 
@@ -61,10 +90,27 @@ public class InventoryController {
     }
 
     @FXML
-    private void onConfirmClicked() {
+    private void onConfirmClicked() throws SQLException{
         // TODO Add additional logic here
-        String name = nameController.getText(), id = idController.getText(), quantity = quantityController.getText(), price = priceController.getText(), category = categoryController.getText(), date = dateController.getText(), value = valueController.getText(), unit = unitController.getText();
-        addProduct(name, price, quantity, date, true);
+        Product product = new Product(
+                nameController.getText(),
+                Integer.parseInt(idController.getText()),
+                categoryController.getText(),
+                Integer.parseInt(valueController.getText()),
+                Integer.parseInt(quantityController.getText()),
+                dateController.getText(),
+                Integer.parseInt(unitController.getText()),
+                50
+        );
+
+        stmt.executeUpdate("INSERT INTO products (productName, productID, productCategory, price, quantity, date, unit, thresholdValue) VALUES ('" + product.getProductName() + "', '" + product.getProductID() + "', '" + product.getProductCategory() + "', '" + product.getPrice() + "', '" + product.getQuantity() + "', '" + product.getDate() + "', '" + product.getUnit() + "', '" + product.getThresholdValue() + "')");
+
+        addProduct(
+                product.getProductName(),
+                String.valueOf(product.getPrice()),
+                String.valueOf(product.getQuantity()),
+                product.getDate(),
+                product.getQuantity() > 0);
 
         // Animate the popup pane's fade-out and then hide it
         FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);

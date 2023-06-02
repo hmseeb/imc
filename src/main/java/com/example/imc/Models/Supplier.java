@@ -37,7 +37,7 @@ public class Supplier {
         return contact;
     }
 
-    public boolean isDoesReturn() {
+    public boolean doesReturn() {
         return doesReturn;
     }
 }

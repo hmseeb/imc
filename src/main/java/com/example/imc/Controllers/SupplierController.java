@@ -1,7 +1,9 @@
 package com.example.imc.Controllers;
 
 import com.example.imc.Handlers.DatabaseHandler;
+import com.example.imc.Models.Supplier;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -11,10 +13,13 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class SupplierController {
+    Statement stmt;
+
     @FXML
     TextField nameController;
     @FXML
@@ -26,6 +31,8 @@ public class SupplierController {
     @FXML
     TextField typeController;
     @FXML
+    TextField categoryController;
+    @FXML
     private Pane mainPane;
     @FXML
     private Pane popupPane;
@@ -35,8 +42,31 @@ public class SupplierController {
     // For the add product button in the inventory view
     @FXML
     public void initialize() throws SQLException {
-        Statement stmt = DatabaseHandler.getStatement();
-        // Use stmt to execute SQL queries
+        String anotherQuery = "ALTER TABLE suppliers MODIFY COLUMN doesReturn VARCHAR(255);\n";
+        stmt = DatabaseHandler.getStatement();
+        String query = "CREATE TABLE if not exists suppliers (" +
+                "id INT PRIMARY KEY AUTO_INCREMENT," +
+                "supplierName VARCHAR(255) NOT NULL," +
+                "productName VARCHAR(255) NOT NULL," +
+                "category VARCHAR(255) NOT NULL," +
+                "price VARCHAR(255) NOT NULL," +
+                "contact INT NOT NULL," +
+                "doesReturn VARCHAR(255) NOT NULL" +
+                ")";
+
+        stmt.executeUpdate(anotherQuery);
+        ResultSet resultSet = stmt.executeQuery("SELECT * FROM suppliers");
+
+        while (resultSet.next()) {
+            String name = resultSet.getString("supplierName");
+            String product = resultSet.getString("productName");
+            String category = resultSet.getString("category");
+            String price = resultSet.getString("price");
+            String contact = resultSet.getString("contact");
+            String doesReturn = resultSet.getString("doesReturn");
+            Platform.runLater(() -> addSupplier(name, product, contact, price, String.valueOf(doesReturn)));
+        }
+        stmt.executeUpdate(query);
     }
 
     @FXML
@@ -54,10 +84,26 @@ public class SupplierController {
     }
 
     @FXML
-    private void onConfirmClicked() {
+    private void onConfirmClicked() throws SQLException{
         // TODO Add additional logic here
-        String name = nameController.getText(), product = productController.getText(), contact = contactController.getText(), price = priceController.getText(), type = typeController.getText();
-        addSupplier(name, product, contact, price, type);
+        Supplier supplier = new Supplier(
+                nameController.getText(),
+                productController.getText(),
+                categoryController.getText(),
+                priceController.getText(),
+               Integer.parseInt(contactController.getText()),
+                Boolean.parseBoolean(typeController.getText())
+        );
+        String query = "INSERT INTO suppliers (supplierName, productName, category, price, contact, doesReturn) VALUES (" +
+                "'" + supplier.getSupplierName()+ "'," +
+                "'" + supplier.getProductName() + "'," +
+                "'" + supplier.getCategory() + "'," +
+                "'" + supplier.getPrice() + "'," +
+                "'" + supplier.getContact() + "'," +
+                "'" + supplier.doesReturn() + "'" +
+                ")";
+        stmt.executeUpdate(query);
+        addSupplier(supplier.getSupplierName(), supplier.getProductName(),String.valueOf(supplier.getContact()), supplier.getPrice(), String.valueOf(supplier.doesReturn()));
         // Animate the popup pane's fade-out and then hide it
         FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
         fadeOutTransition.setToValue(0);

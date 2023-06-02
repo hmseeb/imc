@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class SignupController {
+    Statement stmt;
+
     Helpers scene = new Helpers();
     @FXML
     TextField signupNameController;
@@ -21,7 +23,7 @@ public class SignupController {
 
     @FXML
     public void initialize() throws SQLException {
-        Statement stmt = DatabaseHandler.getStatement();
+        stmt = DatabaseHandler.getStatement();
         // Use stmt to execute SQL queries
     }
 

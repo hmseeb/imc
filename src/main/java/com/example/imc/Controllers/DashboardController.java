@@ -7,9 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DashboardController {
+    Statement stmt;
     @FXML
     public void initialize() throws SQLException {
-        Statement stmt = DatabaseHandler.getStatement();
+        stmt = DatabaseHandler.getStatement();
         // Use stmt to execute SQL queries
     }
 }

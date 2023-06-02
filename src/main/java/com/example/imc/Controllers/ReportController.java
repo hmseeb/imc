@@ -14,12 +14,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ReportController {
+    Statement stmt;
+
     @FXML
     VBox productsContainer;
 
     @FXML
     public void initialize() throws SQLException {
-        Statement stmt = DatabaseHandler.getStatement();
+        stmt = DatabaseHandler.getStatement();
         // Use stmt to execute SQL queries
     }
 

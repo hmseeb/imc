@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 
 public class MenuController {
+
     Helpers view = new Helpers();
     @FXML
     private Pane viewPane;
