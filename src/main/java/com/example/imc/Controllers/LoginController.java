@@ -1,6 +1,6 @@
 package com.example.imc.Controllers;
 
-import com.example.imc.Helper;
+import com.example.imc.Helpers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 public class LoginController {
-    Helper scene = new Helper();
+    Helpers scene = new Helpers();
     @FXML
     TextField loginEmailController;
     @FXML

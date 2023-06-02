@@ -14,7 +14,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.imc.Controllers.SupplierController">
    <children>
-      <Pane fx:id="mainPane" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: rgba(211, 211, 211, 0.5);" stylesheets="@../styles/styles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane fx:id="mainPane" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: rgba(211, 211, 211, 0.5);" stylesheets="@../styles/stylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Pane layoutX="3.0" prefHeight="91.0" prefWidth="797.0" style="-fx-background-color: F5F5F5;">
                <children>
@@ -42,7 +42,7 @@
                         <Font name="Arial Bold" size="19.0" />
                      </font>
                   </Text>
-                  <Button id="normal-button" layoutX="625.0" layoutY="11.0" mnemonicParsing="false" onAction="#kAddSupplier" styleClass="button-style" stylesheets="@../styles/styles.css" text="Add Product">
+                  <Button id="normal-button" layoutX="625.0" layoutY="11.0" mnemonicParsing="false" onAction="#kAddSupplier" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Add Product">
                      <font>
                         <Font name="Arial" size="13.0" />
                      </font>
@@ -73,7 +73,7 @@
                         <Font name="Arial Bold" size="16.0" />
                      </font>
                   </Text>
-                  <ScrollPane id="custom-scroll-pane" fitToHeight="true" fitToWidth="true" layoutX="14.0" layoutY="110.0" prefHeight="543.0" prefWidth="730.0" stylesheets="@../styles/styles.css">
+                  <ScrollPane id="custom-scroll-pane" fitToHeight="true" fitToWidth="true" layoutX="14.0" layoutY="110.0" prefHeight="543.0" prefWidth="730.0" stylesheets="@../styles/stylesheet.css">
                      <content>
                         <VBox fx:id="suppliersContainer" prefHeight="526.0" prefWidth="730.0" />
                      </content>
@@ -130,12 +130,12 @@
             <TextField id="text-field" fx:id="priceController" layoutX="190.0" layoutY="273.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter buying price" />
             <TextField id="text-field" fx:id="contactController" layoutX="190.0" layoutY="321.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter supplier contact number" />
             <TextField id="text-field" fx:id="typeController" layoutX="190.0" layoutY="369.0" prefHeight="38.0" prefWidth="222.0" promptText="Taking return / not taking return" />
-            <Button id="normal-button" layoutX="292.0" layoutY="440.0" mnemonicParsing="false" onAction="#onConfirmClicked" styleClass="button-style" stylesheets="@../styles/styles.css" text="Add Product">
+            <Button id="normal-button" layoutX="292.0" layoutY="440.0" mnemonicParsing="false" onAction="#onConfirmClicked" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Add Product">
                <font>
                   <Font name="Arial Bold" size="13.0" />
                </font>
             </Button>
-            <Button id="normal-button" layoutX="160.0" layoutY="440.0" mnemonicParsing="false" onAction="#onDiscardClicked" opacity="0.5" style="-fx-background-color: f5f5f5; -fx-text-fill: black; -fx-border-color: black;" styleClass="button-style" stylesheets="@../styles/styles.css" text="Discard">
+            <Button id="normal-button" layoutX="160.0" layoutY="440.0" mnemonicParsing="false" onAction="#onDiscardClicked" opacity="0.5" style="-fx-background-color: f5f5f5; -fx-text-fill: black; -fx-border-color: black;" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Discard">
                <font>
                   <Font name="Arial" size="13.0" />
                </font>

@@ -23,7 +23,7 @@ public class App extends Application {
         //TODO: Add a login view
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("views/login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 800);
-        scene.getStylesheets().add(Objects.requireNonNull(App.class.getResource("styles/styles.css")).toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(App.class.getResource("styles/stylesheet.css")).toExternalForm());
         stage.setTitle("IMC");
         stage.setScene(scene);
         stage.show();

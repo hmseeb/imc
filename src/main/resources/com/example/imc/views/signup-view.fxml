@@ -70,7 +70,7 @@
       </Text>
       <VBox alignment="CENTER" layoutX="587.0" layoutY="547.0" prefHeight="58.0" prefWidth="308.0">
          <children>
-            <Button id="button" alignment="CENTER" mnemonicParsing="false" onAction="#signup" styleClass="button-style" stylesheets="@../styles/styles.css" text="Sign up" />
+            <Button id="button" alignment="CENTER" mnemonicParsing="false" onAction="#signup" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Sign up" />
          </children>
       </VBox>
       <ImageView fitHeight="509.0" fitWidth="494.0" layoutX="100.0" layoutY="188.0" pickOnBounds="true" preserveRatio="true">

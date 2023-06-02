@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.imc.Controllers.ReportController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@../styles/stylesheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.imc.Controllers.ReportController">
    <children>
       <Pane layoutX="3.0" prefHeight="91.0" prefWidth="797.0" style="-fx-background-color: F5F5F5;">
          <children>
@@ -217,12 +217,12 @@
                </font>
             </Text>
             <Line endX="-173.99998474121094" endY="76.3126220703125" layoutX="190.0" layoutY="24.0" opacity="0.1" startX="552.9999389648438" startY="76.3126220703125" />
-            <Hyperlink id="hyperlink" layoutX="683.0" layoutY="20.0" onAction="#viewAll" style="-fx-text-fill: #4285f4;" stylesheets="@../styles/styles.css" text="View All" textFill="#4285f4">
+            <Hyperlink id="hyperlink" layoutX="683.0" layoutY="20.0" onAction="#viewAll" style="-fx-text-fill: #4285f4;" stylesheets="@../styles/stylesheet.css" text="View All" textFill="#4285f4">
                <font>
                   <Font name="Arial Bold" size="13.0" />
                </font>
             </Hyperlink>
-            <ScrollPane id="custom-scroll-pane" fitToHeight="true" fitToWidth="true" layoutX="20.0" layoutY="110.0" prefHeight="108.0" prefWidth="739.0" stylesheets="@../styles/styles.css">
+            <ScrollPane id="custom-scroll-pane" fitToHeight="true" fitToWidth="true" layoutX="20.0" layoutY="110.0" prefHeight="108.0" prefWidth="739.0" stylesheets="@../styles/stylesheet.css">
                <content>
                   <VBox fx:id="productsContainer" disable="true" prefHeight="108.0" prefWidth="727.0" />
                </content>

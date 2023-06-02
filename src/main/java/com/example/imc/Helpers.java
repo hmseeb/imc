@@ -11,14 +11,14 @@ import javafx.util.Duration;
 
 import java.util.Objects;
 
-public class Helper {
+public class Helpers {
 
     public void changeScene(ActionEvent event, String fxml) throws Exception {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxml)));
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         // Create a new scene with the root node
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("styles/styles.css")).toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("styles/stylesheet.css")).toExternalForm());
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), scene.getRoot());
         fadeTransition.setFromValue(0.0);
         fadeTransition.setToValue(1.0);

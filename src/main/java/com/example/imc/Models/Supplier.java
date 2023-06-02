@@ -3,17 +3,17 @@ package com.example.imc.Models;
 public class Supplier {
     private String supplierName;
     private String productName;
-    private String productCategory;
-    private String productPrice;
-    private int contactNumber;
+    private String category;
+    private String price;
+    private int contact;
     private boolean doesReturn;
 
     public Supplier(String supplierName, String productName, String productCategory, String productPrice, int contactNumber, boolean doesReturn) {
         this.supplierName = supplierName;
         this.productName = productName;
-        this.productCategory = productCategory;
-        this.productPrice = productPrice;
-        this.contactNumber = contactNumber;
+        this.category = productCategory;
+        this.price = productPrice;
+        this.contact = contactNumber;
         this.doesReturn = doesReturn;
     }
 
@@ -25,16 +25,16 @@ public class Supplier {
         return productName;
     }
 
-    public String getProductCategory() {
-        return productCategory;
+    public String getCategory() {
+        return category;
     }
 
-    public String getProductPrice() {
-        return productPrice;
+    public String getPrice() {
+        return price;
     }
 
-    public int getContactNumber() {
-        return contactNumber;
+    public int getContact() {
+        return contact;
     }
 
     public boolean isDoesReturn() {

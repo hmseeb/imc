@@ -1,5 +1,5 @@
 package com.example.imc.Controllers;
-import com.example.imc.Helper;
+import com.example.imc.Helpers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
 public class MenuController {
     @FXML
     private Pane viewPane;
-    Helper view = new Helper();
+    Helpers view = new Helpers();
     @FXML
     void switchToDashboard() throws Exception {
         view.changeView(viewPane,"views/dashboard-view.fxml");
