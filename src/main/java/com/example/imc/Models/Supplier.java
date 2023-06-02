@@ -1,12 +1,12 @@
 package com.example.imc.Models;
 
 public class Supplier {
-    private String supplierName;
-    private String productName;
-    private String category;
-    private String price;
-    private int contact;
-    private boolean doesReturn;
+    private final String supplierName;
+    private final String productName;
+    private final String category;
+    private final String price;
+    private final int contact;
+    private final boolean doesReturn;
 
     public Supplier(String supplierName, String productName, String productCategory, String productPrice, int contactNumber, boolean doesReturn) {
         this.supplierName = supplierName;

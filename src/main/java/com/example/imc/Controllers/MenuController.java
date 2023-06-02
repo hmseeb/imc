@@ -1,41 +1,43 @@
 package com.example.imc.Controllers;
+
 import com.example.imc.Helpers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 
 public class MenuController {
-    @FXML
-    private Pane viewPane;
     Helpers view = new Helpers();
     @FXML
+    private Pane viewPane;
+
+    @FXML
     void switchToDashboard() throws Exception {
-        view.changeView(viewPane,"views/dashboard-view.fxml");
+        view.changeView(viewPane, "views/dashboard-view.fxml");
     }
 
     @FXML
     void switchToInventory() throws Exception {
-        view.changeView(viewPane,"views/inventory-view.fxml");
+        view.changeView(viewPane, "views/inventory-view.fxml");
     }
 
     @FXML
     void switchToReports() throws Exception {
-        view.changeView(viewPane,"views/report-view.fxml");
+        view.changeView(viewPane, "views/report-view.fxml");
     }
 
     @FXML
     void switchToSuppliers() throws Exception {
-        view.changeView(viewPane,"views/supplier-view.fxml");
+        view.changeView(viewPane, "views/supplier-view.fxml");
     }
 
     @FXML
     void switchToOrders() throws Exception {
-        view.changeView(viewPane,"views/order-view.fxml");
+        view.changeView(viewPane, "views/order-view.fxml");
     }
 
     @FXML
     void switchToManageStores() throws Exception {
-        view.changeView(viewPane,"views/manage-stores-view.fxml");
+        view.changeView(viewPane, "views/manage-stores-view.fxml");
     }
 
     @FXML

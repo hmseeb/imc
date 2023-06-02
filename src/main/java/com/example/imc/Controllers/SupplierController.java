@@ -1,4 +1,6 @@
 package com.example.imc.Controllers;
+
+import com.example.imc.Handlers.DatabaseHandler;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -8,6 +10,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
+
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class SupplierController {
     @FXML
@@ -28,6 +33,12 @@ public class SupplierController {
     private VBox suppliersContainer;
 
     // For the add product button in the inventory view
+    @FXML
+    public void initialize() throws SQLException {
+        Statement stmt = DatabaseHandler.getStatement();
+        // Use stmt to execute SQL queries
+    }
+
     @FXML
     void kAddSupplier() {
         // Apply a BoxBlur effect to the mainPane to make it blur

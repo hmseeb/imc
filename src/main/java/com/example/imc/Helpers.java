@@ -26,9 +26,9 @@ public class Helpers {
         // Set the new scene with a smooth transition
         stage.setScene(scene);
         stage.show();
-        }
+    }
 
-        // Apply a fade transition to the scene
+    // Apply a fade transition to the scene
 
     public void changeView(Pane viewPane, String fxmlFileName) throws Exception {
         // Load the new view

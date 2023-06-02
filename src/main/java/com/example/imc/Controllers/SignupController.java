@@ -1,10 +1,14 @@
 package com.example.imc.Controllers;
 
+import com.example.imc.Handlers.DatabaseHandler;
 import com.example.imc.Helpers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class SignupController {
     Helpers scene = new Helpers();
@@ -14,6 +18,12 @@ public class SignupController {
     TextField signupEmailController;
     @FXML
     PasswordField signupPasswordController;
+
+    @FXML
+    public void initialize() throws SQLException {
+        Statement stmt = DatabaseHandler.getStatement();
+        // Use stmt to execute SQL queries
+    }
 
     @FXML
     void signup(ActionEvent event) throws Exception {

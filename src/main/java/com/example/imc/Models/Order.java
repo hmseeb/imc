@@ -1,16 +1,16 @@
 package com.example.imc.Models;
 
 public class Order {
-    private String productName;
-    private int productID;
-    private String productCategory;
-    private int value;
-    private int quantity;
-    private String date;
+    private final String productName;
+    private final int productID;
+    private final String productCategory;
+    private final int value;
+    private final int quantity;
+    private final String date;
 
-    private String price;
-    private String dod;
-    private String unit;
+    private final String price;
+    private final String dod;
+    private final String unit;
 
     public Order(String productName, int productID, String productCategory, int value, int quantity, String date, String price, String dod, String unit) {
         this.productName = productName;

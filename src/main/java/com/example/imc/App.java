@@ -1,10 +1,12 @@
 package com.example.imc;
+
 import com.example.imc.Handlers.DatabaseHandler;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.util.Objects;
 
@@ -20,8 +22,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         this.primaryStage = stage;
-        //TODO: Add a login view
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("views/login-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("views/menu-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 800);
         scene.getStylesheets().add(Objects.requireNonNull(App.class.getResource("styles/stylesheet.css")).toExternalForm());
         stage.setTitle("IMC");

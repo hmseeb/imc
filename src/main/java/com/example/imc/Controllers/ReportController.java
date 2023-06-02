@@ -10,7 +10,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -22,13 +21,6 @@ public class ReportController {
     public void initialize() throws SQLException {
         Statement stmt = DatabaseHandler.getStatement();
         // Use stmt to execute SQL queries
-        ResultSet rs = stmt.executeQuery("show databases;");
-        while (rs.next()) {
-            System.out.println(rs.getString(1));
-        }
-        // Process the result set
-        viewAll();
-
     }
 
     @FXML
