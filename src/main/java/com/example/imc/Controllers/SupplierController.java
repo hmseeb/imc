@@ -1,15 +1,14 @@
 package com.example.imc.Controllers;
 
 import com.example.imc.Handlers.DatabaseHandler;
+import com.example.imc.Handlers.QueryHandler;
 import com.example.imc.Models.Supplier;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
@@ -18,55 +17,60 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class SupplierController {
+    QueryHandler queryHandler = new QueryHandler();
     Statement stmt;
+    @FXML
+    TableView<Supplier> tableView;
+    @FXML
+    TableColumn<Supplier, String> c1;
+    @FXML
+    TableColumn<Supplier, String> c2;
+    @FXML
+    TableColumn<Supplier, String> c3;
+    @FXML
+    TableColumn<Supplier, String> c4;
 
     @FXML
     TextField nameController;
     @FXML
-    TextField productController;
+    TextField idController;
     @FXML
     TextField contactController;
     @FXML
-    TextField priceController;
-    @FXML
-    TextField typeController;
-    @FXML
-    TextField categoryController;
+    TextField addressController;
     @FXML
     private Pane mainPane;
     @FXML
     private Pane popupPane;
-    @FXML
-    private VBox suppliersContainer;
-
     // For the add product button in the inventory view
     @FXML
     public void initialize() throws SQLException {
-        String anotherQuery = "ALTER TABLE suppliers MODIFY COLUMN doesReturn VARCHAR(255);\n";
         stmt = DatabaseHandler.getStatement();
-        String query = "CREATE TABLE if not exists suppliers (" +
-                "id INT PRIMARY KEY AUTO_INCREMENT," +
-                "supplierName VARCHAR(255) NOT NULL," +
-                "productName VARCHAR(255) NOT NULL," +
-                "category VARCHAR(255) NOT NULL," +
-                "price VARCHAR(255) NOT NULL," +
-                "contact INT NOT NULL," +
-                "doesReturn VARCHAR(255) NOT NULL" +
-                ")";
 
-        stmt.executeUpdate(anotherQuery);
         ResultSet resultSet = stmt.executeQuery("SELECT * FROM suppliers");
 
         while (resultSet.next()) {
-            String name = resultSet.getString("supplierName");
-            String product = resultSet.getString("productName");
-            String category = resultSet.getString("category");
-            String price = resultSet.getString("price");
-            String contact = resultSet.getString("contact");
-            String doesReturn = resultSet.getString("doesReturn");
-            Platform.runLater(() -> addSupplier(name, product, contact, price, String.valueOf(doesReturn)));
+            String supplierID = resultSet.getString("supplierID");
+            String supplierName = resultSet.getString("supplierName");
+            String supplierPhone = resultSet.getString("supplierPhone");
+            String supplierAddress = resultSet.getString("supplierAddress");
+
+            Platform.runLater(() -> addSupplier(supplierID, supplierName, supplierPhone, supplierAddress));
         }
-        stmt.executeUpdate(query);
+                // Add event listener for delete key press
+        tableView.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.BACK_SPACE || event.getCode() == KeyCode.DELETE) {
+                // Get the selected product
+                Supplier selectedProduct = tableView.getSelectionModel().getSelectedItem();
+                if (selectedProduct != null) {
+                    // Call a method to delete the row from the database
+                    String supplierID = selectedProduct.getSupplierID();
+                    deleteFromDatabase(supplierID);
+                    // Remove the product from the TableView
+                    tableView.getItems().remove(selectedProduct);
+                }
+            }
+        });
     }
 
     @FXML
@@ -84,27 +88,18 @@ public class SupplierController {
     }
 
     @FXML
-    private void onConfirmClicked() throws SQLException{
-        // TODO Add additional logic here
+    private void onConfirmClicked() {
         Supplier supplier = new Supplier(
+                idController.getText(),
                 nameController.getText(),
-                productController.getText(),
-                categoryController.getText(),
-                priceController.getText(),
-               contactController.getText(),
-                typeController.getText()
+                contactController.getText(),
+                addressController.getText()
         );
-        String query = "INSERT INTO suppliers (supplierName, productName, category, price, contact, doesReturn) VALUES (" +
-                "'" + supplier.getSupplierName()+ "'," +
-                "'" + supplier.getProductName() + "'," +
-                "'" + supplier.getCategory() + "'," +
-                "'" + supplier.getPrice() + "'," +
-                "'" + supplier.getContact() + "'," +
-                "'" + supplier.getDoesReturn() + "'" +
-                ")";
-        stmt.executeUpdate(query);
-        addSupplier(supplier.getSupplierName(), supplier.getProductName(),String.valueOf(supplier.getContact()), supplier.getPrice(), String.valueOf(supplier.getDoesReturn()));
+
+        queryHandler.insertSupplier(supplier.getSupplierID(), supplier.getSupplierName(), supplier.getSupplierPhone(), supplier.getSupplierAddress());
+
         // Animate the popup pane's fade-out and then hide it
+        addSupplier(supplier.getSupplierID(), supplier.getSupplierName(), supplier.getSupplierPhone(), supplier.getSupplierAddress());
         FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
         fadeOutTransition.setToValue(0);
         fadeOutTransition.setOnFinished(event -> popupPane.setVisible(false));
@@ -127,52 +122,24 @@ public class SupplierController {
         mainPane.setEffect(null);
     }
 
-    public void addSupplier(String name, String product, String contact, String price, String type) {
-        HBox supplierPane = new HBox();
-        supplierPane.getStyleClass().add("supplier-pane");
-        supplierPane.setAlignment(Pos.BASELINE_LEFT);
-        Label nameLabel = createLabel(name);
-        Label productLabel = createLabel(product);
-        Label contactNumberLabel = createLabel(contact);
-        Label priceLabel = createLabel(price);
-        Label typeLabel = createLabel(type);
+    public void addSupplier(String id, String name, String contact, String address) {
+        Supplier supplier = new Supplier(id, name, contact, address);
+        c1.setCellValueFactory(cellData -> cellData.getValue().supplierIDProperty());
+        c2.setCellValueFactory(cellData -> cellData.getValue().supplierNameProperty());
+        c3.setCellValueFactory(cellData -> cellData.getValue().supplierPhoneProperty());
+        c4.setCellValueFactory(cellData -> cellData.getValue().supplierAddressProperty());
 
-        supplierPane.getChildren().addAll(
-                nameLabel,
-                createSpacer(),
-                productLabel,
-                createSpacer(),
-                contactNumberLabel,
-                createSpacer(),
-                priceLabel,
-                createSpacer(),
-                typeLabel
-        );
-
-        suppliersContainer.getChildren().addAll(
-                supplierPane,
-                createSeparator()
-        );
+        tableView.getItems().add(supplier);
+    }
+    private void deleteFromDatabase(String id) {
+    try {
+        String deleteQuery = String.format("DELETE FROM suppliers WHERE supplierID = %s", id);
+        stmt.executeUpdate(deleteQuery);
+    } catch (SQLException e) {
+        e.printStackTrace();
+        // Handle any exception that occurs during the database operation
+    }
     }
 
-    private Label createLabel(String text) {
-        Label label = new Label(text);
-        label.getStyleClass().add("child-item");
-        label.setMinWidth(100); // Set a desired minimum width for the labels
-        return label;
-    }
 
-    private Region createSpacer() {
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-        return spacer;
-    }
-
-    private Separator createSeparator() {
-        Separator separator = new Separator();
-        separator.getStyleClass().add("separator");
-        separator.setOpacity(0.5);
-        separator.setMaxWidth(Double.MAX_VALUE);
-        return separator;
-    }
 }

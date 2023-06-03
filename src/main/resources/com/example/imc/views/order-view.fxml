@@ -2,12 +2,13 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -149,92 +150,43 @@
                         <Font name="Arial Bold" size="13.0" />
                      </font>
                   </Button>
-                  <Text layoutX="18.0" layoutY="80.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Products">
-                     <font>
-                        <Font name="Arial Bold" size="16.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="120.0" layoutY="80.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Value">
-                     <font>
-                        <Font name="Arial Bold" size="16.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="255.0" layoutY="80.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity">
-                     <font>
-                        <Font name="Arial Bold" size="16.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="375.0" layoutY="80.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Order ID">
-                     <font>
-                        <Font name="Arial Bold" size="16.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="475.0" layoutY="80.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Expected Delivery">
-                     <font>
-                        <Font name="Arial Bold" size="16.0" />
-                     </font>
-                  </Text>
-                  <Line endX="-173.99998474121094" endY="76.3126220703125" layoutX="190.0" layoutY="24.0" opacity="0.1" startX="552.9999389648438" startY="76.3126220703125" />
-                  <Text layoutX="630.0" layoutY="80.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Status">
-                     <font>
-                        <Font name="Arial Bold" size="16.0" />
-                     </font>
-                  </Text>
                </children>
             </Pane>
-            <ScrollPane id="custom-scroll-pane" fitToHeight="true" fitToWidth="true" layoutX="36.0" layoutY="445.0" prefHeight="325.0" prefWidth="733.0" stylesheets="@../styles/stylesheet.css">
+            <ScrollPane id="custom-scroll-pane" fitToHeight="true" fitToWidth="true" layoutX="36.0" layoutY="393.0" prefHeight="377.0" prefWidth="733.0" stylesheets="@../styles/stylesheet.css">
                <content>
-                  <VBox fx:id="ordersContainer" prefHeight="316.0" prefWidth="730.0" />
+                  <TableView fx:id="tableView" fixedCellSize="0.0">
+                     <columns>
+                        <TableColumn fx:id="c1" prefWidth="180.0" resizable="false" text="Order ID" />
+                        <TableColumn fx:id="c2" minWidth="0.0" prefWidth="180.0" resizable="false" text="Product ID" />
+                        <TableColumn fx:id="c3" minWidth="0.0" prefWidth="180.0" resizable="false" text="Quantity" />
+                        <TableColumn fx:id="c4" minWidth="0.0" prefWidth="180.0" resizable="false" text="Created At" />
+                     </columns>
+                  </TableView>
                </content>
             </ScrollPane>
          </children>
       </Pane>
-      <Pane fx:id="popupPane" focusTraversable="true" layoutX="190.0" layoutY="80.0" opacity="0.0" prefHeight="640.0" prefWidth="442.0" style="-fx-background-radius: 5px; -fx-background-color: f5f5f5; -fx-border-color: rgba(0, 0, 0, 0.3);" visible="false">
+      <Pane fx:id="popupPane" focusTraversable="true" layoutX="190.0" layoutY="240.0" opacity="0.0" prefHeight="373.0" prefWidth="442.0" style="-fx-background-radius: 5px; -fx-background-color: f5f5f5; -fx-border-color: rgba(0, 0, 0, 0.3);" visible="false">
          <children>
             <Text layoutX="25.0" layoutY="76.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="New Order">
                <font>
                   <Font name="Arial Bold" size="19.0" />
                </font>
             </Text>
-            <Text layoutX="25.0" layoutY="148.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Name">
+            <Text layoutX="25.0" layoutY="148.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Order ID">
                <font>
                   <Font name="Arial Bold" size="16.0" />
                </font>
             </Text>
-            <TextField id="text-field" fx:id="nameController" layoutX="190.0" layoutY="125.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter product name" />
+            <TextField id="text-field" fx:id="orderIDController" layoutX="190.0" layoutY="125.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter order ID" />
             <Text layoutX="25.0" layoutY="198.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Product ID">
                <font>
                   <Font name="Arial Bold" size="16.0" />
                </font>
             </Text>
-            <TextField id="text-field" fx:id="idController" layoutX="190.0" layoutY="173.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter product id" />
-            <TextField id="text-field" fx:id="categoryController" layoutX="190.0" layoutY="222.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter product category" />
-            <Text layoutX="25.0" layoutY="248.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Category">
-               <font>
-                  <Font name="Arial Bold" size="16.0" />
-               </font>
-            </Text>
-            <Text layoutX="25.0" layoutY="297.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Value">
-               <font>
-                  <Font name="Arial Bold" size="16.0" />
-               </font>
-            </Text>
-            <Text layoutX="25.0" layoutY="346.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity">
-               <font>
-                  <Font name="Arial Bold" size="16.0" />
-               </font>
-            </Text>
-            <Text layoutX="25.0" layoutY="441.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Buying Price">
-               <font>
-                  <Font name="Arial Bold" size="16.0" />
-               </font>
-            </Text>
-            <Text layoutX="25.0" layoutY="392.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Expiry Date">
-               <font>
-                  <Font name="Arial Bold" size="16.0" />
-               </font>
-            </Text>
-            <Text layoutX="25.0" layoutY="489.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of delivery">
+            <TextField id="text-field" fx:id="productIDController" layoutX="190.0" layoutY="173.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter product id" />
+            <TextField id="text-field" fx:id="quantityController" layoutX="190.0" layoutY="222.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter product category" />
+            <Text layoutX="25.0" layoutY="248.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity">
                <font>
                   <Font name="Arial Bold" size="16.0" />
                </font>
@@ -244,27 +196,16 @@
                   <Image url="@../assets/icons/add-product.png" />
                </image>
             </ImageView>
-            <TextField id="text-field" fx:id="valueController" layoutX="190.0" layoutY="273.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter order value" />
-            <TextField id="text-field" fx:id="quantityController" layoutX="190.0" layoutY="321.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter product quantity" />
-            <TextField id="text-field" fx:id="dateController" layoutX="190.0" layoutY="369.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter expiry date" />
-            <TextField id="text-field" fx:id="priceController" layoutX="190.0" layoutY="418.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter buying price" />
-            <TextField id="text-field" fx:id="dodController" layoutX="190.0" layoutY="465.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter threshold value" />
-            <TextField id="text-field" fx:id="unitController" layoutX="190.0" layoutY="512.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter threshold value" />
-            <Button id="normal-button" layoutX="292.0" layoutY="580.0" mnemonicParsing="false" onAction="#onConfirmClicked" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Add Product">
+            <Button id="normal-button" layoutX="292.0" layoutY="300.0" mnemonicParsing="false" onAction="#onConfirmClicked" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Add Product">
                <font>
                   <Font name="Arial Bold" size="13.0" />
                </font>
             </Button>
-            <Button id="normal-button" layoutX="160.0" layoutY="580.0" mnemonicParsing="false" onAction="#onDiscardClicked" opacity="0.5" style="-fx-background-color: f5f5f5; -fx-text-fill: black; -fx-border-color: black;" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Discard">
+            <Button id="normal-button" layoutX="160.0" layoutY="300.0" mnemonicParsing="false" onAction="#onDiscardClicked" opacity="0.5" style="-fx-background-color: f5f5f5; -fx-text-fill: black; -fx-border-color: black;" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Discard">
                <font>
                   <Font name="Arial" size="13.0" />
                </font>
             </Button>
-            <Text layoutX="25.0" layoutY="537.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Unit">
-               <font>
-                  <Font name="Arial Bold" size="16.0" />
-               </font>
-            </Text>
          </children>
       </Pane>
    </children>

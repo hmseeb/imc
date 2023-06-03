@@ -23,6 +23,10 @@ public class DatabaseHandler {
         return stmt;
     }
 
+    public static Connection getConnection() {
+        return con;
+    }
+
     public static void closeConnection() {
         try {
             if (stmt != null) {

@@ -33,6 +33,7 @@ public class LoginController {
         if (loginEmailController.getText().equals("admin") && loginPasswordController.getText().equals("admin")) {
             loginEmailController.setText("");
             scene.changeScene(event, "views/menu-view.fxml");
+
         } else {
             loginErrorController.setText("Invalid credentials");
         }

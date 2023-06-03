@@ -3,20 +3,25 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Supplier {
+    private final StringProperty supplierID;
     private final StringProperty supplierName;
-    private final StringProperty productName;
-    private final StringProperty category;
-    private final StringProperty price;
-    private final StringProperty contact;
-    private final StringProperty doesReturn;
 
-public Supplier(String supplierName, String productName, String category, String price, String contact, String doesReturn) {
+    private final StringProperty supplierAddress;
+    private final StringProperty supplierPhone;
+
+public Supplier(String supplierID, String supplierName, String supplierAddress, String supplierPhone) {
+        this.supplierID = new SimpleStringProperty(supplierID);
         this.supplierName = new SimpleStringProperty(supplierName);
-        this.productName = new SimpleStringProperty(productName);
-        this.category = new SimpleStringProperty(category);
-        this.price = new SimpleStringProperty(price);
-        this.contact = new SimpleStringProperty(contact);
-        this.doesReturn = new SimpleStringProperty(doesReturn);
+        this.supplierAddress = new SimpleStringProperty(supplierAddress);
+        this.supplierPhone = new SimpleStringProperty(supplierPhone);
+    }
+
+    public String getSupplierID() {
+        return supplierID.get();
+    }
+
+    public StringProperty supplierIDProperty() {
+        return supplierID;
     }
 
     public String getSupplierName() {
@@ -27,43 +32,19 @@ public Supplier(String supplierName, String productName, String category, String
         return supplierName;
     }
 
-    public String getProductName() {
-        return productName.get();
+    public String getSupplierAddress() {
+        return supplierAddress.get();
     }
 
-    public StringProperty productNameProperty() {
-        return productName;
+    public StringProperty supplierAddressProperty() {
+        return supplierAddress;
     }
 
-    public String getCategory() {
-        return category.get();
+    public String getSupplierPhone() {
+        return supplierPhone.get();
     }
 
-    public StringProperty categoryProperty() {
-        return category;
-    }
-
-    public String getPrice() {
-        return price.get();
-    }
-
-    public StringProperty priceProperty() {
-        return price;
-    }
-
-    public String getContact() {
-        return contact.get();
-    }
-
-    public StringProperty contactProperty() {
-        return contact;
-    }
-
-    public String getDoesReturn() {
-        return doesReturn.get();
-    }
-
-    public StringProperty doesReturnProperty() {
-        return doesReturn;
+    public StringProperty supplierPhoneProperty() {
+        return supplierPhone;
     }
 }

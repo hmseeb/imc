@@ -1,43 +1,42 @@
 package com.example.imc.Controllers;
 
 import com.example.imc.Handlers.DatabaseHandler;
+import com.example.imc.Handlers.QueryHandler;
 import com.example.imc.Models.Order;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 
 public class OrderController {
+    QueryHandler queryHandler = new QueryHandler();
     Statement stmt;
+            @FXML
+            TableView<Order> tableView;
+    @FXML
+    TableColumn<Order, String> c1;
+    @FXML
+    TableColumn<Order, String> c2;
+    @FXML
+    TableColumn<Order, String> c3;
+    @FXML
+    TableColumn<Order, String> c4;
 
     @FXML
-    TextField nameController;
+    TextField orderIDController;
     @FXML
-    TextField idController;
+    TextField productIDController;
     @FXML
     TextField quantityController;
-    @FXML
-    TextField priceController;
-    @FXML
-    TextField categoryController;
-    @FXML
-    TextField dateController;
-    @FXML
-    TextField valueController;
-    @FXML
-    TextField unitController;
-    @FXML
-    TextField dodController;
 
 
     @FXML
@@ -45,42 +44,37 @@ public class OrderController {
 
     @FXML
     private Pane popupPane;
-    @FXML
-    private VBox ordersContainer;
+
 
     // For the add product button in the inventory view
 
     @FXML
     public void initialize() throws SQLException {
         stmt = DatabaseHandler.getStatement();
-        String query = "CREATE TABLE if not exists orders (" +
-                "id INT PRIMARY KEY AUTO_INCREMENT," +
-                "productName VARCHAR(255) NOT NULL," +
-                "productID INT NOT NULL," +
-                "productCategory VARCHAR(255) NOT NULL," +
-                "value INT NOT NULL," +
-                "quantity INT NOT NULL," +
-                "date DATE NOT NULL," +
-                "price VARCHAR(255) NOT NULL," +
-                "dod VARCHAR(255) NOT NULL," +
-                "unit VARCHAR(255) NOT NULL" +
-                ")";
+
         ResultSet rs = stmt.executeQuery("select * from orders");
 
         while (rs.next()) {
-            String productName = rs.getString("productName");
-            int productID = rs.getInt("productID");
-            String productCategory = rs.getString("productCategory");
-            int value = rs.getInt("value");
-            int quantity = rs.getInt("quantity");
-            String date = rs.getString("date");
-            String price = rs.getString("price");
-            String dod = rs.getString("dod");
-            String unit = rs.getString("unit");
-
-            Platform.runLater(() -> addOrder(productName, price, String.valueOf(quantity), String.valueOf(productID), dod, "Testing"));
+            String orderID = rs.getString("OrderID");
+            String productID = rs.getString("ProductID");
+            String quantity = rs.getString("OrderQuantity");
+            LocalDateTime dateTime = rs.getTimestamp("OrderDate").toLocalDateTime();
+            Platform.runLater(() -> addOrder(orderID, productID, quantity, dateTime.toString()));
         }
-        stmt.executeUpdate(query);
+        // Add event listener for delete key press
+        tableView.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.BACK_SPACE || event.getCode() == KeyCode.DELETE) {
+                // Get the selected product
+                Order selectedOrder = tableView.getSelectionModel().getSelectedItem();
+                if (selectedOrder != null) {
+                    // Call a method to delete the row from the database
+                    String orderID = selectedOrder.getOrderID();
+                    deleteFromDatabase(orderID);
+                    // Remove the product from the TableView
+                    tableView.getItems().remove(selectedOrder);
+                }
+            }
+        });
     }
 
 
@@ -101,29 +95,17 @@ public class OrderController {
 
 @FXML
 private void onConfirmClicked() throws SQLException {
-    String name = nameController.getText();
-    String id = idController.getText();
+    String orderID = orderIDController.getText();
+    String productID = productIDController.getText();
     String quantity = quantityController.getText();
-    String price = priceController.getText();
-    String category = categoryController.getText();
-    String date = dateController.getText();
-    String value = valueController.getText();
-    String unit = unitController.getText();
-    String dod = dodController.getText();
+    LocalDateTime dateTime = LocalDateTime.now();
 
     // Create the Order object
-    Order order = new Order(name, id, category, value, quantity, date, price, dod, unit);
+    Order order = new Order(orderID, dateTime.toString(), productID, quantity);
 
-    // Insert the order data into the database
-    String insertQuery = "INSERT INTO orders (productName, productID, productCategory, value, quantity, date, price, dod, unit) " +
-            "VALUES ('" + order.getProductName() + "', '" + order.getProductID() + "', '" + order.getProductCategory() + "', '" +
-            order.getValue() + "', '" + order.getQuantity() + "', '" + order.getDate() + "', '" + order.getPrice() + "', '" +
-            order.getDod() + "', '" + order.getUnit() + "')";
-    stmt.executeUpdate(insertQuery);
-
+    queryHandler.insertOrder(order.getOrderID() , order.getOrderDate(), order.getProductID(), order.getOrderQuantity());
     // Add the order to the UI
-    addOrder(order.getProductName(), order.getPrice(), String.valueOf(order.getQuantity()), String.valueOf(order.getProductID()),
-            order.getDod(), "Testing");
+    addOrder(orderID, productID, quantity, dateTime.toString());
 
     // Animate the popup pane's fade-out and then hide it
     FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
@@ -149,54 +131,25 @@ private void onConfirmClicked() throws SQLException {
         mainPane.setEffect(null);
     }
 
-    public void addOrder(String name, String price, String quantity, String id, String dod, String status) {
-        HBox supplierPane = new HBox();
-        supplierPane.getStyleClass().add("supplier-pane");
-        supplierPane.setAlignment(Pos.BASELINE_LEFT);
-        Label nameLabel = createLabel(name);
-        Label priceLabel = createLabel(price);
-        Label quantityLabel = createLabel(quantity);
-        Label idLabel = createLabel(id);
-        Label dodLabel = createLabel(dod);
-        Label statusLabel = createLabel(status);
+    public void addOrder(String orderID, String productID, String quantity, String dateTime) {
+        // Create the custom row
+        Order order = new Order(orderID, dateTime, productID, quantity);
+        c1.setCellValueFactory(cellData -> cellData.getValue().orderIDProperty());
+        c2.setCellValueFactory(cellData -> cellData.getValue().productIDProperty());
+        c3.setCellValueFactory(cellData -> cellData.getValue().orderQuantityProperty());
+        c4.setCellValueFactory(cellData -> cellData.getValue().orderDateProperty());
+        // Add the custom row to the table
+        tableView.getItems().add(order);
 
-        supplierPane.getChildren().addAll(
-                nameLabel,
-                createSpacer(),
-                priceLabel,
-                createSpacer(),
-                quantityLabel,
-                createSpacer(),
-                idLabel,
-                createSpacer(),
-                dodLabel,
-                createSpacer(),
-                statusLabel
-        );
-        ordersContainer.getChildren().addAll(
-                supplierPane,
-                createSeparator()
-        );
     }
 
-    private Label createLabel(String text) {
-        Label label = new Label(text);
-        label.getStyleClass().add("child-item");
-        label.setMinWidth(100); // Set a desired minimum width for the labels
-        return label;
-    }
-
-    private Region createSpacer() {
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-        return spacer;
-    }
-
-    private Separator createSeparator() {
-        Separator separator = new Separator();
-        separator.getStyleClass().add("separator");
-        separator.setOpacity(0.5);
-        separator.setMaxWidth(Double.MAX_VALUE);
-        return separator;
+        private void deleteFromDatabase(String id) {
+        try {
+            String deleteQuery = "delete from orders where orderID == '" + id + "'";
+            stmt.executeUpdate(deleteQuery);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any exception that occurs during the database operation
+        }
     }
 }

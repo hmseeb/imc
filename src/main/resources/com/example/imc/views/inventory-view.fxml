@@ -2,17 +2,18 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.imc.Controllers.InventoryController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@../styles/stylesheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.imc.Controllers.InventoryController">
    <children>
       <Pane fx:id="mainPane" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: rgba(211, 211, 211, 0.5);" stylesheets="@../styles/stylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -149,42 +150,23 @@
                         <Font name="Arial" size="13.0" />
                      </font>
                   </Button>
-                  <Text layoutX="18.0" layoutY="80.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Products">
-                     <font>
-                        <Font name="Arial Bold" size="16.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="150.0" layoutY="80.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Buying Price">
-                     <font>
-                        <Font name="Arial Bold" size="16.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="305.0" layoutY="80.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity">
-                     <font>
-                        <Font name="Arial Bold" size="16.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="450.0" layoutY="80.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Expiry Date">
-                     <font>
-                        <Font name="Arial Bold" size="16.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="600.0" layoutY="80.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Availabilty">
-                     <font>
-                        <Font name="Arial Bold" size="16.0" />
-                     </font>
-                  </Text>
-                  <Line endX="-173.99998474121094" endY="76.3126220703125" layoutX="190.0" layoutY="24.0" opacity="0.1" startX="552.9999389648438" startY="76.3126220703125" />
                </children>
             </Pane>
-            <ScrollPane id="custom-scroll-pane" fitToHeight="true" fitToWidth="true" layoutX="30.0" layoutY="443.0" prefHeight="317.0" prefWidth="739.0" stylesheets="@../styles/stylesheet.css">
+            <ScrollPane id="custom-scroll-pane" fitToHeight="true" fitToWidth="true" layoutX="35.0" layoutY="392.0" prefHeight="375.0" prefWidth="734.0" stylesheets="@../styles/stylesheet.css">
                <content>
-                  <VBox fx:id="productsContainer" disable="true" prefHeight="286.0" prefWidth="737.0" />
+                  <TableView fx:id="tableView" editable="true" fixedCellSize="0.0">
+                     <columns>
+                        <TableColumn fx:id="c1" prefWidth="180.0" resizable="false" text="Name" />
+                        <TableColumn fx:id="c2" minWidth="0.0" prefWidth="180.0" resizable="false" text="Buying Price" />
+                        <TableColumn fx:id="c3" minWidth="0.0" prefWidth="180.0" resizable="false" text="Quantity" />
+                        <TableColumn fx:id="c4" minWidth="0.0" prefWidth="177.55316162109375" resizable="false" text="Availabilty" />
+                     </columns>
+                  </TableView>
                </content>
             </ScrollPane>
          </children>
       </Pane>
-      <Pane fx:id="popupPane" focusTraversable="true" layoutX="180.0" layoutY="100.0" opacity="0.0" prefHeight="583.0" prefWidth="442.0" style="-fx-background-radius: 5px; -fx-background-color: f5f5f5; -fx-border-color: rgba(0, 0, 0, 0.3);" visible="false">
+      <Pane fx:id="popupPane" focusTraversable="true" layoutX="180.0" layoutY="120.0" opacity="0.0" prefHeight="512.0" prefWidth="442.0" style="-fx-background-radius: 5px; -fx-background-color: f5f5f5; -fx-border-color: rgba(0, 0, 0, 0.3);" visible="false">
          <children>
             <Text layoutX="25.0" layoutY="76.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="New Product">
                <font>
@@ -209,7 +191,7 @@
                   <Font name="Arial Bold" size="16.0" />
                </font>
             </Text>
-            <Text layoutX="25.0" layoutY="297.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Buying Price">
+            <Text layoutX="25.0" layoutY="297.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Price">
                <font>
                   <Font name="Arial Bold" size="16.0" />
                </font>
@@ -219,17 +201,7 @@
                   <Font name="Arial Bold" size="16.0" />
                </font>
             </Text>
-            <Text layoutX="25.0" layoutY="441.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Unit">
-               <font>
-                  <Font name="Arial Bold" size="16.0" />
-               </font>
-            </Text>
-            <Text layoutX="25.0" layoutY="392.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Expiry Date">
-               <font>
-                  <Font name="Arial Bold" size="16.0" />
-               </font>
-            </Text>
-            <Text layoutX="25.0" layoutY="489.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Threshold Value">
+            <Text layoutX="25.0" layoutY="392.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier ID">
                <font>
                   <Font name="Arial Bold" size="16.0" />
                </font>
@@ -239,17 +211,15 @@
                   <Image url="@../assets/icons/add-product.png" />
                </image>
             </ImageView>
-            <TextField id="text-field" fx:id="priceController" layoutX="190.0" layoutY="273.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter product buying price" />
+            <TextField id="text-field" fx:id="priceController" layoutX="190.0" layoutY="273.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter product price" />
             <TextField id="text-field" fx:id="quantityController" layoutX="190.0" layoutY="321.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter product quantity" />
-            <TextField id="text-field" fx:id="dateController" layoutX="190.0" layoutY="369.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter expiry date" />
-            <TextField id="text-field" fx:id="unitController" layoutX="190.0" layoutY="418.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter product unit" />
-            <TextField id="text-field" fx:id="valueController" layoutX="190.0" layoutY="465.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter threshold value" />
-            <Button id="normal-button" layoutX="292.0" layoutY="522.0" mnemonicParsing="false" onAction="#onConfirmClicked" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Add Product">
+            <TextField id="text-field" fx:id="supplierController" layoutX="190.0" layoutY="369.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter supplier id" />
+            <Button id="normal-button" layoutX="292.0" layoutY="440.0" mnemonicParsing="false" onAction="#onConfirmClicked" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Add Product">
                <font>
                   <Font name="Arial Bold" size="13.0" />
                </font>
             </Button>
-            <Button id="normal-button" layoutX="160.0" layoutY="522.0" mnemonicParsing="false" onAction="#onDiscardClicked" opacity="0.5" style="-fx-background-color: f5f5f5; -fx-text-fill: black; -fx-border-color: black;" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Discard">
+            <Button id="normal-button" layoutX="160.0" layoutY="440.0" mnemonicParsing="false" onAction="#onDiscardClicked" opacity="0.5" style="-fx-background-color: f5f5f5; -fx-text-fill: black; -fx-border-color: black;" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Discard">
                <font>
                   <Font name="Arial" size="13.0" />
                </font>
