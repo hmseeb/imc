@@ -5,11 +5,15 @@ import com.example.imc.Handlers.QueryHandler;
 import com.example.imc.Models.Order;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.sql.ResultSet;
@@ -20,8 +24,10 @@ import java.time.LocalDateTime;
 public class OrderController {
     QueryHandler queryHandler = new QueryHandler();
     Statement stmt;
-            @FXML
-            TableView<Order> tableView;
+    @FXML
+    Text onErrorText;
+    @FXML
+    TableView<Order> tableView;
     @FXML
     TableColumn<Order, String> c1;
     @FXML
@@ -30,7 +36,6 @@ public class OrderController {
     TableColumn<Order, String> c3;
     @FXML
     TableColumn<Order, String> c4;
-
     @FXML
     TextField orderIDController;
     @FXML
@@ -38,13 +43,11 @@ public class OrderController {
     @FXML
     TextField quantityController;
 
-
     @FXML
     private Pane mainPane;
 
     @FXML
     private Pane popupPane;
-
 
     // For the add product button in the inventory view
 
@@ -77,8 +80,6 @@ public class OrderController {
         });
     }
 
-
-
     @FXML
     void kAddOrder() {
         // Apply a BoxBlur effect to the mainPane to make it blur
@@ -93,34 +94,41 @@ public class OrderController {
         fadeInTransition.play();
     }
 
-@FXML
-private void onConfirmClicked() throws SQLException {
-    String orderID = orderIDController.getText();
-    String productID = productIDController.getText();
-    String quantity = quantityController.getText();
-    LocalDateTime dateTime = LocalDateTime.now();
+    @FXML
+    private void onConfirmClicked() {
+        String orderID = orderIDController.getText();
+        String productID = productIDController.getText();
+        String quantity = quantityController.getText();
+        LocalDateTime dateTime = LocalDateTime.now();
 
-    // Create the Order object
-    Order order = new Order(orderID, dateTime.toString(), productID, quantity);
+        // Create the Order object
+        Order order = new Order(orderID, dateTime.toString(), productID, quantity);
+        boolean status = queryHandler.insertOrder(order.getOrderID(), order.getOrderDate(), order.getProductID(), order.getOrderQuantity());
+        // Add the order to the UI
+        if (status)
+        {
+            onErrorText.setVisible(false);
+            addOrder(order.getOrderID(), order.getProductID(), order.getOrderQuantity(), order.getOrderDate());
+        }
 
-    queryHandler.insertOrder(order.getOrderID() , order.getOrderDate(), order.getProductID(), order.getOrderQuantity());
-    // Add the order to the UI
-    addOrder(orderID, productID, quantity, dateTime.toString());
+        else {
+            onErrorText.setVisible(true);
+            return;
+        }
+        // Animate the popup pane's fade-out and then hide it
+        FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
+        fadeOutTransition.setToValue(0);
+        fadeOutTransition.setOnFinished(event -> popupPane.setVisible(false));
+        fadeOutTransition.play();
 
-    // Animate the popup pane's fade-out and then hide it
-    FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
-    fadeOutTransition.setToValue(0);
-    fadeOutTransition.setOnFinished(event -> popupPane.setVisible(false));
-    fadeOutTransition.play();
-
-    // Remove the BoxBlur effect from the mainPane
-    mainPane.setEffect(null);
-}
+        // Remove the BoxBlur effect from the mainPane
+        mainPane.setEffect(null);
+    }
 
 
     @FXML
     private void onDiscardClicked() {
-        // TODO Add additional logic here
+        onErrorText.setVisible(false);
         // Animate the popup pane's fade-out and then hide it
         FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
         fadeOutTransition.setToValue(0);
@@ -137,15 +145,18 @@ private void onConfirmClicked() throws SQLException {
         c1.setCellValueFactory(cellData -> cellData.getValue().orderIDProperty());
         c2.setCellValueFactory(cellData -> cellData.getValue().productIDProperty());
         c3.setCellValueFactory(cellData -> cellData.getValue().orderQuantityProperty());
-        c4.setCellValueFactory(cellData -> cellData.getValue().orderDateProperty());
+        c4.setCellValueFactory(cellData -> {
+            String date = cellData.getValue().getOrderDate();
+            return new SimpleStringProperty(date);
+        });
         // Add the custom row to the table
         tableView.getItems().add(order);
 
     }
 
-        private void deleteFromDatabase(String id) {
+    private void deleteFromDatabase(String id) {
         try {
-            String deleteQuery = "delete from orders where orderID == '" + id + "'";
+            String deleteQuery = "DELETE FROM orders WHERE orderID = '" + id + "'";
             stmt.executeUpdate(deleteQuery);
         } catch (SQLException e) {
             e.printStackTrace();

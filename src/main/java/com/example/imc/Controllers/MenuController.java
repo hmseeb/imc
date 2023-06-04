@@ -37,11 +37,6 @@ public class MenuController {
     }
 
     @FXML
-    void switchToManageStores() throws Exception {
-        view.changeView(viewPane, "views/manage-stores-view.fxml");
-    }
-
-    @FXML
     void logout(ActionEvent event) throws Exception {
         view.changeScene(event, "views/login-view.fxml");
     }

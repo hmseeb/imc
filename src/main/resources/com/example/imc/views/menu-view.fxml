@@ -1,195 +1,233 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Hyperlink?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.imc.Controllers.MenuController">
-   <children>
-      <Hyperlink id="hyperlink" layoutX="60.0" layoutY="222.0" onAction="#switchToDashboard" text="Dashboard">
-         <font>
-            <Font name="Arial Bold" size="13.0" />
-         </font></Hyperlink>
-      <ImageView fitHeight="106.0" fitWidth="97.0" layoutX="46.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/images/logo.png" />
-         </image>
-      </ImageView>
-      <Hyperlink id="hyperlink" layoutX="60.0" layoutY="272.0" onAction="#switchToInventory" text="Inventory">
-         <font>
-            <Font name="Arial Bold" size="13.0" />
-         </font></Hyperlink>
-      <Hyperlink id="hyperlink" layoutX="60.0" layoutY="322.0" onAction="#switchToReports" text="Reports">
-         <font>
-            <Font name="Arial Bold" size="13.0" />
-         </font></Hyperlink>
-      <Hyperlink id="hyperlink" layoutX="60.0" layoutY="372.0" onAction="#switchToSuppliers" text="Suppliers">
-         <font>
-            <Font name="Arial Bold" size="13.0" />
-         </font></Hyperlink>
-      <Hyperlink id="hyperlink" layoutX="60.0" layoutY="422.0" onAction="#switchToOrders" text="Orders">
-         <font>
-            <Font name="Arial Bold" size="13.0" />
-         </font></Hyperlink>
-      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="224.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/icons/dashboard.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="274.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/icons/inventory.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="324.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/icons/reports.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/icons/suppliers.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="424.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/icons/orders.png" />
-         </image>
-      </ImageView>
-      <Hyperlink id="hyperlink" layoutX="60.0" layoutY="550.0" onAction="#logout" text="Log Out">
-         <font>
-            <Font name="Arial Bold" size="13.0" />
-         </font>
-      </Hyperlink>
-      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/images/logout.png" />
-         </image>
-      </ImageView>
-      <Pane fx:id="viewPane" layoutX="197.0" layoutY="-3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: lightgrey;" stylesheets="@../styles/stylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="197.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Pane layoutX="3.0" prefHeight="91.0" prefWidth="797.0" style="-fx-background-color: F5F5F5;">
-               <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="719.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons/avatar.png" />
-                     </image>
-                  </ImageView>
-                  <TextField id="text-field" alignment="CENTER" focusTraversable="false" layoutX="27.0" layoutY="25.0" prefHeight="42.0" prefWidth="290.0" promptText="Search product, supplier, order">
-                     <font>
-                        <Font name="Arial" size="13.0" />
-                     </font>
-                  </TextField>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="43.0" layoutY="34.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons/search.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
-            <Pane layoutX="22.0" layoutY="117.0" prefHeight="188.0" prefWidth="460.0" style="-fx-background-color: f5f5f5; -fx-background-radius: 8;" styleClass="overall-inventory">
-               <children>
-                  <Text layoutX="18.0" layoutY="38.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="Sales Overview">
-                     <font>
-                        <Font name="Arial Bold" size="19.0" />
-                     </font>
-                  </Text>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="41.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons/sales.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="153.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons/revenue.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="261.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons/profit.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="371.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons/cost.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
-            <Pane layoutX="22.0" layoutY="328.0" prefHeight="188.0" prefWidth="460.0" style="-fx-background-color: f5f5f5; -fx-background-radius: 8;" styleClass="overall-inventory">
-               <children>
-                  <Text layoutX="18.0" layoutY="38.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="Purchase Overview">
-                     <font>
-                        <Font name="Arial Bold" size="19.0" />
-                     </font>
-                  </Text>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="41.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons/purchase.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="153.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons/cost.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="261.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons/cancel.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="371.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons/return.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
-            <Pane layoutX="504.0" layoutY="117.0" prefHeight="188.0" prefWidth="278.0" style="-fx-background-color: f5f5f5; -fx-background-radius: 8;" styleClass="overall-inventory">
-               <children>
-                  <Text layoutX="18.0" layoutY="38.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="Inventory Summary">
-                     <font>
-                        <Font name="Arial Bold" size="19.0" />
-                     </font>
-                  </Text>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="60.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons/quantity.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="170.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons/to-be-recieved.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
-            <Pane layoutX="504.0" layoutY="328.0" prefHeight="188.0" prefWidth="278.0" style="-fx-background-color: f5f5f5; -fx-background-radius: 8;" styleClass="overall-inventory">
-               <children>
-                  <Text layoutX="18.0" layoutY="38.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Summary">
-                     <font>
-                        <Font name="Arial Bold" size="19.0" />
-                     </font>
-                  </Text>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="60.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons/no-of-suppliers.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="170.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons/categories.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
-         </children>
-      </Pane>
-      <Pane layoutX="-4.0" layoutY="644.0" prefHeight="156.0" prefWidth="209.0" style="-fx-background-color: lightgrey;" />
-   </children>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19"
+            fx:controller="com.example.imc.Controllers.MenuController">
+    <children>
+        <Hyperlink id="hyperlink" layoutX="60.0" layoutY="222.0" onAction="#switchToDashboard" text="Dashboard">
+            <font>
+                <Font name="Arial Bold" size="13.0"/>
+            </font>
+        </Hyperlink>
+        <ImageView fitHeight="106.0" fitWidth="97.0" layoutX="46.0" layoutY="57.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../assets/images/logo.png"/>
+            </image>
+        </ImageView>
+        <Hyperlink id="hyperlink" layoutX="60.0" layoutY="272.0" onAction="#switchToInventory" text="Inventory">
+            <font>
+                <Font name="Arial Bold" size="13.0"/>
+            </font>
+        </Hyperlink>
+        <Hyperlink id="hyperlink" layoutX="60.0" layoutY="322.0" onAction="#switchToReports" text="Reports">
+            <font>
+                <Font name="Arial Bold" size="13.0"/>
+            </font>
+        </Hyperlink>
+        <Hyperlink id="hyperlink" layoutX="60.0" layoutY="372.0" onAction="#switchToSuppliers" text="Suppliers">
+            <font>
+                <Font name="Arial Bold" size="13.0"/>
+            </font>
+        </Hyperlink>
+        <Hyperlink id="hyperlink" layoutX="60.0" layoutY="422.0" onAction="#switchToOrders" text="Orders">
+            <font>
+                <Font name="Arial Bold" size="13.0"/>
+            </font>
+        </Hyperlink>
+        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="224.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../assets/icons/dashboard.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="274.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../assets/icons/inventory.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="324.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../assets/icons/reports.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="374.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../assets/icons/suppliers.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="424.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../assets/icons/orders.png"/>
+            </image>
+        </ImageView>
+        <Hyperlink id="hyperlink" layoutX="60.0" layoutY="550.0" onAction="#logout" text="Log Out">
+            <font>
+                <Font name="Arial Bold" size="13.0"/>
+            </font>
+        </Hyperlink>
+        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="550.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../assets/images/logout.png"/>
+            </image>
+        </ImageView>
+        <Pane fx:id="viewPane" layoutX="197.0" layoutY="-3.0" maxHeight="-Infinity" maxWidth="-Infinity"
+              minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0"
+              style="-fx-background-color: lightgrey;" stylesheets="@../styles/stylesheet.css"
+              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="197.0" AnchorPane.rightAnchor="0.0"
+              AnchorPane.topAnchor="0.0">
+            <children>
+                <Pane layoutX="3.0" prefHeight="91.0" prefWidth="797.0" style="-fx-background-color: F5F5F5;">
+                    <children>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="719.0" layoutY="18.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="@../assets/icons/avatar.png"/>
+                            </image>
+                        </ImageView>
+                        <TextField id="text-field" alignment="CENTER" focusTraversable="false" layoutX="27.0"
+                                   layoutY="25.0" prefHeight="42.0" prefWidth="290.0"
+                                   promptText="Search product, supplier, order">
+                            <font>
+                                <Font name="Arial" size="13.0"/>
+                            </font>
+                        </TextField>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="43.0" layoutY="34.0" opacity="0.5"
+                                   pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../assets/icons/search.png"/>
+                            </image>
+                        </ImageView>
+                    </children>
+                </Pane>
+                <Pane layoutX="22.0" layoutY="117.0" prefHeight="188.0" prefWidth="460.0"
+                      style="-fx-background-color: f5f5f5; -fx-background-radius: 8;" styleClass="overall-inventory">
+                    <children>
+                        <Text layoutX="18.0" layoutY="38.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0"
+                              text="Sales Overview">
+                            <font>
+                                <Font name="Arial Bold" size="19.0"/>
+                            </font>
+                        </Text>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="41.0" layoutY="58.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="@../assets/icons/sales.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="153.0" layoutY="58.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="@../assets/icons/revenue.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="261.0" layoutY="58.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="@../assets/icons/profit.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="371.0" layoutY="58.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="@../assets/icons/cost.png"/>
+                            </image>
+                        </ImageView>
+                    </children>
+                </Pane>
+                <Pane layoutX="22.0" layoutY="328.0" prefHeight="188.0" prefWidth="460.0"
+                      style="-fx-background-color: f5f5f5; -fx-background-radius: 8;" styleClass="overall-inventory">
+                    <children>
+                        <Text layoutX="18.0" layoutY="38.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0"
+                              text="Purchase Overview">
+                            <font>
+                                <Font name="Arial Bold" size="19.0"/>
+                            </font>
+                        </Text>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="41.0" layoutY="60.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="@../assets/icons/purchase.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="153.0" layoutY="60.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="@../assets/icons/cost.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="261.0" layoutY="60.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="@../assets/icons/cancel.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="371.0" layoutY="60.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="@../assets/icons/return.png"/>
+                            </image>
+                        </ImageView>
+                    </children>
+                </Pane>
+                <Pane layoutX="504.0" layoutY="117.0" prefHeight="188.0" prefWidth="278.0"
+                      style="-fx-background-color: f5f5f5; -fx-background-radius: 8;" styleClass="overall-inventory">
+                    <children>
+                        <Text layoutX="18.0" layoutY="38.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0"
+                              text="Inventory Summary">
+                            <font>
+                                <Font name="Arial Bold" size="19.0"/>
+                            </font>
+                        </Text>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="60.0" layoutY="60.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="@../assets/icons/quantity.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="170.0" layoutY="60.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="@../assets/icons/to-be-recieved.png"/>
+                            </image>
+                        </ImageView>
+                    </children>
+                </Pane>
+                <Pane layoutX="504.0" layoutY="328.0" prefHeight="188.0" prefWidth="278.0"
+                      style="-fx-background-color: f5f5f5; -fx-background-radius: 8;" styleClass="overall-inventory">
+                    <children>
+                        <Text layoutX="18.0" layoutY="38.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0"
+                              text="Product Summary">
+                            <font>
+                                <Font name="Arial Bold" size="19.0"/>
+                            </font>
+                        </Text>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="60.0" layoutY="78.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="@../assets/icons/no-of-suppliers.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="170.0" layoutY="78.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="@../assets/icons/categories.png"/>
+                            </image>
+                        </ImageView>
+                    </children>
+                </Pane>
+            </children>
+        </Pane>
+        <Pane layoutX="-4.0" layoutY="644.0" prefHeight="156.0" prefWidth="209.0"
+              style="-fx-background-color: lightgrey;"/>
+    </children>
 </AnchorPane>

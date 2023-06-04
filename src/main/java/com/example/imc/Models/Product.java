@@ -1,4 +1,5 @@
 package com.example.imc.Models;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -10,7 +11,7 @@ public class Product {
     private final StringProperty productPrice;
     private final StringProperty productQuantity;
 
-    public Product(String productID, String productName, String productCategory, String supplierID, String productPrice, String productQuantity) {
+    public Product(String productID, String productName, String supplierID, String productPrice, String productQuantity, String productCategory) {
         this.productID = new SimpleStringProperty(productID);
         this.productName = new SimpleStringProperty(productName);
         this.supplierID = new SimpleStringProperty(supplierID);
@@ -59,7 +60,7 @@ public class Product {
         return productQuantity;
     }
 
-        public String getProductCategory() {
+    public String getProductCategory() {
         return productCategory.get();
     }
 

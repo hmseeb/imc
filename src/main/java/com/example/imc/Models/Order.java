@@ -3,6 +3,13 @@ package com.example.imc.Models;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+
 public class Order {
     private final StringProperty orderID;
     private final StringProperty orderDate;
@@ -26,8 +33,19 @@ public class Order {
         return orderID;
     }
 
+
     public String getOrderDate() {
-        return orderDate.get();
+        // Get the current date and time
+        java.util.Date currentDate = Calendar.getInstance().getTime();
+
+        // Convert to a Timestamp object
+        Timestamp timestamp = new Timestamp(currentDate.getTime());
+
+        // Format the timestamp in SQL format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        // Return the timestamp in SQL format
+        return dateFormat.format(timestamp);
     }
 
     public StringProperty orderDateProperty() {

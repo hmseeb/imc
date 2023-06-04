@@ -6,10 +6,13 @@ import com.example.imc.Models.Supplier;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.sql.ResultSet;
@@ -19,6 +22,8 @@ import java.sql.Statement;
 public class SupplierController {
     QueryHandler queryHandler = new QueryHandler();
     Statement stmt;
+    @FXML
+    Text onErrorText;
     @FXML
     TableView<Supplier> tableView;
     @FXML
@@ -42,6 +47,7 @@ public class SupplierController {
     private Pane mainPane;
     @FXML
     private Pane popupPane;
+
     // For the add product button in the inventory view
     @FXML
     public void initialize() throws SQLException {
@@ -55,9 +61,10 @@ public class SupplierController {
             String supplierPhone = resultSet.getString("supplierPhone");
             String supplierAddress = resultSet.getString("supplierAddress");
 
-            Platform.runLater(() -> addSupplier(supplierID, supplierName, supplierPhone, supplierAddress));
+            Supplier supplier = new Supplier(supplierID, supplierName, supplierPhone, supplierAddress);
+            Platform.runLater(() -> addSupplier(supplier.getSupplierID(), supplier.getSupplierName(), supplier.getSupplierPhone(), supplier.getSupplierAddress()));
         }
-                // Add event listener for delete key press
+        // Add event listener for delete key press
         tableView.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.BACK_SPACE || event.getCode() == KeyCode.DELETE) {
                 // Get the selected product
@@ -95,11 +102,14 @@ public class SupplierController {
                 contactController.getText(),
                 addressController.getText()
         );
-
-        queryHandler.insertSupplier(supplier.getSupplierID(), supplier.getSupplierName(), supplier.getSupplierPhone(), supplier.getSupplierAddress());
-
+        boolean status = queryHandler.insertSupplier(supplier.getSupplierID(), supplier.getSupplierName(), supplier.getSupplierPhone(), supplier.getSupplierAddress());
+        if (status)
+            addSupplier(supplier.getSupplierID(), supplier.getSupplierName(), supplier.getSupplierPhone(), supplier.getSupplierAddress());
+        else {
+            onErrorText.setVisible(true);
+            return;
+        }
         // Animate the popup pane's fade-out and then hide it
-        addSupplier(supplier.getSupplierID(), supplier.getSupplierName(), supplier.getSupplierPhone(), supplier.getSupplierAddress());
         FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
         fadeOutTransition.setToValue(0);
         fadeOutTransition.setOnFinished(event -> popupPane.setVisible(false));
@@ -111,6 +121,7 @@ public class SupplierController {
 
     @FXML
     private void onDiscardClicked() {
+        onErrorText.setVisible(false);
         // TODO Add additional logic here
         // Animate the popup pane's fade-out and then hide it
         FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
@@ -131,15 +142,14 @@ public class SupplierController {
 
         tableView.getItems().add(supplier);
     }
+
     private void deleteFromDatabase(String id) {
-    try {
-        String deleteQuery = String.format("DELETE FROM suppliers WHERE supplierID = %s", id);
-        stmt.executeUpdate(deleteQuery);
-    } catch (SQLException e) {
-        e.printStackTrace();
-        // Handle any exception that occurs during the database operation
+        try {
+            String deleteQuery = "DELETE FROM suppliers WHERE supplierID = '" + id + "'";
+            stmt.executeUpdate(deleteQuery);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any exception that occurs during the database operation
+        }
     }
-    }
-
-
 }
