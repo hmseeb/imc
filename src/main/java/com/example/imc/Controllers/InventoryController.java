@@ -7,6 +7,7 @@ import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -14,6 +15,8 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import java.sql.ResultSet;
@@ -67,6 +70,7 @@ public class InventoryController {
             String productQuantity = resultSet.getString("productQuantity");
 
             Product product = new Product(productID, productName, supplierID, productPrice, productQuantity, productCategory);
+            System.out.println(product.getSupplierID());
             Platform.runLater(() -> addProduct(product.getProductID(), product.getProductName(), product.getSupplierID(), product.getProductPrice(), product.getProductQuantity(), product.getProductCategory()));
 
         }
@@ -79,11 +83,21 @@ public class InventoryController {
                 if (selectedProduct != null) {
                     // Call a method to delete the row from the database
                     String productID = selectedProduct.getProductID();
+                    boolean status = deleteFromDatabase(productID);
+                    if (status) {
+                        // Remove the product from the TableView
+                        tableView.getItems().remove(selectedProduct);
+                    }
+                    else {
+                        String errorMessage = "An error occurred while deleting "+ selectedProduct.getProductName() + " from the database";
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText(null);
+                        alert.setContentText(errorMessage);
+                        alert.initStyle(StageStyle.UNDECORATED); // Optional: Removes the default window decorations
+                        alert.showAndWait();
+                    }
 
-                    deleteFromDatabase(productID);
-
-                    // Remove the product from the TableView
-                    tableView.getItems().remove(selectedProduct);
                 }
             }
         });
@@ -116,6 +130,8 @@ public class InventoryController {
             onErrorText.setVisible(false);
             addProduct(product.getProductID(), product.getProductName(), product.getSupplierID(), product.getProductPrice(), product.getProductQuantity(), product.getProductCategory());
         } else {
+            Popup popup = new Popup();
+            popup.show(mainPane.getScene().getWindow());
             onErrorText.setVisible(true);
             return;
         }
@@ -151,13 +167,14 @@ public class InventoryController {
     }
 
 
-    private void deleteFromDatabase(String id) {
+    private boolean deleteFromDatabase(String id) {
         try {
             String deleteQuery = "DELETE FROM products WHERE productID = '" + id + "'";
-
             stmt.executeUpdate(deleteQuery);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
             // Handle any exception that occurs during the database operation
         }
     }

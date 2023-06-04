@@ -7,8 +7,7 @@ public class DashboardController {
     QueryHandler queryHandler = new QueryHandler();
     @FXML
     public void initialize() {
-        queryHandler.dropTables();
-        queryHandler.createTables();
+        queryHandler.executeQuery("SET FOREIGN_KEY_CHECKS=0;");
         // Use stmt to execute SQL queries
     }
 }

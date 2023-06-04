@@ -7,6 +7,7 @@ import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -72,9 +73,25 @@ public class OrderController {
                 if (selectedOrder != null) {
                     // Call a method to delete the row from the database
                     String orderID = selectedOrder.getOrderID();
-                    deleteFromDatabase(orderID);
+
+                    boolean status = deleteFromDatabase(orderID);
+
+                    if (status)
+                    {
+                        tableView.getItems().remove(selectedOrder);
+
+                    }
+                    else
+                    {
+                        String errorMessage = "Error deleting the order from the database";
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText(null);
+                        alert.setContentText(errorMessage);
+                        alert.showAndWait();
+                    }
+
                     // Remove the product from the TableView
-                    tableView.getItems().remove(selectedOrder);
                 }
             }
         });
@@ -154,12 +171,14 @@ public class OrderController {
 
     }
 
-    private void deleteFromDatabase(String id) {
+    private boolean deleteFromDatabase(String id) {
         try {
             String deleteQuery = "DELETE FROM orders WHERE orderID = '" + id + "'";
             stmt.executeUpdate(deleteQuery);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
             // Handle any exception that occurs during the database operation
         }
     }

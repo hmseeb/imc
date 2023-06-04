@@ -19,7 +19,7 @@ public class QueryHandler {
         "SupplierID INT," +
         "ProductPrice DECIMAL(10, 2)," +
         "ProductQuantity INT," +
-        "CONSTRAINT fk_SupplierID FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID) ON UPDATE CASCADE ON DELETE SET NULL" +
+        "CONSTRAINT fk_SupplierID FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID) ON DELETE RESTRICT" +
         ");";
 
     String ordersTableQuery = "CREATE TABLE Orders (" +
@@ -29,6 +29,7 @@ public class QueryHandler {
         "OrderQuantity INT," +
         "CONSTRAINT fk_ProductID FOREIGN KEY (ProductID) REFERENCES Products(ProductID)" +
         ");";
+
 
 
 
