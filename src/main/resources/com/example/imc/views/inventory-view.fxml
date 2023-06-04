@@ -224,7 +224,7 @@
                         <Font name="Arial" size="13.0" />
                     </font>
                 </Button>
-                <Text fx:id="onErrorText" fill="RED" layoutX="260.0" layoutY="428.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid input/ input" visible="false">
+                <Text fx:id="onErrorText" fill="RED" layoutX="260.0" layoutY="428.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid Input" visible="false">
                     <font>
                         <Font name="Arial" size="13.0" />
                     </font>

@@ -141,7 +141,7 @@
             </children>
         </Pane>
         <Text fx:id="onErrorText" fill="RED" layoutX="439.0" layoutY="514.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="Invalid input/ input" visible="false">
+              text="Invalid Input" visible="false">
             <font>
                 <Font name="Arial" size="13.0"/>
             </font>

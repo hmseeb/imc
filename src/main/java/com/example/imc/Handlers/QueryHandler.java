@@ -6,36 +6,37 @@ public class QueryHandler {
     Connection con;
     Statement stmt;
     String suppliersTableQuery = "CREATE TABLE Suppliers (" +
-            "SupplierID INT PRIMARY KEY," +
-            "SupplierName VARCHAR(255) NOT NULL," +
-            "SupplierAddress VARCHAR(255)," +
-            "SupplierPhone VARCHAR(20)" +
-            ");";
+        "SupplierID INT PRIMARY KEY," +
+        "SupplierName VARCHAR(255) NOT NULL," +
+        "SupplierAddress VARCHAR(255)," +
+        "SupplierPhone VARCHAR(20)" +
+        ");";
 
     String productsTableQuery = "CREATE TABLE Products (" +
-            "ProductID INT PRIMARY KEY," +
-            "ProductName VARCHAR(255) NOT NULL," +
-            "ProductCategory VARCHAR(255)," +
-            "SupplierID INT," +
-            "ProductPrice DECIMAL(10, 2)," +
-            "ProductQuantity INT," +
-            "CONSTRAINT fk_SupplierID FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID)" +
-            ");";
+        "ProductID INT PRIMARY KEY," +
+        "ProductName VARCHAR(255) NOT NULL," +
+        "ProductCategory VARCHAR(255)," +
+        "SupplierID INT," +
+        "ProductPrice DECIMAL(10, 2)," +
+        "ProductQuantity INT," +
+        "CONSTRAINT fk_SupplierID FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID) ON UPDATE CASCADE ON DELETE SET NULL" +
+        ");";
 
     String ordersTableQuery = "CREATE TABLE Orders (" +
-            "OrderID INT PRIMARY KEY," +
-            "OrderDate DATE," +
-            "ProductID INT," +
-            "OrderQuantity INT," +
-            "CONSTRAINT fk_ProductID FOREIGN KEY (ProductID) REFERENCES Products(ProductID)" +
-            ");";
+        "OrderID INT PRIMARY KEY," +
+        "OrderDate DATE," +
+        "ProductID INT," +
+        "OrderQuantity INT," +
+        "CONSTRAINT fk_ProductID FOREIGN KEY (ProductID) REFERENCES Products(ProductID)" +
+        ");";
+
 
 
     public void createTables() {
         try {
             stmt = DatabaseHandler.getStatement();
-//            stmt.executeUpdate(suppliersTableQuery);
-//            stmt.executeUpdate(productsTableQuery);
+            stmt.executeUpdate(suppliersTableQuery);
+            stmt.executeUpdate(productsTableQuery);
             stmt.executeUpdate(ordersTableQuery);
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,8 +56,8 @@ public class QueryHandler {
         try {
             stmt = DatabaseHandler.getStatement();
             stmt.executeUpdate("DROP TABLE IF EXISTS Orders");
-//            stmt.executeUpdate("DROP TABLE IF EXISTS Products");
-//            stmt.executeUpdate("DROP TABLE IF EXISTS Suppliers");
+            stmt.executeUpdate("DROP TABLE IF EXISTS Products");
+            stmt.executeUpdate("DROP TABLE IF EXISTS Suppliers");
         } catch (Exception e) {
             e.printStackTrace();
         }
