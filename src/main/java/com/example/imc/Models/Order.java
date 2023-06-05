@@ -5,10 +5,8 @@ import javafx.beans.property.StringProperty;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Order {
     private final StringProperty orderID;
@@ -34,13 +32,10 @@ public class Order {
     }
 
 
-    public String getOrderDate() {
+    public String getOrderDate(Date currentDate) {
         // Get the current date and time
-        java.util.Date currentDate = Calendar.getInstance().getTime();
-
         // Convert to a Timestamp object
         Timestamp timestamp = new Timestamp(currentDate.getTime());
-
         // Format the timestamp in SQL format
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

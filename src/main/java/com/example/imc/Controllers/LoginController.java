@@ -13,7 +13,6 @@ import java.sql.Statement;
 
 public class LoginController {
     Statement stmt;
-
     Helpers scene = new Helpers();
     @FXML
     TextField loginEmailController;

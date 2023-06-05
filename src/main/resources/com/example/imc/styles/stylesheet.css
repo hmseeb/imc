@@ -151,3 +151,33 @@
     -fx-background-color: #81c483;
     -fx-background-radius: 15px;
 }
+
+
+
+
+/* menu buttons */
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+}
+
+.menu-button:hover {
+    -fx-background-color: rgba(235, 240, 254, 0.8);
+    -fx-background-radius: 10px;
+    -fx-text-fill: #3761ee;
+}
+
+.menu-button:pressed {
+    -fx-background-color: rgba(235, 240, 254, 0.8);
+    -fx-background-radius: 10px;
+    -fx-text-fill: #3761ee;
+}
+
+.menu-button:focused {
+    -fx-background-color: rgba(235, 240, 254, 0.8);
+    -fx-background-color: #ebf0fe;
+    -fx-background-radius: 10px;
+    -fx-text-fill: #3761ee;
+}
+

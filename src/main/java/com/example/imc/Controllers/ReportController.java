@@ -48,7 +48,6 @@ public class ReportController {
             String productQuantity = resultSet.getString("productQuantity");
 
             Product product = new Product(productID, productName, supplierID, productPrice, productQuantity, productCategory);
-            System.out.println(product.getSupplierID());
             Platform.runLater(() -> addProduct(product.getProductID(), product.getProductName(), product.getSupplierID(), product.getProductPrice(), product.getProductQuantity(), product.getProductCategory()));
             // Use stmt to execute SQL queries
         }

@@ -11,35 +11,51 @@ public class MenuController {
     @FXML
     private Pane viewPane;
 
+    private String currentView = "";
+
     @FXML
     void switchToDashboard() throws Exception {
-        view.changeView(viewPane, "views/dashboard-view.fxml");
+        if (!currentView.equals("dashboard-view.fxml")) {
+            view.changeView(viewPane, "views/dashboard-view.fxml");
+            currentView = "dashboard-view.fxml";
+        }
     }
 
     @FXML
     void switchToInventory() throws Exception {
-        view.changeView(viewPane, "views/inventory-view.fxml");
+        if (!currentView.equals("inventory-view.fxml")) {
+            view.changeView(viewPane, "views/inventory-view.fxml");
+            currentView = "inventory-view.fxml";
+        }
     }
 
     @FXML
     void switchToReports() throws Exception {
-        view.changeView(viewPane, "views/report-view.fxml");
+        if (!currentView.equals("report-view.fxml")) {
+            view.changeView(viewPane, "views/report-view.fxml");
+            currentView = "report-view.fxml";
+        }
     }
 
     @FXML
     void switchToSuppliers() throws Exception {
-        view.changeView(viewPane, "views/supplier-view.fxml");
+        if (!currentView.equals("supplier-view.fxml")) {
+            view.changeView(viewPane, "views/supplier-view.fxml");
+            currentView = "supplier-view.fxml";
+        }
     }
 
     @FXML
     void switchToOrders() throws Exception {
-        view.changeView(viewPane, "views/order-view.fxml");
+        if (!currentView.equals("order-view.fxml")) {
+            view.changeView(viewPane, "views/order-view.fxml");
+            currentView = "order-view.fxml";
+        }
     }
 
     @FXML
     void logout(ActionEvent event) throws Exception {
         view.changeScene(event, "views/login-view.fxml");
     }
-
 
 }

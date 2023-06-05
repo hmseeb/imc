@@ -21,6 +21,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 
 public class OrderController {
     QueryHandler queryHandler = new QueryHandler();
@@ -120,12 +122,13 @@ public class OrderController {
 
         // Create the Order object
         Order order = new Order(orderID, dateTime.toString(), productID, quantity);
-        boolean status = queryHandler.insertOrder(order.getOrderID(), order.getOrderDate(), order.getProductID(), order.getOrderQuantity());
+        Date currentDate = Calendar.getInstance().getTime();
+        boolean status = queryHandler.insertOrder(order.getOrderID(), order.getOrderDate(currentDate), order.getProductID(), order.getOrderQuantity());
         // Add the order to the UI
         if (status)
         {
             onErrorText.setVisible(false);
-            addOrder(order.getOrderID(), order.getProductID(), order.getOrderQuantity(), order.getOrderDate());
+            addOrder(order.getOrderID(), order.getProductID(), order.getOrderQuantity(), order.getOrderDate(currentDate));
         }
 
         else {
@@ -163,7 +166,9 @@ public class OrderController {
         c2.setCellValueFactory(cellData -> cellData.getValue().productIDProperty());
         c3.setCellValueFactory(cellData -> cellData.getValue().orderQuantityProperty());
         c4.setCellValueFactory(cellData -> {
-            String date = cellData.getValue().getOrderDate();
+            Date currentDate = Calendar.getInstance().getTime();
+
+            String date = cellData.getValue().getOrderDate(currentDate);
             return new SimpleStringProperty(date);
         });
         // Add the custom row to the table
