@@ -9,12 +9,16 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.StageStyle;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class MenuController {
@@ -100,7 +104,18 @@ public class MenuController {
 
     @FXML
     void logout(ActionEvent event) throws Exception {
-        view.changeScene(event, "views/login-view.fxml");
+        Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationDialog.setTitle("Confirmation");
+        confirmationDialog.setHeaderText(null);
+        confirmationDialog.setContentText("Are you sure you want to logout?");
+        confirmationDialog.initStyle(StageStyle.UNDECORATED); // Optional: Removes the default window decorations
+
+        // Show the confirmation dialog and wait for user response
+        Optional<ButtonType> result = confirmationDialog.showAndWait();
+
+        // Check if the user confirmed the deletion
+        if (result.isPresent() && result.get() == ButtonType.OK)
+            view.changeScene(event, "views/login-view.fxml");
     }
 
     @FXML
