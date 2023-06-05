@@ -16,6 +16,7 @@ public class App extends Application {
     @FXML
     public static void main(String[] args) {
         DatabaseHandler.initialize();
+        //sql
         launch();
     }
 
