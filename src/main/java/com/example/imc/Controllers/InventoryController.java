@@ -7,10 +7,7 @@ import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -22,6 +19,7 @@ import javafx.util.Duration;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 
 public class InventoryController {
     QueryHandler queryHandler = new QueryHandler();
@@ -51,6 +49,20 @@ public class InventoryController {
     @FXML
     TextField supplierController;
     @FXML
+    Text categoriesText;
+    @FXML
+    Text totalProductsText;
+    @FXML
+    Text revenueText;
+    @FXML
+    Text costText;
+    @FXML
+    Text topSelling;
+    @FXML
+    Text outOfStockText;
+    @FXML
+    Text ordered;
+    @FXML
     private Pane mainPane;
     @FXML
     private Pane popupPane;
@@ -59,7 +71,36 @@ public class InventoryController {
     public void initialize() throws SQLException {
         stmt = DatabaseHandler.getStatement();
 
-        ResultSet resultSet = stmt.executeQuery("SELECT * FROM products");
+        ResultSet resultSet = stmt.executeQuery("SELECT COUNT(DISTINCT ProductCategory) FROM products;");
+        resultSet.next();
+        categoriesText.setText(resultSet.getString(1));
+
+        resultSet = stmt.executeQuery("SELECT COUNT(*) FROM products");
+        resultSet.next();
+        totalProductsText.setText(resultSet.getString(1));
+
+        resultSet = stmt.executeQuery("SELECT SUM(ProductPrice * OrderQuantity) FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID;");
+        resultSet.next();
+        revenueText.setText(resultSet.getString(1));
+
+        resultSet = stmt.executeQuery("SELECT SUM(ProductPrice * ProductQuantity) AS Cost FROM Products;");
+        resultSet.next();
+        costText.setText(resultSet.getString("Cost"));
+
+        resultSet = stmt.executeQuery("SELECT Products.ProductName, SUM(Orders.OrderQuantity) AS TotalQuantity FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID GROUP BY Products.ProductName ORDER BY TotalQuantity DESC LIMIT 10;");
+        resultSet.next();
+        topSelling.setText(resultSet.getString("ProductName"));
+
+        resultSet = stmt.executeQuery("SELECT COUNT(*) FROM products WHERE ProductQuantity = 0");
+        resultSet.next();
+        outOfStockText.setText(resultSet.getString(1));
+
+        resultSet = stmt.executeQuery("SELECT Products.ProductName, SUM(Orders.OrderQuantity) AS TotalOrderedQuantity FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID GROUP BY Products.ProductName;");
+        resultSet.next();
+        ordered.setText(resultSet.getString("ProductName"));
+
+        // Set up the columns in the table
+        resultSet = stmt.executeQuery("SELECT * FROM products");
         // Process the result set and add products to the productsContainer
         while (resultSet.next()) {
             String productID = resultSet.getString("productID");
@@ -82,20 +123,33 @@ public class InventoryController {
                 if (selectedProduct != null) {
                     // Call a method to delete the row from the database
                     String productID = selectedProduct.getProductID();
-                    boolean status = deleteFromDatabase(productID);
-                    if (status) {
-                        // Remove the product from the TableView
-                        tableView.getItems().remove(selectedProduct);
+                    // Create a confirmation dialog
+                    Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+                    confirmationDialog.setTitle("Confirmation");
+                    confirmationDialog.setHeaderText(null);
+                    confirmationDialog.setContentText("Are you sure you want to delete this product from the database?");
+                    confirmationDialog.initStyle(StageStyle.UNDECORATED); // Optional: Removes the default window decorations
+
+                    // Show the confirmation dialog and wait for user response
+                    Optional<ButtonType> result = confirmationDialog.showAndWait();
+
+                    // Check if the user confirmed the deletion
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        boolean status = deleteFromDatabase(productID);
+                        if (status) {
+                            // Remove the product from the TableView
+                            tableView.getItems().remove(selectedProduct);
+                        } else {
+                            String errorMessage = "An error occurred while deleting " + selectedProduct.getProductName() + " from the database";
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error");
+                            alert.setHeaderText(null);
+                            alert.setContentText(errorMessage);
+                            alert.initStyle(StageStyle.UNDECORATED); // Optional: Removes the default window decorations
+                            alert.showAndWait();
+                        }
                     }
-                    else {
-                        String errorMessage = "An error occurred while deleting "+ selectedProduct.getProductName() + " from the database";
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error");
-                        alert.setHeaderText(null);
-                        alert.setContentText(errorMessage);
-                        alert.initStyle(StageStyle.UNDECORATED); // Optional: Removes the default window decorations
-                        alert.showAndWait();
-                    }
+
 
                 }
             }
@@ -178,3 +232,5 @@ public class InventoryController {
         }
     }
 }
+
+

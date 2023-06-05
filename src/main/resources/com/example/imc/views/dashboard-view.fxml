@@ -6,8 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="800.0" prefWidth="800.0" stylesheets="@../styles/stylesheet.css"
-      xmlns="http://javafx.com/javafx/19" fx:controller="com.example.imc.Controllers.DashboardController">
+      prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: rgba(211, 211, 211, 0.5);"
+      stylesheets="@../styles/stylesheet.css" xmlns="http://javafx.com/javafx/19"
+      fx:controller="com.example.imc.Controllers.MenuController">
     <children>
         <Pane layoutX="3.0" prefHeight="91.0" prefWidth="797.0" style="-fx-background-color: F5F5F5;">
             <children>
@@ -64,7 +65,8 @@
                         <Image url="@../assets/icons/cost.png"/>
                     </image>
                 </ImageView>
-                <Text layoutX="46.0" layoutY="158.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
+                <Text fx:id="salesSalesText" layoutX="48.0" layoutY="158.0" opacity="0.6" strokeType="OUTSIDE"
+                      strokeWidth="0.0" text="N/A">
                     <font>
                         <Font name="Arial Bold" size="17.0"/>
                     </font>
@@ -74,7 +76,8 @@
                         <Font name="Arial Bold" size="16.0"/>
                     </font>
                 </Text>
-                <Text layoutX="158.0" layoutY="158.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
+                <Text fx:id="salesRevenueText" layoutX="150.0" layoutY="158.0" opacity="0.6" strokeType="OUTSIDE"
+                      strokeWidth="0.0" text="N/A">
                     <font>
                         <Font name="Arial Bold" size="17.0"/>
                     </font>
@@ -96,12 +99,14 @@
                         <Font name="Arial Bold" size="16.0"/>
                     </font>
                 </Text>
-                <Text layoutX="266.0" layoutY="158.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
+                <Text fx:id="salesProfitText" layoutX="246.0" layoutY="158.0" opacity="0.6" strokeType="OUTSIDE"
+                      strokeWidth="0.0" text="N/A">
                     <font>
                         <Font name="Arial Bold" size="17.0"/>
                     </font>
                 </Text>
-                <Text layoutX="376.0" layoutY="158.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
+                <Text fx:id="salesCostText" layoutX="365.0" layoutY="158.0" opacity="0.6" strokeType="OUTSIDE"
+                      strokeWidth="0.0" text="N/A">
                     <font>
                         <Font name="Arial Bold" size="17.0"/>
                     </font>
@@ -132,7 +137,7 @@
                 <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="261.0" layoutY="60.0" pickOnBounds="true"
                            preserveRatio="true">
                     <image>
-                        <Image url="@../assets/icons/cancel.png"/>
+                        <Image url="@../assets/icons/profit.png"/>
                     </image>
                 </ImageView>
                 <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="371.0" layoutY="60.0" pickOnBounds="true"
@@ -141,17 +146,20 @@
                         <Image url="@../assets/icons/return.png"/>
                     </image>
                 </ImageView>
-                <Text layoutX="47.0" layoutY="157.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
+                <Text fx:id="purchaseSalesText" layoutX="48.0" layoutY="157.0" opacity="0.6" strokeType="OUTSIDE"
+                      strokeWidth="0.0" text="N/A">
                     <font>
                         <Font name="Arial Bold" size="17.0"/>
                     </font>
                 </Text>
-                <Text layoutX="41.0" layoutY="127.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Sales">
+                <Text layoutX="20.0" layoutY="127.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="Purchases">
                     <font>
                         <Font name="Arial Bold" size="16.0"/>
                     </font>
                 </Text>
-                <Text layoutX="159.0" layoutY="157.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
+                <Text fx:id="purchaseRevenueText" layoutX="150.0" layoutY="157.0" opacity="0.6" strokeType="OUTSIDE"
+                      strokeWidth="0.0" text="N/A">
                     <font>
                         <Font name="Arial Bold" size="17.0"/>
                     </font>
@@ -173,12 +181,14 @@
                         <Font name="Arial Bold" size="16.0"/>
                     </font>
                 </Text>
-                <Text layoutX="267.0" layoutY="157.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
+                <Text fx:id="purchaseProfitText" layoutX="246.0" layoutY="157.0" opacity="0.6" strokeType="OUTSIDE"
+                      strokeWidth="0.0" text="N/A">
                     <font>
                         <Font name="Arial Bold" size="17.0"/>
                     </font>
                 </Text>
-                <Text layoutX="377.0" layoutY="157.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
+                <Text fx:id="purchaseCostText" layoutX="365.0" layoutY="157.0" opacity="0.6" strokeType="OUTSIDE"
+                      strokeWidth="0.0" text="N/A">
                     <font>
                         <Font name="Arial Bold" size="17.0"/>
                     </font>
@@ -203,15 +213,17 @@
                 <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="170.0" layoutY="58.0" pickOnBounds="true"
                            preserveRatio="true">
                     <image>
-                        <Image url="@../assets/icons/to-be-recieved.png"/>
+                        <Image url="@../assets/icons/cancel.png"/>
                     </image>
                 </ImageView>
-                <Text layoutX="66.0" layoutY="160.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
+                <Text fx:id="quantityText" layoutX="75.0" layoutY="160.0" opacity="0.6" strokeType="OUTSIDE"
+                      strokeWidth="0.0" text="N/A">
                     <font>
                         <Font name="Arial Bold" size="17.0"/>
                     </font>
                 </Text>
-                <Text layoutX="175.0" layoutY="160.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
+                <Text fx:id="outOfStockText" layoutX="185.0" layoutY="160.0" opacity="0.6" strokeType="OUTSIDE"
+                      strokeWidth="0.0" text="N/A">
                     <font>
                         <Font name="Arial Bold" size="17.0"/>
                     </font>
@@ -222,8 +234,8 @@
                         <Font name="Arial Bold" size="16.0"/>
                     </font>
                 </Text>
-                <Text layoutX="142.0" layoutY="128.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="To be recieved">
+                <Text layoutX="145.0" layoutY="128.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="Out of stock">
                     <font>
                         <Font name="Arial Bold" size="16.0"/>
                     </font>
@@ -251,13 +263,14 @@
                         <Image url="@../assets/icons/categories.png"/>
                     </image>
                 </ImageView>
-                <Text layoutX="66.0" layoutY="160.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
+                <Text fx:id="suppliersText" layoutX="75.0" layoutY="160.0" opacity="0.6" strokeType="OUTSIDE"
+                      strokeWidth="0.0" text="N/A">
                     <font>
                         <Font name="Arial Bold" size="17.0"/>
                     </font>
                 </Text>
-                <Text layoutX="174.0" layoutY="160.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A"
-                      wrappingWidth="29.27685546875">
+                <Text fx:id="categoriesText" layoutX="185.0" layoutY="160.0" opacity="0.6" strokeType="OUTSIDE"
+                      strokeWidth="0.0" text="N/A" wrappingWidth="29.27685546875">
                     <font>
                         <Font name="Arial Bold" size="17.0"/>
                     </font>
@@ -280,12 +293,13 @@
               style="-fx-background-color: f5f5f5; -fx-background-radius: 8;" styleClass="overall-inventory">
             <children>
                 <Text layoutX="18.0" layoutY="38.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="Sales &amp; Purchase">
+                      text="Product Quantity by Category">
                     <font>
                         <Font name="Arial Bold" size="19.0"/>
                     </font>
                 </Text>
-                <BarChart id="bar-chart" layoutX="16.0" layoutY="50.0" prefHeight="181.0" prefWidth="427.0">
+                <BarChart id="bar-chart" fx:id="barChart" layoutX="5.0" layoutY="46.0" prefHeight="194.0"
+                          prefWidth="453.0">
                     <xAxis>
                         <CategoryAxis side="BOTTOM"/>
                     </xAxis>
@@ -299,12 +313,12 @@
               style="-fx-background-color: f5f5f5; -fx-background-radius: 8;" styleClass="overall-inventory">
             <children>
                 <Text layoutX="18.0" layoutY="38.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="Order Summary">
+                      text="Sales Revenue by Month">
                     <font>
                         <Font name="Arial Bold" size="19.0"/>
                     </font>
                 </Text>
-                <LineChart layoutX="18.0" layoutY="48.0" prefHeight="193.0" prefWidth="264.0">
+                <LineChart fx:id="lineChart" layoutX="7.0" layoutY="43.0" prefHeight="198.0" prefWidth="269.0">
                     <xAxis>
                         <CategoryAxis side="BOTTOM"/>
                     </xAxis>

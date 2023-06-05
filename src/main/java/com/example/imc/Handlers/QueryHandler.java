@@ -6,31 +6,29 @@ public class QueryHandler {
     Connection con;
     Statement stmt;
     String suppliersTableQuery = "CREATE TABLE Suppliers (" +
-        "SupplierID INT PRIMARY KEY," +
-        "SupplierName VARCHAR(255) NOT NULL," +
-        "SupplierAddress VARCHAR(255)," +
-        "SupplierPhone VARCHAR(20)" +
-        ");";
+            "SupplierID INT PRIMARY KEY," +
+            "SupplierName VARCHAR(255) NOT NULL," +
+            "SupplierAddress VARCHAR(255)," +
+            "SupplierPhone VARCHAR(20)" +
+            ");";
 
     String productsTableQuery = "CREATE TABLE Products (" +
-        "ProductID INT PRIMARY KEY," +
-        "ProductName VARCHAR(255) NOT NULL," +
-        "ProductCategory VARCHAR(255)," +
-        "SupplierID INT," +
-        "ProductPrice DECIMAL(10, 2)," +
-        "ProductQuantity INT," +
-        "CONSTRAINT fk_SupplierID FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID) ON DELETE RESTRICT" +
-        ");";
+            "ProductID INT PRIMARY KEY," +
+            "ProductName VARCHAR(255) NOT NULL," +
+            "ProductCategory VARCHAR(255)," +
+            "SupplierID INT," +
+            "ProductPrice DECIMAL(10, 2)," +
+            "ProductQuantity INT," +
+            "CONSTRAINT fk_SupplierID FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID) ON DELETE RESTRICT" +
+            ");";
 
     String ordersTableQuery = "CREATE TABLE Orders (" +
-        "OrderID INT PRIMARY KEY," +
-        "OrderDate DATE," +
-        "ProductID INT," +
-        "OrderQuantity INT," +
-        "CONSTRAINT fk_ProductID FOREIGN KEY (ProductID) REFERENCES Products(ProductID)" +
-        ");";
-
-
+            "OrderID INT PRIMARY KEY," +
+            "OrderDate DATE," +
+            "ProductID INT," +
+            "OrderQuantity INT," +
+            "CONSTRAINT fk_ProductID FOREIGN KEY (ProductID) REFERENCES Products(ProductID)" +
+            ");";
 
 
     public void createTables() {

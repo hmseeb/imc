@@ -6,10 +6,7 @@ import com.example.imc.Models.Supplier;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -20,6 +17,7 @@ import javafx.util.Duration;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 
 public class SupplierController {
     QueryHandler queryHandler = new QueryHandler();
@@ -68,33 +66,44 @@ public class SupplierController {
         }
         // Add event listener for delete key press
         tableView.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.BACK_SPACE || event.getCode() == KeyCode.DELETE) {
-                // Get the selected product
-                Supplier selectedOrder = tableView.getSelectionModel().getSelectedItem();
-                if (selectedOrder != null) {
-                    // Call a method to delete the row from the database
-                    String supplierID = selectedOrder.getSupplierID();
+                    if (event.getCode() == KeyCode.BACK_SPACE || event.getCode() == KeyCode.DELETE) {
+                        // Get the selected product
+                        Supplier selectedOrder = tableView.getSelectionModel().getSelectedItem();
+                        if (selectedOrder != null) {
+                            // Call a method to delete the row from the database
+                            String supplierID = selectedOrder.getSupplierID();
 
-                    boolean status = deleteFromDatabase(supplierID);
+                            // Create a confirmation dialog
+                            Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+                            confirmationDialog.setTitle("Confirmation");
+                            confirmationDialog.setHeaderText(null);
+                            confirmationDialog.setContentText("Are you sure you want to delete this supplier from the database?");
+                            confirmationDialog.initStyle(StageStyle.UNDECORATED); // Optional: Removes the default window decorations
 
-                    if (status)
-                    {
-                    tableView.getItems().remove(selectedOrder);
-                    }
-                    else {
-                        String errorMessage = "An error occurred while deleting "+ selectedOrder.getSupplierName() + " from the database";
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error");
-                        alert.setHeaderText(null);
-                        alert.setContentText(errorMessage);
-                        alert.initStyle(StageStyle.UNDECORATED); // Optional: Removes the default window decorations
-                        alert.showAndWait();
-                    }
+                            // Show the confirmation dialog and wait for user response
+                            Optional<ButtonType> result = confirmationDialog.showAndWait();
 
+                            // Check if the user confirmed the deletion
+                            if (result.isPresent() && result.get() == ButtonType.OK) {
+                                boolean status = deleteFromDatabase(supplierID);
+                                if (status) {
+                                    tableView.getItems().remove(selectedOrder);
+                                } else {
+                                    String errorMessage = "An error occurred while deleting " + selectedOrder.getSupplierName() + " from the database";
+                                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                                    alert.setTitle("Error");
+                                    alert.setHeaderText(null);
+                                    alert.setContentText(errorMessage);
+                                    alert.initStyle(StageStyle.UNDECORATED); // Optional: Removes the default window decorations
+                                    alert.showAndWait();
+                                }
+                            }
+
+
+                        }
+                        // Remove the product from the TableView
                     }
-                    // Remove the product from the TableView
                 }
-            }
         );
     }
 
@@ -124,7 +133,7 @@ public class SupplierController {
         if (status) {
             onErrorText.setVisible(false);
             addSupplier(supplier.getSupplierID(), supplier.getSupplierName(), supplier.getSupplierPhone(), supplier.getSupplierAddress());
-        }else {
+        } else {
             onErrorText.setVisible(true);
             return;
         }

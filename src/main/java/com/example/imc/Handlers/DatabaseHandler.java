@@ -14,6 +14,7 @@ public class DatabaseHandler {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/imc", "root", "2028YLV2");
             stmt = con.createStatement();
+            stmt.executeUpdate("SET FOREIGN_KEY_CHECKS=0;");
         } catch (Exception e) {
             e.printStackTrace();
         }
