@@ -1,6 +1,7 @@
 package com.example.imc.Controllers;
 
 import com.example.imc.Handlers.DatabaseHandler;
+import com.example.imc.Handlers.QueryHandler;
 import com.example.imc.Helpers;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -24,34 +25,13 @@ import java.util.stream.Collectors;
 public class MenuController {
 
     Helpers view = new Helpers();
-
     Statement stmt;
 
     @FXML
-    Text quantityText;
-    @FXML
-    Text outOfStockText;
-    @FXML
-    Text suppliersText;
-    @FXML
-    Text categoriesText;
-    @FXML
-    Text salesSalesText;
-    @FXML
-    Text salesProfitText;
-    @FXML
-    Text salesRevenueText;
-    @FXML
-    Text salesCostText;
+    Text quantityText, outOfStockText, suppliersText, categoriesText,
+            salesSalesText, salesProfitText, salesRevenueText, salesCostText,
+            purchaseSalesText, purchaseProfitText, purchaseRevenueText, purchaseCostText;
 
-    @FXML
-    Text purchaseSalesText;
-    @FXML
-    Text purchaseProfitText;
-    @FXML
-    Text purchaseRevenueText;
-    @FXML
-    Text purchaseCostText;
     @FXML
     BarChart<String, Number> barChart;
     @FXML
@@ -127,58 +107,25 @@ public class MenuController {
 
         stmt = DatabaseHandler.getStatement();
 
-        ResultSet resultSet = stmt.executeQuery("SELECT COUNT(*) FROM products");
-        resultSet.next();
-        quantityText.setText(resultSet.getString(1));
-
-        resultSet = stmt.executeQuery("SELECT COUNT(*) FROM products WHERE ProductQuantity = 0");
-        resultSet.next();
-        outOfStockText.setText(resultSet.getString(1));
-
-        resultSet = stmt.executeQuery("SELECT COUNT(*) FROM suppliers");
-        resultSet.next();
-        suppliersText.setText(resultSet.getString(1));
-
-        resultSet = stmt.executeQuery("SELECT COUNT(DISTINCT ProductCategory) FROM products");
-        resultSet.next();
-        categoriesText.setText(resultSet.getString(1));
-
-        resultSet = stmt.executeQuery("SELECT SUM(OrderQuantity) FROM Orders;");
-        resultSet.next();
-        salesSalesText.setText(resultSet.getString(1));
-
-        resultSet = stmt.executeQuery("SELECT SUM(ProductPrice * OrderQuantity) FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID;");
-        resultSet.next();
-        salesRevenueText.setText(resultSet.getString(1));
-
-        resultSet = stmt.executeQuery("SELECT SUM(ProductPrice * ProductQuantity) FROM Products;");
-        resultSet.next();
-        salesCostText.setText(resultSet.getString(1));
-
-        resultSet = stmt.executeQuery("""
+        QueryHandler.updateStats("SELECT COUNT(*) FROM products", quantityText);
+        QueryHandler.updateStats("SELECT COUNT(*) FROM products WHERE ProductQuantity = 0", outOfStockText);
+        QueryHandler.updateStats("SELECT COUNT(*) FROM suppliers", suppliersText);
+        QueryHandler.updateStats("SELECT COUNT(DISTINCT ProductCategory) FROM products", categoriesText);
+        QueryHandler.updateStats("SELECT SUM(OrderQuantity) FROM Orders;", salesSalesText);
+        QueryHandler.updateStats("SELECT SUM(ProductPrice * OrderQuantity) FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID;", salesRevenueText);
+        QueryHandler.updateStats("SELECT SUM(ProductPrice * ProductQuantity) FROM Products;", salesCostText);
+        QueryHandler.updateStats("""
                 SELECT (SELECT SUM(ProductPrice * OrderQuantity) FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID) - (SELECT SUM(ProductPrice * ProductQuantity) FROM Products) AS Profit;
 
-                """);
-        resultSet.next();
-        salesProfitText.setText(resultSet.getString(1));
+                """, salesProfitText);
+        QueryHandler.updateStats("SELECT SUM(ProductQuantity) AS Purchases FROM Products;", purchaseSalesText);
+        QueryHandler.updateStats("SELECT SUM(ProductPrice * ProductQuantity) FROM Products;", purchaseRevenueText);
+        QueryHandler.updateStats("SELECT SUM(ProductPrice * ProductQuantity) FROM Products;", purchaseCostText);
+        QueryHandler.updateStats("""
+                SELECT (SELECT SUM(ProductPrice * ProductQuantity) FROM Products) - (SELECT SUM(ProductPrice * ProductQuantity) FROM Products) AS Profit;
 
-        resultSet = stmt.executeQuery("SELECT SUM(ProductQuantity) AS Purchases FROM Products;");
-        resultSet.next();
-        purchaseSalesText.setText(resultSet.getString(1));
-
-        resultSet = stmt.executeQuery("SELECT SUM(ProductPrice * ProductQuantity) AS Cost FROM Products;");
-        resultSet.next();
-        purchaseCostText.setText(resultSet.getString(1));
-
-        resultSet = stmt.executeQuery("SELECT SUM(ProductPrice * OrderQuantity) AS Revenue FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID WHERE Products.SupplierID IS NOT NULL;");
-        resultSet.next();
-        purchaseRevenueText.setText(resultSet.getString(1));
-
-        resultSet = stmt.executeQuery("SELECT (SELECT SUM(ProductPrice * OrderQuantity) FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID WHERE Products.SupplierID IS NOT NULL) - (SELECT SUM(ProductPrice * ProductQuantity) FROM Products) AS Profit;");
-        resultSet.next();
-        purchaseProfitText.setText(resultSet.getString(1));
+                """, purchaseProfitText);
     }
-
 
     void initLineChart() {
         CategoryAxis xAxis = new CategoryAxis();
@@ -232,4 +179,5 @@ public class MenuController {
 
         barChart.getData().add(barSeries);
     }
+
 }

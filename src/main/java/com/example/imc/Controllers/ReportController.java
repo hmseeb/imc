@@ -1,6 +1,7 @@
 package com.example.imc.Controllers;
 
 import com.example.imc.Handlers.DatabaseHandler;
+import com.example.imc.Handlers.QueryHandler;
 import com.example.imc.Models.Product;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -21,32 +22,12 @@ public class ReportController {
     @FXML
     TableView<Product> tableView;
     @FXML
-    TableColumn<Product, String> c1;
-    @FXML
-    TableColumn<Product, String> c2;
-    @FXML
-    TableColumn<Product, String> c3;
-    @FXML
-    TableColumn<Product, String> c4;
-
+    TableColumn<Product, String> c1, c2, c3, c4;
     @FXML
     BarChart<String, Number> barChart2;
     @FXML
-    Text revenue;
-    @FXML
-    Text sales;
-    @FXML
-    Text profit;
-    @FXML
-    Text netPurchases;
-    @FXML
-    Text netSales;
-    @FXML
-    Text moMProfit;
-    @FXML
-    Text yoYProfit;
-    @FXML
-    Text cat1, cat2, cat3, pro1, pro2, pro3;
+    Text revenue, sales, profit, netPurchases, netSales, moMProfit, yoYProfit, cat1, cat2, cat3, pro1, pro2, pro3;
+
 
     @FXML
     public void initialize() throws SQLException {
@@ -56,47 +37,19 @@ public class ReportController {
         stmt = DatabaseHandler.getStatement();
 
         ResultSet resultSet;
-
-        resultSet = stmt.executeQuery("SELECT SUM(OrderQuantity) AS Sales FROM Orders;");
-        resultSet.next();
-        int totalSale = resultSet.getInt("Sales");
-        sales.setText(String.valueOf(totalSale));
-
-        resultSet = stmt.executeQuery("SELECT SUM(OrderQuantity * ProductPrice) AS Revenue FROM Orders o INNER JOIN Products p ON o.ProductID = p.ProductID;");
-        resultSet.next();
-        double totalRevenue = resultSet.getDouble("Revenue");
-        revenue.setText(String.valueOf(totalRevenue));
-
-        resultSet = stmt.executeQuery("""
+        QueryHandler.updateStats("SELECT SUM(OrderQuantity) FROM Orders;", sales);
+        QueryHandler.updateStats("SELECT SUM(OrderQuantity * ProductPrice) FROM Orders o INNER JOIN Products p ON o.ProductID = p.ProductID;", revenue);
+        QueryHandler.updateStats("""
                 SELECT (SELECT SUM(ProductPrice * OrderQuantity) FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID) - (SELECT SUM(ProductPrice * ProductQuantity) FROM Products) AS Profit;
 
-                """);
-        resultSet.next();
-        double totalProfit = resultSet.getDouble("Profit");
-        profit.setText(String.valueOf(totalProfit));
+                """, profit);
+        QueryHandler.updateStats("SELECT SUM(ProductPrice * ProductQuantity) FROM Products;", netPurchases);
+        QueryHandler.updateStats("SELECT SUM(ProductPrice * OrderQuantity) FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID;", netSales);
+        QueryHandler.updateStats("SELECT (SELECT SUM(ProductPrice * OrderQuantity) FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID) - (SELECT SUM(ProductPrice * ProductQuantity) FROM Products) AS MoMProfit;", moMProfit);
+        QueryHandler.updateStats("SELECT (SELECT SUM(ProductPrice * OrderQuantity) FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID) - (SELECT SUM(ProductPrice * ProductQuantity) FROM Products) AS YoYProfit;", yoYProfit);
 
-        resultSet = stmt.executeQuery("SELECT SUM(ProductPrice * ProductQuantity) AS NetPurchase FROM Products;");
-        resultSet.next();
-        double totalNetPurchase = resultSet.getDouble("NetPurchase");
-        netPurchases.setText(String.valueOf(totalNetPurchase));
-
-        resultSet = stmt.executeQuery("SELECT SUM(ProductPrice * OrderQuantity) AS NetSales FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID;");
-        resultSet.next();
-        double totalNetSales = resultSet.getDouble("NetSales");
-        netSales.setText(String.valueOf(totalNetSales));
-
-        resultSet = stmt.executeQuery("SELECT (SELECT SUM(ProductPrice * OrderQuantity) FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID) - (SELECT SUM(ProductPrice * ProductQuantity) FROM Products) AS MoMProfit;");
-        resultSet.next();
-        double totalMoMProfit = resultSet.getDouble("MoMProfit");
-        moMProfit.setText(String.valueOf(totalMoMProfit));
-
-        resultSet = stmt.executeQuery("SELECT (SELECT SUM(ProductPrice * OrderQuantity) FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID) - (SELECT SUM(ProductPrice * ProductQuantity) FROM Products) AS YoYProfit;");
-        resultSet.next();
-        double totalYoYProfit = resultSet.getDouble("YoYProfit");
-        yoYProfit.setText(String.valueOf(totalYoYProfit));
-
-        resultSet = stmt.executeQuery("SELECT DISTINCT ProductCategory, COUNT(*) AS CategoryCount FROM Products GROUP BY ProductCategory ORDER BY CategoryCount DESC LIMIT 3;");
         int index = 0;
+        resultSet = stmt.executeQuery("SELECT ProductCategory, COUNT(*) AS CategoryCount FROM Products GROUP BY ProductCategory ORDER BY CategoryCount DESC LIMIT 3;");
 
         while (resultSet.next() && index < 3) {
             String category = resultSet.getString("ProductCategory");

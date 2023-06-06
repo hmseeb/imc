@@ -11,9 +11,11 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,31 +24,18 @@ import java.util.Optional;
 public class SupplierController {
     QueryHandler queryHandler = new QueryHandler();
     Statement stmt;
+
     @FXML
     Text onErrorText;
     @FXML
     TableView<Supplier> tableView;
     @FXML
-    TableColumn<Supplier, String> c1;
+    TableColumn<Supplier, String> c1, c2, c3, c4;
     @FXML
-    TableColumn<Supplier, String> c2;
+    TextField nameController, idController, contactController, addressController;
     @FXML
-    TableColumn<Supplier, String> c3;
-    @FXML
-    TableColumn<Supplier, String> c4;
+    private Pane mainPane, popupPane;
 
-    @FXML
-    TextField nameController;
-    @FXML
-    TextField idController;
-    @FXML
-    TextField contactController;
-    @FXML
-    TextField addressController;
-    @FXML
-    private Pane mainPane;
-    @FXML
-    private Pane popupPane;
 
     // For the add product button in the inventory view
     @FXML
@@ -129,13 +118,26 @@ public class SupplierController {
                 contactController.getText(),
                 addressController.getText()
         );
-        boolean status = queryHandler.insertSupplier(supplier.getSupplierID(), supplier.getSupplierName(), supplier.getSupplierPhone(), supplier.getSupplierAddress());
-        if (status) {
-            onErrorText.setVisible(false);
-            addSupplier(supplier.getSupplierID(), supplier.getSupplierName(), supplier.getSupplierPhone(), supplier.getSupplierAddress());
+        if (supplierExists(supplier.getSupplierID())) {
+            boolean status = editSupplierDetails(supplier);
+            if (status) {
+                onErrorText.setVisible(false);
+                updateSupplier(supplier);
+            } else {
+                Popup popup = new Popup();
+                popup.show(mainPane.getScene().getWindow());
+                onErrorText.setVisible(true);
+                return;
+            }
         } else {
-            onErrorText.setVisible(true);
-            return;
+            boolean status = queryHandler.insertSupplier(supplier.getSupplierID(), supplier.getSupplierName(), supplier.getSupplierPhone(), supplier.getSupplierAddress());
+            if (status) {
+                onErrorText.setVisible(false);
+                addSupplier(supplier.getSupplierID(), supplier.getSupplierName(), supplier.getSupplierPhone(), supplier.getSupplierAddress());
+            } else {
+                onErrorText.setVisible(true);
+                return;
+            }
         }
         // Animate the popup pane's fade-out and then hide it
         FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
@@ -150,7 +152,6 @@ public class SupplierController {
     @FXML
     private void onDiscardClicked() {
         onErrorText.setVisible(false);
-        // TODO Add additional logic here
         // Animate the popup pane's fade-out and then hide it
         FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
         fadeOutTransition.setToValue(0);
@@ -169,6 +170,45 @@ public class SupplierController {
         c4.setCellValueFactory(cellData -> cellData.getValue().supplierAddressProperty());
 
         tableView.getItems().add(supplier);
+    }
+
+    private boolean supplierExists(String supplierID) {
+        // Check if the product already exists in the TableView
+        for (Supplier supplier : tableView.getItems()) {
+            if (supplier.getSupplierID().equals(supplierID)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean editSupplierDetails(Supplier supplier) {
+        try {
+            String updateQuery = "UPDATE Suppliers SET SupplierName = ?, SupplierAddress = ?, SupplierPhone = ? WHERE SupplierID = ?;";
+            PreparedStatement statement = DatabaseHandler.getConnection().prepareStatement(updateQuery);
+            statement.setString(1, supplier.getSupplierName());
+            statement.setString(2, supplier.getSupplierAddress());
+            statement.setString(3, supplier.getSupplierPhone());
+            statement.setInt(4, Integer.parseInt(supplier.getSupplierID()));
+            statement.executeUpdate();
+            statement.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+            // Handle any exception that occurs during the database operation
+        }
+    }
+
+    private void updateSupplier(Supplier updatedSupplier) {
+        // Update the product in the TableView
+        for (int i = 0; i < tableView.getItems().size(); i++) {
+            Supplier supplier = tableView.getItems().get(i);
+            if (supplier.getSupplierID().equals(updatedSupplier.getSupplierID())) {
+                tableView.getItems().set(i, updatedSupplier);
+                break;
+            }
+        }
     }
 
     private boolean deleteFromDatabase(String id) {

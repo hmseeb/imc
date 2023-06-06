@@ -25,82 +25,30 @@ public class InventoryController {
     QueryHandler queryHandler = new QueryHandler();
     Statement stmt;
     @FXML
-    Text onErrorText;
+    Text onErrorText, categoriesText, totalProductsText, revenueText, costText, topSelling, outOfStockText, ordered;
     @FXML
     TableView<Product> tableView;
     @FXML
-    TableColumn<Product, String> c1;
+    TableColumn<Product, String> c1, c2, c3, c4;
     @FXML
-    TableColumn<Product, String> c2;
+    TextField nameController, idController, quantityController, priceController, categoryController, supplierController;
     @FXML
-    TableColumn<Product, String> c3;
-    @FXML
-    TableColumn<Product, String> c4;
-    @FXML
-    TextField nameController;
-    @FXML
-    TextField idController;
-    @FXML
-    TextField quantityController;
-    @FXML
-    TextField priceController;
-    @FXML
-    TextField categoryController;
-    @FXML
-    TextField supplierController;
-    @FXML
-    Text categoriesText;
-    @FXML
-    Text totalProductsText;
-    @FXML
-    Text revenueText;
-    @FXML
-    Text costText;
-    @FXML
-    Text topSelling;
-    @FXML
-    Text outOfStockText;
-    @FXML
-    Text ordered;
-    @FXML
-    private Pane mainPane;
-    @FXML
-    private Pane popupPane;
+    private Pane mainPane, popupPane;
 
     @FXML
     public void initialize() throws SQLException {
         stmt = DatabaseHandler.getStatement();
 
-        ResultSet resultSet = stmt.executeQuery("SELECT COUNT(DISTINCT ProductCategory) FROM products;");
-        resultSet.next();
-        categoriesText.setText(resultSet.getString(1));
-
-        resultSet = stmt.executeQuery("SELECT COUNT(*) FROM products");
-        resultSet.next();
-        totalProductsText.setText(resultSet.getString(1));
-
-        resultSet = stmt.executeQuery("SELECT SUM(ProductPrice * OrderQuantity) FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID;");
-        resultSet.next();
-        revenueText.setText(resultSet.getString(1));
-
-        resultSet = stmt.executeQuery("SELECT SUM(ProductPrice * ProductQuantity) AS Cost FROM Products;");
-        resultSet.next();
-        costText.setText(resultSet.getString("Cost"));
-
-        resultSet = stmt.executeQuery("SELECT Products.ProductName, SUM(Orders.OrderQuantity) AS TotalQuantity FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID GROUP BY Products.ProductName ORDER BY TotalQuantity DESC LIMIT 10;");
-        resultSet.next();
-        topSelling.setText(resultSet.getString("ProductName"));
-
-        resultSet = stmt.executeQuery("SELECT COUNT(*) FROM products WHERE ProductQuantity = 0");
-        resultSet.next();
-        outOfStockText.setText(resultSet.getString(1));
-
-        resultSet = stmt.executeQuery("SELECT Products.ProductName, SUM(Orders.OrderQuantity) AS TotalOrderedQuantity FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID GROUP BY Products.ProductName;");
-        resultSet.next();
-        ordered.setText(resultSet.getString("ProductName"));
+        QueryHandler.updateStats("SELECT COUNT(DISTINCT ProductCategory) FROM products;", categoriesText);
+        QueryHandler.updateStats("SELECT COUNT(*) FROM products", totalProductsText);
+        QueryHandler.updateStats("SELECT SUM(ProductPrice * OrderQuantity) FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID;", revenueText);
+        QueryHandler.updateStats("SELECT SUM(ProductPrice * ProductQuantity) AS Cost FROM Products;", costText);
+        QueryHandler.updateStats("SELECT Products.ProductName, SUM(Orders.OrderQuantity) AS TotalQuantity FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID GROUP BY Products.ProductName ORDER BY TotalQuantity DESC LIMIT 10;", topSelling);
+        QueryHandler.updateStats("SELECT COUNT(*) FROM products WHERE ProductQuantity = 0", outOfStockText);
+        QueryHandler.updateStats("SELECT Products.ProductName, SUM(Orders.OrderQuantity) AS TotalOrderedQuantity FROM Products JOIN Orders ON Products.ProductID = Orders.ProductID GROUP BY Products.ProductName;", ordered);
 
         // Set up the columns in the table
-        resultSet = stmt.executeQuery("SELECT * FROM products");
+        ResultSet resultSet = stmt.executeQuery("SELECT * FROM products");
         // Process the result set and add products to the productsContainer
         while (resultSet.next()) {
             String productID = resultSet.getString("productID");
@@ -178,16 +126,30 @@ public class InventoryController {
                 quantityController.getText(),
                 categoryController.getText()
         );
-        boolean status = queryHandler.insertProduct(product.getProductID(), product.getProductName(), product.getProductCategory(), product.getSupplierID(), product.getProductPrice(), product.getProductQuantity());
-        if (status) {
-            onErrorText.setVisible(false);
-            addProduct(product.getProductID(), product.getProductName(), product.getSupplierID(), product.getProductPrice(), product.getProductQuantity(), product.getProductCategory());
+        if (productExists(product.getProductID())) {
+            boolean status = editProductDetails(product);
+            if (status) {
+                onErrorText.setVisible(false);
+                updateProduct(product);
+            } else {
+                Popup popup = new Popup();
+                popup.show(mainPane.getScene().getWindow());
+                onErrorText.setVisible(true);
+                return;
+            }
         } else {
-            Popup popup = new Popup();
-            popup.show(mainPane.getScene().getWindow());
-            onErrorText.setVisible(true);
-            return;
+            boolean status = queryHandler.insertProduct(product.getProductID(), product.getProductName(), product.getProductCategory(), product.getSupplierID(), product.getProductPrice(), product.getProductQuantity());
+            if (status) {
+                onErrorText.setVisible(false);
+                addProduct(product.getProductID(), product.getProductName(), product.getSupplierID(), product.getProductPrice(), product.getProductQuantity(), product.getProductCategory());
+            } else {
+                Popup popup = new Popup();
+                popup.show(mainPane.getScene().getWindow());
+                onErrorText.setVisible(true);
+                return;
+            }
         }
+
         FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
         fadeOutTransition.setToValue(0);
         fadeOutTransition.setOnFinished(event -> popupPane.setVisible(false));
@@ -219,6 +181,38 @@ public class InventoryController {
         tableView.getItems().add(product);
     }
 
+    private boolean productExists(String productID) {
+        // Check if the product already exists in the TableView
+        for (Product product : tableView.getItems()) {
+            if (product.getProductID().equals(productID)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean editProductDetails(Product product) {
+        try {
+            String updateQuery = "UPDATE products SET productName = '" + product.getProductName() + "', productCategory = '" + product.getProductCategory() + "', supplierID = '" + product.getSupplierID() + "', productPrice = " + product.getProductPrice() + ", productQuantity = " + product.getProductQuantity() + " WHERE productID = '" + product.getProductID() + "'";
+            stmt.executeUpdate(updateQuery);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+            // Handle any exception that occurs during the database operation
+        }
+    }
+
+    private void updateProduct(Product updatedProduct) {
+        // Update the product in the TableView
+        for (int i = 0; i < tableView.getItems().size(); i++) {
+            Product product = tableView.getItems().get(i);
+            if (product.getProductID().equals(updatedProduct.getProductID())) {
+                tableView.getItems().set(i, updatedProduct);
+                break;
+            }
+        }
+    }
 
     private boolean deleteFromDatabase(String id) {
         try {
@@ -232,5 +226,3 @@ public class InventoryController {
         }
     }
 }
-
-

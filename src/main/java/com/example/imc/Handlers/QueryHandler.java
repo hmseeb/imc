@@ -1,9 +1,10 @@
 package com.example.imc.Handlers;
 
+import javafx.scene.text.Text;
+
 import java.sql.*;
 
 public class QueryHandler {
-    Connection con;
     Statement stmt;
     String suppliersTableQuery = "CREATE TABLE Suppliers (" +
             "SupplierID INT PRIMARY KEY," +
@@ -30,6 +31,13 @@ public class QueryHandler {
             "CONSTRAINT fk_ProductID FOREIGN KEY (ProductID) REFERENCES Products(ProductID)" +
             ");";
 
+    public static void updateStats(String query, Text text) throws SQLException {
+        Statement stmt = DatabaseHandler.getStatement();
+        ResultSet resultSet = stmt.executeQuery(query);
+        resultSet.next();
+        String result = resultSet.getString(1);
+        text.setText(result.length() > 7 ? result.substring(0, 7) + "..." : result);
+    }
 
     public void createTables() {
         try {
@@ -109,5 +117,4 @@ public class QueryHandler {
             return false;
         }
     }
-
 }

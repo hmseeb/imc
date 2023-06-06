@@ -99,7 +99,7 @@
                         <Font name="Arial Bold" size="16.0"/>
                     </font>
                 </Text>
-                <Text fx:id="salesProfitText" layoutX="246.0" layoutY="158.0" opacity="0.6" strokeType="OUTSIDE"
+                <Text fx:id="salesProfitText" layoutX="260.0" layoutY="158.0" opacity="0.6" strokeType="OUTSIDE"
                       strokeWidth="0.0" text="N/A">
                     <font>
                         <Font name="Arial Bold" size="17.0"/>
@@ -181,7 +181,7 @@
                         <Font name="Arial Bold" size="16.0"/>
                     </font>
                 </Text>
-                <Text fx:id="purchaseProfitText" layoutX="246.0" layoutY="157.0" opacity="0.6" strokeType="OUTSIDE"
+                <Text fx:id="purchaseProfitText" layoutX="260.0" layoutY="157.0" opacity="0.6" strokeType="OUTSIDE"
                       strokeWidth="0.0" text="N/A">
                     <font>
                         <Font name="Arial Bold" size="17.0"/>

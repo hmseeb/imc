@@ -12,12 +12,11 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,44 +25,18 @@ import java.util.Optional;
 public class OrderController {
     QueryHandler queryHandler = new QueryHandler();
     Statement stmt;
+
     @FXML
-    Text onErrorText;
+    Text onErrorText, totalOrders, totalSold, revenue, productName, totalQuantity, lastOrderedDate, lastOrderedProduct;
     @FXML
     TableView<Order> tableView;
     @FXML
-    TableColumn<Order, String> c1;
+    TableColumn<Order, String> c1, c2, c3, c4;
     @FXML
-    TableColumn<Order, String> c2;
+    TextField orderIDController, productIDController, quantityController;
     @FXML
-    TableColumn<Order, String> c3;
-    @FXML
-    TableColumn<Order, String> c4;
-    @FXML
-    TextField orderIDController;
-    @FXML
-    TextField productIDController;
-    @FXML
-    TextField quantityController;
+    private Pane mainPane, popupPane;
 
-    @FXML
-    Text totalOrders;
-    @FXML
-    Text totalSold;
-    @FXML
-    Text revenue;
-    @FXML
-    Text productName;
-    @FXML
-    Text totalQuantity;
-    @FXML
-    Text lastOrderedDate;
-    @FXML
-    Text lastOrderedProduct;
-    @FXML
-    private Pane mainPane;
-
-    @FXML
-    private Pane popupPane;
 
     // For the add product button in the inventory view
 
@@ -71,24 +44,12 @@ public class OrderController {
     public void initialize() throws SQLException {
         stmt = DatabaseHandler.getStatement();
 
-        // Total Orders
-        ResultSet resultSet = stmt.executeQuery("SELECT COUNT(*) FROM Orders;");
-        resultSet.next();
-        int totalOrders = resultSet.getInt(1);
-        this.totalOrders.setText(String.valueOf(totalOrders));
-        // Products Sold
-        resultSet = stmt.executeQuery("SELECT SUM(OrderQuantity) FROM Orders;");
-        resultSet.next();
-        int totalSold = resultSet.getInt(1);
-        this.totalSold.setText(String.valueOf(totalSold));
-        // Revenue
-        resultSet = stmt.executeQuery("SELECT SUM(p.ProductPrice * o.OrderQuantity) " +
-                "FROM Orders o INNER JOIN Products p ON o.ProductID = p.ProductID;");
-        resultSet.next();
-        double revenue = resultSet.getDouble(1);
-        this.revenue.setText(String.valueOf(revenue));
+        QueryHandler.updateStats("SELECT COUNT(*) FROM Orders;", totalOrders);
+        QueryHandler.updateStats("SELECT SUM(OrderQuantity) FROM Orders;", totalSold);
+        QueryHandler.updateStats("SELECT SUM(p.ProductPrice * o.OrderQuantity) " +
+                "FROM Orders o INNER JOIN Products p ON o.ProductID = p.ProductID;", revenue);
 
-        resultSet = stmt.executeQuery("SELECT p.ProductName, o.OrderDate " +
+        ResultSet resultSet = stmt.executeQuery("SELECT p.ProductName, o.OrderDate " +
                 "FROM Orders o JOIN Products p ON o.ProductID = p.ProductID " +
                 "WHERE o.OrderDate = (SELECT MAX(OrderDate) FROM Orders);");
 
@@ -114,6 +75,7 @@ public class OrderController {
             this.productName.setText(productName);
             this.totalQuantity.setText(String.valueOf(totalQuantity));
         }
+
         resultSet = stmt.executeQuery("select * from orders");
 
         while (resultSet.next()) {
@@ -185,16 +147,30 @@ public class OrderController {
 
         // Create the Order object
         Order order = new Order(orderID, dateTime.toString(), productID, quantity);
-        Date currentDate = Calendar.getInstance().getTime();
-        boolean status = queryHandler.insertOrder(order.getOrderID(), order.getOrderDate(currentDate), order.getProductID(), order.getOrderQuantity());
-        // Add the order to the UI
-        if (status) {
-            onErrorText.setVisible(false);
-            addOrder(order.getOrderID(), order.getProductID(), order.getOrderQuantity(), order.getOrderDate(currentDate));
+        if (orderExists(order.getOrderID())) {
+            boolean status = editOrderDetails(order);
+            if (status) {
+                onErrorText.setVisible(false);
+                updateOrder(order);
+            } else {
+                Popup popup = new Popup();
+                popup.show(mainPane.getScene().getWindow());
+                onErrorText.setVisible(true);
+                return;
+            }
         } else {
-            onErrorText.setVisible(true);
-            return;
+            Date currentDate = Calendar.getInstance().getTime();
+            boolean status = queryHandler.insertOrder(order.getOrderID(), order.getOrderDate(currentDate), order.getProductID(), order.getOrderQuantity());
+            // Add the order to the UI
+            if (status) {
+                onErrorText.setVisible(false);
+                addOrder(order.getOrderID(), order.getProductID(), order.getOrderQuantity(), order.getOrderDate(currentDate));
+            } else {
+                onErrorText.setVisible(true);
+                return;
+            }
         }
+
         // Animate the popup pane's fade-out and then hide it
         FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
         fadeOutTransition.setToValue(0);
@@ -227,6 +203,47 @@ public class OrderController {
         // Add the custom row to the table
         tableView.getItems().add(order);
 
+    }
+
+    private boolean orderExists(String orderID) {
+        // Check if the product already exists in the TableView
+        for (Order order : tableView.getItems()) {
+            if (order.getOrderID().equals(orderID)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean editOrderDetails(Order order) {
+        try {
+            Date currentDate = Calendar.getInstance().getTime();
+            Timestamp timestamp = new Timestamp(currentDate.getTime());
+            String updateQuery = "UPDATE Orders SET OrderDate = ?, ProductID = ?, OrderQuantity = ? WHERE OrderID = ?;";
+            PreparedStatement statement = DatabaseHandler.getConnection().prepareStatement(updateQuery);
+            statement.setTimestamp(1, timestamp);
+            statement.setInt(2, Integer.parseInt(order.getProductID()));
+            statement.setInt(3, Integer.parseInt(order.getOrderQuantity()));
+            statement.setInt(4, Integer.parseInt(order.getOrderID()));
+            statement.executeUpdate();
+            statement.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+            // Handle any exception that occurs during the database operation
+        }
+    }
+
+    private void updateOrder(Order updatedOrder) {
+        // Update the product in the TableView
+        for (int i = 0; i < tableView.getItems().size(); i++) {
+            Order order = tableView.getItems().get(i);
+            if (order.getOrderID().equals(updatedOrder.getOrderID())) {
+                tableView.getItems().set(i, updatedOrder);
+                break;
+            }
+        }
     }
 
     private boolean deleteFromDatabase(String id) {
