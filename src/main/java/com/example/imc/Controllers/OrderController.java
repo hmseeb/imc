@@ -193,16 +193,24 @@ public class OrderController {
         mainPane.setEffect(null);
     }
 
-    public void addOrder(String orderID, String productID, String quantity, String dateTime) {
+    public void addOrder(String orderID, String productID, String quantity, String orderDate) {
         // Create the custom row
-        Order order = new Order(orderID, dateTime, productID, quantity);
+
+
+        Order order = new Order(orderID, orderDate, productID, quantity);
+        System.out.println("Date" + order.orderDateProperty());
+
         c1.setCellValueFactory(cellData -> cellData.getValue().orderIDProperty());
         c2.setCellValueFactory(cellData -> cellData.getValue().productIDProperty());
         c3.setCellValueFactory(cellData -> cellData.getValue().orderQuantityProperty());
-        c4.setCellValueFactory(cellData -> new SimpleStringProperty(dateTime.split(" ")[0]));
+        c4.setCellValueFactory(cellData -> {
+                    String date = cellData.getValue().orderDateProperty().getValue();
+        return new SimpleStringProperty(date);
+
+                }
+        );
         // Add the custom row to the table
         tableView.getItems().add(order);
-
     }
 
     private boolean orderExists(String orderID) {
