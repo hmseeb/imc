@@ -87,8 +87,6 @@ public class SupplierController {
                                     alert.showAndWait();
                                 }
                             }
-
-
                         }
                         // Remove the product from the TableView
                     }
