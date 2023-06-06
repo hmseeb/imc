@@ -1,72 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19"
-            fx:controller="com.example.imc.Controllers.SupplierController">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.imc.Controllers.SupplierController">
     <children>
-        <Pane fx:id="mainPane" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
-              minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0"
-              style="-fx-background-color: rgba(211, 211, 211, 0.5);" stylesheets="@../styles/stylesheet.css"
-              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-              AnchorPane.topAnchor="0.0">
+        <Pane fx:id="mainPane" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: rgba(211, 211, 211, 0.5);" stylesheets="@../styles/stylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <Pane layoutX="3.0" prefHeight="91.0" prefWidth="797.0" style="-fx-background-color: F5F5F5;">
                     <children>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="719.0" layoutY="18.0" pickOnBounds="true"
-                                   preserveRatio="true">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="719.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../assets/icons/avatar.png"/>
+                                <Image url="@../assets/icons/avatar.png" />
                             </image>
                         </ImageView>
-                        <TextField id="text-field" alignment="CENTER" focusTraversable="false" layoutX="27.0"
-                                   layoutY="25.0" prefHeight="42.0" prefWidth="290.0"
-                                   promptText="Search product, supplier, order">
+                        <TextField id="text-field" alignment="CENTER" focusTraversable="false" layoutX="27.0" layoutY="25.0" prefHeight="42.0" prefWidth="290.0" promptText="Search product, supplier, order">
                             <font>
-                                <Font name="Arial" size="13.0"/>
+                                <Font name="Arial" size="13.0" />
                             </font>
                         </TextField>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="43.0" layoutY="34.0" opacity="0.5"
-                                   pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="43.0" layoutY="34.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../assets/icons/search.png"/>
+                                <Image url="@../assets/icons/search.png" />
                             </image>
                         </ImageView>
                     </children>
                 </Pane>
-                <Pane fx:id="suppliersPane" layoutX="22.0" layoutY="111.0" prefHeight="665.0" prefWidth="760.0"
-                      style="-fx-background-color: f5f5f5; -fx-background-radius: 8;" styleClass="overall-inventory">
+                <Pane fx:id="suppliersPane" layoutX="22.0" layoutY="111.0" prefHeight="665.0" prefWidth="760.0" style="-fx-background-color: f5f5f5; -fx-background-radius: 8;" styleClass="overall-inventory">
                     <children>
-                        <Text layoutX="18.0" layoutY="38.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="Suppliers">
+                        <Text layoutX="18.0" layoutY="38.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="Suppliers">
                             <font>
-                                <Font name="Arial Bold" size="19.0"/>
+                                <Font name="Arial Bold" size="19.0" />
                             </font>
                         </Text>
-                        <Button id="normal-button" focusTraversable="false" layoutX="625.0" layoutY="11.0"
-                                mnemonicParsing="false" onAction="#kAddSupplier" styleClass="button-style"
-                                stylesheets="@../styles/stylesheet.css" text="Add Product">
+                        <Button id="normal-button" focusTraversable="false" layoutX="625.0" layoutY="11.0" mnemonicParsing="false" onAction="#kAddSupplier" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Add Product">
                             <font>
-                                <Font name="Arial" size="13.0"/>
+                                <Font name="Arial" size="13.0" />
                             </font>
                         </Button>
-                        <ScrollPane id="custom-scroll-pane" fitToHeight="true" fitToWidth="true" layoutX="14.0"
-                                    layoutY="60.0" prefHeight="593.0" prefWidth="730.0"
-                                    stylesheets="@../styles/stylesheet.css">
+                        <ScrollPane id="custom-scroll-pane" fitToHeight="true" fitToWidth="true" layoutX="14.0" layoutY="60.0" prefHeight="593.0" prefWidth="730.0" stylesheets="@../styles/stylesheet.css">
                             <content>
                                 <TableView fx:id="tableView" editable="true" fixedCellSize="0.0" prefWidth="728.0">
                                     <columns>
-                                        <TableColumn fx:id="c1" prefWidth="180.0" resizable="false" text="ID"/>
-                                        <TableColumn fx:id="c2" minWidth="0.0" prefWidth="180.0" resizable="false"
-                                                     text="Name"/>
-                                        <TableColumn fx:id="c3" minWidth="0.0" prefWidth="180.0" resizable="false"
-                                                     text="Phone"/>
-                                        <TableColumn fx:id="c4" minWidth="0.0" prefWidth="172.8695068359375"
-                                                     resizable="false" text="Address"/>
+                                        <TableColumn fx:id="c1" prefWidth="180.0" resizable="false" text="ID" />
+                                        <TableColumn fx:id="c2" minWidth="0.0" prefWidth="180.0" resizable="false" text="Name" />
+                                        <TableColumn fx:id="c3" minWidth="0.0" prefWidth="180.0" resizable="false" text="Phone" />
+                                        <TableColumn fx:id="c4" minWidth="0.0" prefWidth="169.2283935546875" resizable="false" text="Address" />
                                     </columns>
                                 </TableView>
                             </content>
@@ -75,76 +63,57 @@
                 </Pane>
             </children>
         </Pane>
-        <Pane fx:id="popupPane" focusTraversable="true" layoutX="180.0" layoutY="180.0" prefHeight="435.0"
-              prefWidth="442.0"
-              style="-fx-background-radius: 5px; -fx-background-color: f5f5f5; -fx-border-color: rgba(0, 0, 0, 0.3);"
-              visible="false">
+        <Pane fx:id="popupPane" focusTraversable="true" layoutX="180.0" layoutY="180.0" prefHeight="435.0" prefWidth="442.0" style="-fx-background-radius: 5px; -fx-background-color: f5f5f5; -fx-border-color: rgba(0, 0, 0, 0.3);" visible="false">
             <children>
-                <Text layoutX="25.0" layoutY="76.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="New Supplier">
+                <Text layoutX="25.0" layoutY="76.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="New Supplier">
                     <font>
-                        <Font name="Arial Bold" size="19.0"/>
+                        <Font name="Arial Bold" size="19.0" />
                     </font>
                 </Text>
-                <Text layoutX="25.0" layoutY="148.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="Supplier Name">
+                <Text layoutX="25.0" layoutY="148.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier Name">
                     <font>
-                        <Font name="Arial Bold" size="16.0"/>
+                        <Font name="Arial Bold" size="16.0" />
                     </font>
                 </Text>
-                <TextField id="text-field" fx:id="nameController" layoutX="190.0" layoutY="125.0" prefHeight="38.0"
-                           prefWidth="222.0" promptText="Enter supplier name"/>
-                <Text layoutX="25.0" layoutY="198.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="Supplier ID">
+                <TextField id="text-field" fx:id="nameController" layoutX="190.0" layoutY="125.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter supplier name" />
+                <Text layoutX="25.0" layoutY="198.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier ID">
                     <font>
-                        <Font name="Arial Bold" size="16.0"/>
+                        <Font name="Arial Bold" size="16.0" />
                     </font>
                 </Text>
-                <TextField id="text-field" fx:id="idController" layoutX="190.0" layoutY="173.0" prefHeight="38.0"
-                           prefWidth="222.0" promptText="Enter supplier id"/>
-                <TextField id="text-field" fx:id="contactController" layoutX="190.0" layoutY="222.0" prefHeight="38.0"
-                           prefWidth="222.0" promptText="Enter supplier contact number"/>
-                <Text layoutX="25.0" layoutY="248.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="Contact">
+                <TextField id="text-field" fx:id="idController" layoutX="190.0" layoutY="173.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter supplier id" />
+                <TextField id="text-field" fx:id="contactController" layoutX="190.0" layoutY="222.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter supplier contact number" />
+                <Text layoutX="25.0" layoutY="248.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact">
                     <font>
-                        <Font name="Arial Bold" size="16.0"/>
+                        <Font name="Arial Bold" size="16.0" />
                     </font>
                 </Text>
-                <Text layoutX="25.0" layoutY="297.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="Address">
+                <Text layoutX="25.0" layoutY="297.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Address">
                     <font>
-                        <Font name="Arial Bold" size="16.0"/>
+                        <Font name="Arial Bold" size="16.0" />
                     </font>
                 </Text>
-                <ImageView fitHeight="79.0" fitWidth="119.0" layoutX="323.0" layoutY="23.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="79.0" fitWidth="119.0" layoutX="323.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../assets/icons/add-product.png"/>
+                        <Image url="@../assets/icons/add-product.png" />
                     </image>
                 </ImageView>
-                <TextField id="text-field" fx:id="addressController" layoutX="190.0" layoutY="273.0" prefHeight="38.0"
-                           prefWidth="222.0" promptText="Enter supplier address"/>
-                <Button id="normal-button" layoutX="292.0" layoutY="350.0" mnemonicParsing="false"
-                        onAction="#onConfirmClicked" styleClass="button-style" stylesheets="@../styles/stylesheet.css"
-                        text="Add Product">
+                <TextField id="text-field" fx:id="addressController" layoutX="190.0" layoutY="273.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter supplier address" />
+                <Button id="normal-button" layoutX="292.0" layoutY="350.0" mnemonicParsing="false" onAction="#onConfirmClicked" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Add Product">
                     <font>
-                        <Font name="Arial Bold" size="13.0"/>
+                        <Font name="Arial Bold" size="13.0" />
                     </font>
                 </Button>
-                <Button id="normal-button" layoutX="160.0" layoutY="350.0" mnemonicParsing="false"
-                        onAction="#onDiscardClicked" opacity="0.5"
-                        style="-fx-background-color: f5f5f5; -fx-text-fill: black; -fx-border-color: black;"
-                        styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Discard">
+                <Button id="normal-button" layoutX="160.0" layoutY="350.0" mnemonicParsing="false" onAction="#onDiscardClicked" opacity="0.5" style="-fx-background-color: f5f5f5; -fx-text-fill: black; -fx-border-color: black;" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Discard">
                     <font>
-                        <Font name="Arial" size="13.0"/>
+                        <Font name="Arial" size="13.0" />
                     </font>
                 </Button>
             </children>
         </Pane>
-        <Text fx:id="onErrorText" fill="RED" layoutX="439.0" layoutY="514.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="Invalid Input" visible="false">
+        <Text fx:id="onErrorText" fill="RED" layoutX="439.0" layoutY="514.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid Input" visible="false">
             <font>
-                <Font name="Arial" size="13.0"/>
+                <Font name="Arial" size="13.0" />
             </font>
         </Text>
     </children>

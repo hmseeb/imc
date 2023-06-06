@@ -1,288 +1,232 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="800.0" prefWidth="800.0" stylesheets="@../styles/stylesheet.css"
-            xmlns="http://javafx.com/javafx/19" fx:controller="com.example.imc.Controllers.InventoryController">
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@../styles/stylesheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.imc.Controllers.InventoryController">
     <children>
-        <Pane fx:id="mainPane" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
-              minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0"
-              style="-fx-background-color: rgba(211, 211, 211, 0.5);" stylesheets="@../styles/stylesheet.css"
-              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-              AnchorPane.topAnchor="0.0">
+        <Pane fx:id="mainPane" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: rgba(211, 211, 211, 0.5);" stylesheets="@../styles/stylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <Pane layoutX="3.0" prefHeight="91.0" prefWidth="797.0" style="-fx-background-color: F5F5F5;">
                     <children>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="719.0" layoutY="18.0" pickOnBounds="true"
-                                   preserveRatio="true">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="719.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../assets/icons/avatar.png"/>
+                                <Image url="@../assets/icons/avatar.png" />
                             </image>
                         </ImageView>
-                        <TextField id="text-field" alignment="CENTER" focusTraversable="false" layoutX="27.0"
-                                   layoutY="25.0" prefHeight="42.0" prefWidth="290.0"
-                                   promptText="Search product, supplier, order">
+                        <TextField id="text-field" alignment="CENTER" focusTraversable="false" layoutX="27.0" layoutY="25.0" prefHeight="42.0" prefWidth="290.0" promptText="Search product, supplier, order">
                             <font>
-                                <Font name="Arial" size="13.0"/>
+                                <Font name="Arial" size="13.0" />
                             </font>
                         </TextField>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="43.0" layoutY="34.0" opacity="0.5"
-                                   pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="43.0" layoutY="34.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../assets/icons/search.png"/>
+                                <Image url="@../assets/icons/search.png" />
                             </image>
                         </ImageView>
                     </children>
                 </Pane>
-                <Pane layoutX="22.0" layoutY="117.0" prefHeight="188.0" prefWidth="756.0"
-                      style="-fx-background-color: f5f5f5; -fx-background-radius: 8;" styleClass="overall-inventory">
+                <Pane layoutX="22.0" layoutY="117.0" prefHeight="188.0" prefWidth="756.0" style="-fx-background-color: f5f5f5; -fx-background-radius: 8;" styleClass="overall-inventory">
                     <children>
-                        <Text layoutX="18.0" layoutY="38.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="Overall Inventory">
+                        <Text layoutX="18.0" layoutY="38.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="Overall Inventory">
                             <font>
-                                <Font name="Arial Bold" size="19.0"/>
+                                <Font name="Arial Bold" size="19.0" />
                             </font>
                         </Text>
-                        <Text fill="#1e88e5" layoutX="18.0" layoutY="80.0" opacity="0.7" strokeType="OUTSIDE"
-                              strokeWidth="0.0" text="Categories">
+                        <Text fill="#1e88e5" layoutX="18.0" layoutY="80.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="Categories">
                             <font>
-                                <Font name="Arial Bold" size="16.0"/>
+                                <Font name="Arial Bold" size="16.0" />
                             </font>
                         </Text>
-                        <Text fill="#fb8c00" layoutX="180.0" layoutY="80.0" opacity="0.7" strokeType="OUTSIDE"
-                              strokeWidth="0.0" text="Total Products">
+                        <Text fill="#fb8c00" layoutX="180.0" layoutY="80.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Products">
                             <font>
-                                <Font name="Arial Bold" size="16.0"/>
+                                <Font name="Arial Bold" size="16.0" />
                             </font>
                         </Text>
-                        <Text fill="#8e24aa" layoutX="360.0" layoutY="80.0" opacity="0.7" strokeType="OUTSIDE"
-                              strokeWidth="0.0" text="Top Selling">
+                        <Text fill="#8e24aa" layoutX="360.0" layoutY="80.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="Top Selling">
                             <font>
-                                <Font name="Arial Bold" size="16.0"/>
+                                <Font name="Arial Bold" size="16.0" />
                             </font>
                         </Text>
-                        <Text fill="#e53935" layoutX="530.0" layoutY="80.0" opacity="0.7" strokeType="OUTSIDE"
-                              strokeWidth="0.0" text="Low Stocks">
+                        <Text fill="#e53935" layoutX="530.0" layoutY="80.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="Low Stocks">
                             <font>
-                                <Font name="Arial Bold" size="16.0"/>
+                                <Font name="Arial Bold" size="16.0" />
                             </font>
                         </Text>
-                        <Text fx:id="categoriesText" layoutX="18.0" layoutY="130.0" opacity="0.6" strokeType="OUTSIDE"
-                              strokeWidth="0.0" text="N/A">
+                        <Text fx:id="categoriesText" layoutX="18.0" layoutY="130.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
                             <font>
-                                <Font name="Arial Bold" size="17.0"/>
+                                <Font name="Arial Bold" size="17.0" />
                             </font>
                         </Text>
-                        <Text fx:id="totalProductsText" layoutX="180.0" layoutY="126.0" opacity="0.6"
-                              strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
+                        <Text fx:id="totalProductsText" layoutX="180.0" layoutY="126.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
                             <font>
-                                <Font name="Arial Bold" size="17.0"/>
+                                <Font name="Arial Bold" size="17.0" />
                             </font>
                         </Text>
-                        <Text fx:id="topSelling" layoutX="360.0" layoutY="170.0" opacity="0.6" strokeType="OUTSIDE"
-                              strokeWidth="0.0" text="N/A">
+                        <Text fx:id="topSelling" layoutX="360.0" layoutY="170.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
                             <font>
-                                <Font name="Arial Bold" size="17.0"/>
+                                <Font name="Arial Bold" size="17.0" />
                             </font>
                         </Text>
-                        <Text fx:id="revenueText" layoutX="180.0" layoutY="170.0" opacity="0.6" strokeType="OUTSIDE"
-                              strokeWidth="0.0" text="N/A">
+                        <Text fx:id="revenueText" layoutX="180.0" layoutY="170.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
                             <font>
-                                <Font name="Arial Bold" size="17.0"/>
+                                <Font name="Arial Bold" size="17.0" />
                             </font>
                         </Text>
-                        <Text layoutX="18.0" layoutY="107.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="Last 7 days">
+                        <Text layoutX="18.0" layoutY="107.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Last 7 days">
                             <font>
-                                <Font name="Arial Bold" size="16.0"/>
+                                <Font name="Arial Bold" size="16.0" />
                             </font>
                         </Text>
-                        <Text fx:id="costText" layoutX="360.0" layoutY="126.0" opacity="0.6" strokeType="OUTSIDE"
-                              strokeWidth="0.0" text="N/A">
+                        <Text fx:id="costText" layoutX="360.0" layoutY="126.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
                             <font>
-                                <Font name="Arial Bold" size="17.0"/>
+                                <Font name="Arial Bold" size="17.0" />
                             </font>
                         </Text>
-                        <Text fx:id="outOfStockText" layoutX="530.0" layoutY="170.0" opacity="0.6" strokeType="OUTSIDE"
-                              strokeWidth="0.0" text="N/A">
+                        <Text fx:id="outOfStockText" layoutX="530.0" layoutY="170.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
                             <font>
-                                <Font name="Arial Bold" size="17.0"/>
+                                <Font name="Arial Bold" size="17.0" />
                             </font>
                         </Text>
-                        <Text fx:id="ordered" layoutX="530.0" layoutY="126.0" opacity="0.6" strokeType="OUTSIDE"
-                              strokeWidth="0.0" text="N/A">
+                        <Text fx:id="ordered" layoutX="530.0" layoutY="126.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
                             <font>
-                                <Font name="Arial Bold" size="17.0"/>
+                                <Font name="Arial Bold" size="17.0" />
                             </font>
                         </Text>
-                        <Text layoutX="180.0" layoutY="107.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="Last 7 days">
+                        <Text layoutX="180.0" layoutY="107.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Last 7 days">
                             <font>
-                                <Font name="Arial Bold" size="16.0"/>
+                                <Font name="Arial Bold" size="16.0" />
                             </font>
                         </Text>
-                        <Text layoutX="360.0" layoutY="107.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="Last 7 days">
+                        <Text layoutX="360.0" layoutY="107.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Last 7 days">
                             <font>
-                                <Font name="Arial Bold" size="16.0"/>
+                                <Font name="Arial Bold" size="16.0" />
                             </font>
                         </Text>
-                        <Text layoutX="530.0" layoutY="107.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="Ordered">
+                        <Text layoutX="530.0" layoutY="107.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Ordered">
                             <font>
-                                <Font name="Arial Bold" size="16.0"/>
+                                <Font name="Arial Bold" size="16.0" />
                             </font>
                         </Text>
-                        <Text layoutX="180.0" layoutY="149.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="Revenue">
+                        <Text layoutX="180.0" layoutY="149.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Revenue">
                             <font>
-                                <Font name="Arial Bold" size="16.0"/>
+                                <Font name="Arial Bold" size="16.0" />
                             </font>
                         </Text>
-                        <Text layoutX="360.0" layoutY="149.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="Cost">
+                        <Text layoutX="360.0" layoutY="149.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Cost">
                             <font>
-                                <Font name="Arial Bold" size="16.0"/>
+                                <Font name="Arial Bold" size="16.0" />
                             </font>
                         </Text>
-                        <Text layoutX="530.0" layoutY="149.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="Out of stock">
+                        <Text layoutX="530.0" layoutY="149.0" opacity="0.4" strokeType="OUTSIDE" strokeWidth="0.0" text="Out of stock">
                             <font>
-                                <Font name="Arial Bold" size="16.0"/>
+                                <Font name="Arial Bold" size="16.0" />
                             </font>
                         </Text>
-                        <Line endX="-100.0000228881836" endY="90.99996948242188" layoutX="270.0" layoutY="65.0"
-                              opacity="0.1" startX="-100.0"/>
-                        <Line endX="-100.0000228881836" endY="90.99996948242188" layoutX="450.0" layoutY="65.0"
-                              opacity="0.1" startX="-100.0"/>
-                        <Line endX="-100.0000228881836" endY="90.99996948242188" layoutX="620.0" layoutY="65.0"
-                              opacity="0.1" startX="-100.0"/>
+                        <Line endX="-100.0000228881836" endY="90.99996948242188" layoutX="270.0" layoutY="65.0" opacity="0.1" startX="-100.0" />
+                        <Line endX="-100.0000228881836" endY="90.99996948242188" layoutX="450.0" layoutY="65.0" opacity="0.1" startX="-100.0" />
+                        <Line endX="-100.0000228881836" endY="90.99996948242188" layoutX="620.0" layoutY="65.0" opacity="0.1" startX="-100.0" />
                     </children>
                 </Pane>
-                <Pane layoutX="22.0" layoutY="335.0" prefHeight="441.0" prefWidth="756.0"
-                      style="-fx-background-color: f5f5f5; -fx-background-radius: 8;" styleClass="overall-inventory">
+                <Pane layoutX="22.0" layoutY="335.0" prefHeight="441.0" prefWidth="756.0" style="-fx-background-color: f5f5f5; -fx-background-radius: 8;" styleClass="overall-inventory">
                     <children>
-                        <Text layoutX="18.0" layoutY="38.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="Products">
+                        <Text layoutX="18.0" layoutY="38.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="Products">
                             <font>
-                                <Font name="Arial Bold" size="19.0"/>
+                                <Font name="Arial Bold" size="19.0" />
                             </font>
                         </Text>
-                        <Button id="normal-button" focusTraversable="false" layoutX="625.0" layoutY="11.0"
-                                mnemonicParsing="false" onAction="#kAddProduct" styleClass="button-style"
-                                stylesheets="@../styles/stylesheet.css" text="Add Product">
+                        <Button id="normal-button" focusTraversable="false" layoutX="625.0" layoutY="11.0" mnemonicParsing="false" onAction="#kAddProduct" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Add Product">
                             <font>
-                                <Font name="Arial" size="13.0"/>
+                                <Font name="Arial" size="13.0" />
                             </font>
                         </Button>
                     </children>
                 </Pane>
-                <ScrollPane id="custom-scroll-pane" fitToHeight="true" fitToWidth="true" layoutX="35.0" layoutY="392.0"
-                            prefHeight="375.0" prefWidth="734.0" stylesheets="@../styles/stylesheet.css">
+                <ScrollPane id="custom-scroll-pane" fitToHeight="true" fitToWidth="true" layoutX="35.0" layoutY="392.0" prefHeight="375.0" prefWidth="734.0" stylesheets="@../styles/stylesheet.css">
                     <content>
                         <TableView fx:id="tableView" editable="true" fixedCellSize="0.0">
                             <columns>
-                                <TableColumn fx:id="c1" prefWidth="180.0" resizable="false" text="Name"/>
-                                <TableColumn fx:id="c2" minWidth="0.0" prefWidth="180.0" resizable="false"
-                                             text="Buying Price"/>
-                                <TableColumn fx:id="c3" minWidth="0.0" prefWidth="180.0" resizable="false"
-                                             text="Quantity"/>
-                                <TableColumn fx:id="c4" minWidth="0.0" prefWidth="177.55316162109375" resizable="false"
-                                             text="Availabilty"/>
+                                <TableColumn fx:id="c1" prefWidth="180.0" resizable="false" text="Name" />
+                                <TableColumn fx:id="c2" minWidth="0.0" prefWidth="180.0" resizable="false" text="Buying Price" />
+                                <TableColumn fx:id="c3" minWidth="0.0" prefWidth="180.0" resizable="false" text="Quantity" />
+                                <TableColumn fx:id="c4" minWidth="0.0" prefWidth="172.01220703125" resizable="false" text="Availabilty" />
                             </columns>
                         </TableView>
                     </content>
                 </ScrollPane>
             </children>
         </Pane>
-        <Pane fx:id="popupPane" focusTraversable="true" layoutX="180.0" layoutY="120.0" prefHeight="512.0"
-              prefWidth="442.0"
-              style="-fx-background-radius: 5px; -fx-background-color: f5f5f5; -fx-border-color: rgba(0, 0, 0, 0.3);"
-              visible="false">
+        <Pane fx:id="popupPane" focusTraversable="true" layoutX="180.0" layoutY="120.0" prefHeight="512.0" prefWidth="442.0" style="-fx-background-radius: 5px; -fx-background-color: f5f5f5; -fx-border-color: rgba(0, 0, 0, 0.3);" visible="false">
             <children>
-                <Text layoutX="25.0" layoutY="76.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="New Product">
+                <Text layoutX="25.0" layoutY="76.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="New Product">
                     <font>
-                        <Font name="Arial Bold" size="19.0"/>
+                        <Font name="Arial Bold" size="19.0" />
                     </font>
                 </Text>
-                <Text layoutX="25.0" layoutY="148.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="Product Name">
+                <Text layoutX="25.0" layoutY="148.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Name">
                     <font>
-                        <Font name="Arial Bold" size="16.0"/>
+                        <Font name="Arial Bold" size="16.0" />
                     </font>
                 </Text>
-                <TextField id="text-field" fx:id="nameController" layoutX="190.0" layoutY="125.0" prefHeight="38.0"
-                           prefWidth="222.0" promptText="Enter product name"/>
-                <Text layoutX="25.0" layoutY="198.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="Product ID">
+                <TextField id="text-field" fx:id="nameController" layoutX="190.0" layoutY="125.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter product name" />
+                <Text layoutX="25.0" layoutY="198.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Product ID">
                     <font>
-                        <Font name="Arial Bold" size="16.0"/>
+                        <Font name="Arial Bold" size="16.0" />
                     </font>
                 </Text>
-                <TextField id="text-field" fx:id="idController" layoutX="190.0" layoutY="173.0" prefHeight="38.0"
-                           prefWidth="222.0" promptText="Enter product id"/>
-                <TextField id="text-field" fx:id="categoryController" layoutX="190.0" layoutY="222.0" prefHeight="38.0"
-                           prefWidth="222.0" promptText="Enter product category"/>
-                <Text layoutX="25.0" layoutY="248.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="Category">
+                <TextField id="text-field" fx:id="idController" layoutX="190.0" layoutY="173.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter product id" />
+                <TextField id="text-field" fx:id="categoryController" layoutX="190.0" layoutY="222.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter product category" />
+                <Text layoutX="25.0" layoutY="248.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Category">
                     <font>
-                        <Font name="Arial Bold" size="16.0"/>
+                        <Font name="Arial Bold" size="16.0" />
                     </font>
                 </Text>
                 <Text layoutX="25.0" layoutY="297.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Price">
                     <font>
-                        <Font name="Arial Bold" size="16.0"/>
+                        <Font name="Arial Bold" size="16.0" />
                     </font>
                 </Text>
-                <Text layoutX="25.0" layoutY="346.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="Quantity">
+                <Text layoutX="25.0" layoutY="346.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity">
                     <font>
-                        <Font name="Arial Bold" size="16.0"/>
+                        <Font name="Arial Bold" size="16.0" />
                     </font>
                 </Text>
-                <Text layoutX="25.0" layoutY="392.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="Supplier ID">
+                <Text layoutX="25.0" layoutY="392.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier ID">
                     <font>
-                        <Font name="Arial Bold" size="16.0"/>
+                        <Font name="Arial Bold" size="16.0" />
                     </font>
                 </Text>
-                <ImageView fitHeight="79.0" fitWidth="119.0" layoutX="323.0" layoutY="23.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="79.0" fitWidth="119.0" layoutX="323.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../assets/icons/add-product.png"/>
+                        <Image url="@../assets/icons/add-product.png" />
                     </image>
                 </ImageView>
-                <TextField id="text-field" fx:id="priceController" layoutX="190.0" layoutY="273.0" prefHeight="38.0"
-                           prefWidth="222.0" promptText="Enter product price"/>
-                <TextField id="text-field" fx:id="quantityController" layoutX="190.0" layoutY="321.0" prefHeight="38.0"
-                           prefWidth="222.0" promptText="Enter product quantity"/>
-                <TextField id="text-field" fx:id="supplierController" layoutX="190.0" layoutY="369.0" prefHeight="38.0"
-                           prefWidth="222.0" promptText="Enter supplier id"/>
-                <Button id="normal-button" focusTraversable="false" layoutX="292.0" layoutY="440.0"
-                        mnemonicParsing="false" onAction="#onConfirmClicked" styleClass="button-style"
-                        stylesheets="@../styles/stylesheet.css" text="Add Product">
+                <TextField id="text-field" fx:id="priceController" layoutX="190.0" layoutY="273.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter product price" />
+                <TextField id="text-field" fx:id="quantityController" layoutX="190.0" layoutY="321.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter product quantity" />
+                <TextField id="text-field" fx:id="supplierController" layoutX="190.0" layoutY="369.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter supplier id" />
+                <Button id="normal-button" focusTraversable="false" layoutX="292.0" layoutY="440.0" mnemonicParsing="false" onAction="#onConfirmClicked" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Add Product">
                     <font>
-                        <Font name="Arial Bold" size="13.0"/>
+                        <Font name="Arial Bold" size="13.0" />
                     </font>
                 </Button>
-                <Button id="normal-button" focusTraversable="false" layoutX="160.0" layoutY="440.0"
-                        mnemonicParsing="false" onAction="#onDiscardClicked" opacity="0.5"
-                        style="-fx-background-color: f5f5f5; -fx-text-fill: black; -fx-border-color: black;"
-                        styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Discard">
+                <Button id="normal-button" focusTraversable="false" layoutX="160.0" layoutY="440.0" mnemonicParsing="false" onAction="#onDiscardClicked" opacity="0.5" style="-fx-background-color: f5f5f5; -fx-text-fill: black; -fx-border-color: black;" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Discard">
                     <font>
-                        <Font name="Arial" size="13.0"/>
+                        <Font name="Arial" size="13.0" />
                     </font>
                 </Button>
-                <Text fx:id="onErrorText" fill="RED" layoutX="260.0" layoutY="428.0" strokeType="OUTSIDE"
-                      strokeWidth="0.0" text="Invalid Input" visible="false">
+                <Text fx:id="onErrorText" fill="RED" layoutX="260.0" layoutY="428.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid Input" visible="false">
                     <font>
-                        <Font name="Arial" size="13.0"/>
+                        <Font name="Arial" size="13.0" />
                     </font>
                 </Text>
             </children>
