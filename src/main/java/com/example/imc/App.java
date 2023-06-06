@@ -23,7 +23,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         this.primaryStage = stage;
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("views/menu-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("views/login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 800);
         scene.getStylesheets().add(Objects.requireNonNull(App.class.getResource("styles/stylesheet.css")).toExternalForm());
         stage.setTitle("IMC");
