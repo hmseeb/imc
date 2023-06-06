@@ -2,6 +2,7 @@ package com.example.imc.Controllers;
 
 import com.example.imc.Handlers.DatabaseHandler;
 import com.example.imc.Handlers.QueryHandler;
+import com.example.imc.Models.Product;
 import com.example.imc.Models.Supplier;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
@@ -26,15 +27,15 @@ public class SupplierController {
     Statement stmt;
 
     @FXML
-    Text onErrorText;
+    Text onErrorText, onErrorText1;
     @FXML
     TableView<Supplier> tableView;
     @FXML
     TableColumn<Supplier, String> c1, c2, c3, c4;
     @FXML
-    TextField nameController, idController, contactController, addressController;
+    TextField nameController, idController, contactController, addressController, nameController1, idController1, contactController1, addressController1;
     @FXML
-    private Pane mainPane, popupPane;
+    private Pane mainPane, popupPane, popupPane1;
 
 
     // For the add product button in the inventory view
@@ -92,8 +93,75 @@ public class SupplierController {
                         }
                         // Remove the product from the TableView
                     }
+
+                    else if (event.getCode() == KeyCode.ENTER) {
+                Supplier selectedSupplier = tableView.getSelectionModel().getSelectedItem();
+                if (selectedSupplier != null) {
+                    String id = selectedSupplier.getSupplierID();
+                    idController1.setText(id);
+                    nameController1.setText(selectedSupplier.getSupplierName());
+                    contactController1.setText(selectedSupplier.getSupplierPhone());
+                    addressController1.setText(selectedSupplier.getSupplierAddress());
+                    idController1.setEditable(false);
+                    popupPane1.setVisible(true);
+                    kEditProduct();
+                }
+
+            }
                 }
         );
+    }
+
+        private void kEditProduct() {
+        BoxBlur blur = new BoxBlur(5, 5, 3);
+        mainPane.setEffect(blur);
+        popupPane1.setVisible(true);
+        FadeTransition fadeInTransition = new FadeTransition(Duration.millis(300), popupPane1);
+        fadeInTransition.setToValue(1);
+        fadeInTransition.play();
+    }
+
+        @FXML
+    private void onEditConfirmClicked() {
+        Supplier supplier = new Supplier(
+                idController1.getText(),
+                nameController1.getText(),
+                contactController1.getText(),
+                addressController1.getText()
+        );
+        boolean status = editSupplierDetails(supplier);
+        if (status) {
+            onErrorText1.setVisible(false);
+            updateSupplier(supplier);
+        } else {
+            Popup popup = new Popup();
+            popup.show(mainPane.getScene().getWindow());
+            onErrorText1.setVisible(true);
+            return;
+        }
+        FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane1);
+        fadeOutTransition.setToValue(0);
+        fadeOutTransition.setOnFinished(event -> popupPane1.setVisible(false));
+        fadeOutTransition.play();
+        mainPane.setEffect(null);
+    }
+
+    private boolean editSupplierDetails(Supplier supplier) {
+        try {
+            String updateQuery = "UPDATE Suppliers SET SupplierName = ?, SupplierAddress = ?, SupplierPhone = ? WHERE SupplierID = ?;";
+            PreparedStatement statement = DatabaseHandler.getConnection().prepareStatement(updateQuery);
+            statement.setString(1, supplier.getSupplierName());
+            statement.setString(2, supplier.getSupplierAddress());
+            statement.setString(3, supplier.getSupplierPhone());
+            statement.setInt(4, Integer.parseInt(supplier.getSupplierID()));
+            statement.executeUpdate();
+            statement.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+            // Handle any exception that occurs during the database operation
+        }
     }
 
     @FXML
@@ -151,14 +219,20 @@ public class SupplierController {
 
     @FXML
     private void onDiscardClicked() {
-        onErrorText.setVisible(false);
-        // Animate the popup pane's fade-out and then hide it
-        FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
-        fadeOutTransition.setToValue(0);
-        fadeOutTransition.setOnFinished(event -> popupPane.setVisible(false));
-        fadeOutTransition.play();
+        FadeTransition fadeOutTransition;
 
-        // Remove the BoxBlur effect from the mainPane
+        if (popupPane.visibleProperty().getValue()) {
+            onErrorText.setVisible(false);
+            fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
+            fadeOutTransition.setToValue(0);
+            fadeOutTransition.setOnFinished(event -> popupPane.setVisible(false));
+        } else {
+            onErrorText1.setVisible(false);
+            fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane1);
+            fadeOutTransition.setToValue(0);
+            fadeOutTransition.setOnFinished(event -> popupPane1.setVisible(false));
+        }
+        fadeOutTransition.play();
         mainPane.setEffect(null);
     }
 
@@ -180,24 +254,6 @@ public class SupplierController {
             }
         }
         return false;
-    }
-
-    private boolean editSupplierDetails(Supplier supplier) {
-        try {
-            String updateQuery = "UPDATE Suppliers SET SupplierName = ?, SupplierAddress = ?, SupplierPhone = ? WHERE SupplierID = ?;";
-            PreparedStatement statement = DatabaseHandler.getConnection().prepareStatement(updateQuery);
-            statement.setString(1, supplier.getSupplierName());
-            statement.setString(2, supplier.getSupplierAddress());
-            statement.setString(3, supplier.getSupplierPhone());
-            statement.setInt(4, Integer.parseInt(supplier.getSupplierID()));
-            statement.executeUpdate();
-            statement.close();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-            // Handle any exception that occurs during the database operation
-        }
     }
 
     private void updateSupplier(Supplier updatedSupplier) {

@@ -181,3 +181,7 @@
     -fx-text-fill: #3761ee;
 }
 
+.fade-transition {
+    -fx-opacity: 0;
+    -fx-transition-duration: 0.3s;
+}

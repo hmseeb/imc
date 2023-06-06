@@ -27,15 +27,15 @@ public class OrderController {
     Statement stmt;
 
     @FXML
-    Text onErrorText, totalOrders, totalSold, revenue, productName, totalQuantity, lastOrderedDate, lastOrderedProduct;
+    Text onErrorText, totalOrders, totalSold, revenue, productName, totalQuantity, lastOrderedDate, lastOrderedProduct, onErrorText1;
     @FXML
     TableView<Order> tableView;
     @FXML
     TableColumn<Order, String> c1, c2, c3, c4;
     @FXML
-    TextField orderIDController, productIDController, quantityController;
+    TextField orderIDController, productIDController, quantityController, orderIDController1, productIDController1, quantityController1;
     @FXML
-    private Pane mainPane, popupPane;
+    private Pane mainPane, popupPane, popupPane1;
 
 
     // For the add product button in the inventory view
@@ -120,8 +120,50 @@ public class OrderController {
                     }
                     // Remove the product from the TableView
                 }
+            } else if (event.getCode() == KeyCode.ENTER) {
+                Order selectedOrder = tableView.getSelectionModel().getSelectedItem();
+                if (selectedOrder != null) {
+                    String id = selectedOrder.getOrderID();
+                    orderIDController1.setText(id);
+                    productIDController1.setText(selectedOrder.getProductID());
+                    quantityController1.setText(selectedOrder.getOrderQuantity());
+                    orderIDController1.setEditable(false);
+                    popupPane1.setVisible(true);
+                    kEditOrder();
+                }
             }
         });
+    }
+
+    @FXML
+    private void kEditOrder() {
+        BoxBlur blur = new BoxBlur(5, 5, 3);
+        mainPane.setEffect(blur);
+        popupPane1.setVisible(true);
+        FadeTransition fadeInTransition = new FadeTransition(Duration.millis(300), popupPane1);
+        fadeInTransition.setToValue(1);
+        fadeInTransition.play();
+    }
+
+    @FXML
+    private void onEditConfirmClicked() {
+
+        Order order = new Order(orderIDController1.getText(), LocalDateTime.now().toString(), productIDController1.getText(), quantityController1.getText());
+        boolean status = editOrderDetails(order);
+        if (status) {
+            onErrorText1.setVisible(false);
+            updateOrder(order);
+        } else {
+            Popup popup = new Popup();
+            popup.show(mainPane.getScene().getWindow());
+            onErrorText1.setVisible(true);
+            return;
+        }
+        FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane1);
+        fadeOutTransition.setToValue(0);
+        fadeOutTransition.setOnFinished(event -> popupPane1.setVisible(false));
+        fadeOutTransition.play();
+        mainPane.setEffect(null);
     }
 
     @FXML
@@ -143,10 +185,9 @@ public class OrderController {
         String orderID = orderIDController.getText();
         String productID = productIDController.getText();
         String quantity = quantityController.getText();
-        LocalDateTime dateTime = LocalDateTime.now();
-
         // Create the Order object
-        Order order = new Order(orderID, dateTime.toString(), productID, quantity);
+        Order order = new Order(orderID, LocalDateTime.now().toString(), productID, quantity);
+
         if (orderExists(order.getOrderID())) {
             boolean status = editOrderDetails(order);
             if (status) {
@@ -180,16 +221,22 @@ public class OrderController {
         mainPane.setEffect(null);
     }
 
-
     @FXML
     private void onDiscardClicked() {
-        onErrorText.setVisible(false);
-        // Animate the popup pane's fade-out and then hide it
-        FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
-        fadeOutTransition.setToValue(0);
-        fadeOutTransition.setOnFinished(event -> popupPane.setVisible(false));
+        FadeTransition fadeOutTransition;
+
+        if (popupPane.visibleProperty().getValue()) {
+            onErrorText.setVisible(false);
+            fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
+            fadeOutTransition.setToValue(0);
+            fadeOutTransition.setOnFinished(event -> popupPane.setVisible(false));
+        } else {
+            onErrorText1.setVisible(false);
+            fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane1);
+            fadeOutTransition.setToValue(0);
+            fadeOutTransition.setOnFinished(event -> popupPane1.setVisible(false));
+        }
         fadeOutTransition.play();
-        // Remove the BoxBlur effect from the mainPane
         mainPane.setEffect(null);
     }
 
@@ -198,14 +245,13 @@ public class OrderController {
 
 
         Order order = new Order(orderID, orderDate, productID, quantity);
-        System.out.println("Date" + order.orderDateProperty());
 
         c1.setCellValueFactory(cellData -> cellData.getValue().orderIDProperty());
         c2.setCellValueFactory(cellData -> cellData.getValue().productIDProperty());
         c3.setCellValueFactory(cellData -> cellData.getValue().orderQuantityProperty());
         c4.setCellValueFactory(cellData -> {
                     String date = cellData.getValue().orderDateProperty().getValue();
-        return new SimpleStringProperty(date);
+                    return new SimpleStringProperty(date.replaceAll(" .*", ""));
 
                 }
         );
@@ -224,23 +270,21 @@ public class OrderController {
     }
 
     private boolean editOrderDetails(Order order) {
-        try {
-            Date currentDate = Calendar.getInstance().getTime();
-            Timestamp timestamp = new Timestamp(currentDate.getTime());
-            String updateQuery = "UPDATE Orders SET OrderDate = ?, ProductID = ?, OrderQuantity = ? WHERE OrderID = ?;";
-            PreparedStatement statement = DatabaseHandler.getConnection().prepareStatement(updateQuery);
-            statement.setTimestamp(1, timestamp);
+        String updateOrderQuery = "UPDATE Orders SET OrderDate = ?, ProductID = ?, OrderQuantity = ? WHERE OrderID = ?;";
+        Date currentDate = Calendar.getInstance().getTime();
+
+        try (PreparedStatement statement = DatabaseHandler.getConnection().prepareStatement(updateOrderQuery)) {
+            statement.setTimestamp(1, Timestamp.valueOf(order.getOrderDate(currentDate)));
             statement.setInt(2, Integer.parseInt(order.getProductID()));
             statement.setInt(3, Integer.parseInt(order.getOrderQuantity()));
             statement.setInt(4, Integer.parseInt(order.getOrderID()));
             statement.executeUpdate();
-            statement.close();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-            // Handle any exception that occurs during the database operation
         }
+
     }
 
     private void updateOrder(Order updatedOrder) {

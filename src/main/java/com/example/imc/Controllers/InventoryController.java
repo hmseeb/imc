@@ -25,15 +25,15 @@ public class InventoryController {
     QueryHandler queryHandler = new QueryHandler();
     Statement stmt;
     @FXML
-    Text onErrorText, categoriesText, totalProductsText, revenueText, costText, topSelling, outOfStockText, ordered;
+    Text onErrorText, categoriesText, totalProductsText, revenueText, costText, topSelling, outOfStockText, ordered, onErrorText1;
     @FXML
     TableView<Product> tableView;
     @FXML
     TableColumn<Product, String> c1, c2, c3, c4;
     @FXML
-    TextField nameController, idController, quantityController, priceController, categoryController, supplierController;
+    TextField nameController, idController, quantityController, priceController, categoryController, supplierController, nameController1, categoryController1, supplierController1, priceController1, quantityController1, idController1;
     @FXML
-    private Pane mainPane, popupPane;
+    private Pane mainPane, popupPane, popupPane1;
 
     @FXML
     public void initialize() throws SQLException {
@@ -64,6 +64,7 @@ public class InventoryController {
         }
         // Add event listener for delete key press
         tableView.setOnKeyPressed(event -> {
+
             if (event.getCode() == KeyCode.BACK_SPACE || event.getCode() == KeyCode.DELETE) {
                 // Get the selected product
                 Product selectedProduct = tableView.getSelectionModel().getSelectedItem();
@@ -100,6 +101,21 @@ public class InventoryController {
 
 
                 }
+            } else if (event.getCode() == KeyCode.ENTER) {
+                Product selectedProduct = tableView.getSelectionModel().getSelectedItem();
+                if (selectedProduct != null) {
+                    String id = selectedProduct.getProductID();
+                    idController1.setText(id);
+                    nameController1.setText(selectedProduct.getProductName());
+                    categoryController1.setText(selectedProduct.getProductCategory());
+                    supplierController1.setText(selectedProduct.getSupplierID());
+                    priceController1.setText(selectedProduct.getProductPrice());
+                    quantityController1.setText(selectedProduct.getProductQuantity());
+                    idController1.setEditable(false);
+                    popupPane1.setVisible(true);
+                    kEditProduct();
+                }
+
             }
         });
     }
@@ -108,12 +124,46 @@ public class InventoryController {
     void kAddProduct() {
         BoxBlur blur = new BoxBlur(5, 5, 3);
         mainPane.setEffect(blur);
-
-        popupPane.setOpacity(0);
         popupPane.setVisible(true);
         FadeTransition fadeInTransition = new FadeTransition(Duration.millis(300), popupPane);
         fadeInTransition.setToValue(1);
         fadeInTransition.play();
+    }
+
+    private void kEditProduct() {
+        BoxBlur blur = new BoxBlur(5, 5, 3);
+        mainPane.setEffect(blur);
+        popupPane1.setVisible(true);
+        FadeTransition fadeInTransition = new FadeTransition(Duration.millis(300), popupPane1);
+        fadeInTransition.setToValue(1);
+        fadeInTransition.play();
+    }
+
+    @FXML
+    private void onEditConfirmClicked() {
+        Product product = new Product(
+                idController1.getText(),
+                nameController1.getText(),
+                supplierController1.getText(),
+                priceController1.getText(),
+                quantityController1.getText(),
+                categoryController1.getText()
+        );
+        boolean status = editProductDetails(product);
+        if (status) {
+            onErrorText1.setVisible(false);
+            updateProduct(product);
+        } else {
+            Popup popup = new Popup();
+            popup.show(mainPane.getScene().getWindow());
+            onErrorText1.setVisible(true);
+            return;
+        }
+        FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane1);
+        fadeOutTransition.setToValue(0);
+        fadeOutTransition.setOnFinished(event -> popupPane1.setVisible(false));
+        fadeOutTransition.play();
+        mainPane.setEffect(null);
     }
 
     @FXML
@@ -121,33 +171,22 @@ public class InventoryController {
         Product product = new Product(
                 idController.getText(),
                 nameController.getText(),
-                idController.getText(),
+                supplierController1.getText(),
                 priceController.getText(),
                 quantityController.getText(),
                 categoryController.getText()
         );
-        if (productExists(product.getProductID())) {
-            boolean status = editProductDetails(product);
-            if (status) {
-                onErrorText.setVisible(false);
-                updateProduct(product);
-            } else {
-                Popup popup = new Popup();
-                popup.show(mainPane.getScene().getWindow());
-                onErrorText.setVisible(true);
-                return;
-            }
+
+        boolean status = queryHandler.insertProduct(product.getProductID(), product.getProductName(), product.getProductCategory(), product.getSupplierID(), product.getProductPrice(), product.getProductQuantity());
+        if (status) {
+            onErrorText.setVisible(false);
+            addProduct(product.getProductID(), product.getProductName(), product.getSupplierID(), product.getProductPrice(), product.getProductQuantity(), product.getProductCategory());
         } else {
-            boolean status = queryHandler.insertProduct(product.getProductID(), product.getProductName(), product.getProductCategory(), product.getSupplierID(), product.getProductPrice(), product.getProductQuantity());
-            if (status) {
-                onErrorText.setVisible(false);
-                addProduct(product.getProductID(), product.getProductName(), product.getSupplierID(), product.getProductPrice(), product.getProductQuantity(), product.getProductCategory());
-            } else {
-                Popup popup = new Popup();
-                popup.show(mainPane.getScene().getWindow());
-                onErrorText.setVisible(true);
-                return;
-            }
+            Popup popup = new Popup();
+            popup.show(mainPane.getScene().getWindow());
+            onErrorText.setVisible(true);
+            return;
+
         }
 
         FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
@@ -160,12 +199,20 @@ public class InventoryController {
 
     @FXML
     private void onDiscardClicked() {
-        onErrorText.setVisible(false);
-        FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
-        fadeOutTransition.setToValue(0);
-        fadeOutTransition.setOnFinished(event -> popupPane.setVisible(false));
-        fadeOutTransition.play();
+        FadeTransition fadeOutTransition;
 
+        if (popupPane.visibleProperty().getValue()) {
+            onErrorText.setVisible(false);
+            fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane);
+            fadeOutTransition.setToValue(0);
+            fadeOutTransition.setOnFinished(event -> popupPane.setVisible(false));
+        } else {
+            onErrorText1.setVisible(false);
+            fadeOutTransition = new FadeTransition(Duration.millis(300), popupPane1);
+            fadeOutTransition.setToValue(0);
+            fadeOutTransition.setOnFinished(event -> popupPane1.setVisible(false));
+        }
+        fadeOutTransition.play();
         mainPane.setEffect(null);
     }
 
@@ -179,16 +226,6 @@ public class InventoryController {
             return new SimpleStringProperty(stockStatus);
         });
         tableView.getItems().add(product);
-    }
-
-    private boolean productExists(String productID) {
-        // Check if the product already exists in the TableView
-        for (Product product : tableView.getItems()) {
-            if (product.getProductID().equals(productID)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private boolean editProductDetails(Product product) {

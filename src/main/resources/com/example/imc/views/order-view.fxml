@@ -213,5 +213,52 @@
                 </Text>
             </children>
         </Pane>
+      <Pane fx:id="popupPane1" focusTraversable="true" layoutX="190.0" layoutY="240.0" prefHeight="373.0" prefWidth="442.0" style="-fx-background-radius: 5px; -fx-background-color: f5f5f5; -fx-border-color: rgba(0, 0, 0, 0.3);" visible="false">
+         <children>
+            <Text layoutX="25.0" layoutY="76.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Order">
+               <font>
+                  <Font name="Arial Bold" size="19.0" />
+               </font>
+            </Text>
+            <Text layoutX="25.0" layoutY="148.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Order ID">
+               <font>
+                  <Font name="Arial Bold" size="16.0" />
+               </font>
+            </Text>
+            <TextField id="text-field" fx:id="orderIDController1" layoutX="190.0" layoutY="125.0" opacity="0.5" prefHeight="38.0" prefWidth="222.0" promptText="Enter order ID" />
+            <Text layoutX="25.0" layoutY="198.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Product ID">
+               <font>
+                  <Font name="Arial Bold" size="16.0" />
+               </font>
+            </Text>
+            <TextField id="text-field" fx:id="productIDController1" layoutX="190.0" layoutY="173.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter product id" />
+            <TextField id="text-field" fx:id="quantityController1" layoutX="190.0" layoutY="222.0" prefHeight="38.0" prefWidth="222.0" promptText="Enter product category" />
+            <Text layoutX="25.0" layoutY="248.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity">
+               <font>
+                  <Font name="Arial Bold" size="16.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="79.0" fitWidth="119.0" layoutX="323.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/icons/add-product.png" />
+               </image>
+            </ImageView>
+            <Button id="normal-button" layoutX="292.0" layoutY="300.0" mnemonicParsing="false" onAction="#onEditConfirmClicked" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Edit Order">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font>
+            </Button>
+            <Button id="normal-button" layoutX="160.0" layoutY="300.0" mnemonicParsing="false" onAction="#onDiscardClicked" opacity="0.5" style="-fx-background-color: f5f5f5; -fx-text-fill: black; -fx-border-color: black;" styleClass="button-style" stylesheets="@../styles/stylesheet.css" text="Discard">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font>
+            </Button>
+            <Text fx:id="onErrorText1" fill="RED" layoutX="258.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid Input" visible="false">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
     </children>
 </AnchorPane>
