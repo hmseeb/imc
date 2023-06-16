@@ -171,7 +171,7 @@ public class InventoryController {
         Product product = new Product(
                 idController.getText(),
                 nameController.getText(),
-                supplierController1.getText(),
+                supplierController.getText(),
                 priceController.getText(),
                 quantityController.getText(),
                 categoryController.getText()
